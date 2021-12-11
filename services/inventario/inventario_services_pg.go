@@ -34,7 +34,45 @@ func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness i
 	return nil
 }
 
-/*----------------------CREATE DATA OF CARTA----------------------*/
+/*----------------------CREATE DATA OF INVENTARIO----------------------*/
+
+func UpdateCategoryStatus_Service(idbusiness int, idcategory int, statuscategory string) (int, bool, string, string) {
+
+	if statuscategory == "true" {
+		error_status_true := category_repository.Pg_Update_AvailableToTrue(idcategory, idbusiness)
+		if error_status_true != nil {
+			return 404, true, "Error en el servidor interno al intentar cambiar el estado, detalles: " + error_status_true.Error(), ""
+		}
+	} else {
+		error_status_false := category_repository.Pg_Update_AvailableToFalse(idcategory, idbusiness)
+		if error_status_false != nil {
+			return 404, true, "Error en el servidor interno al intentar cambiar el estado, detalles: " + error_status_false.Error(), ""
+		}
+	}
+
+	return 201, false, "", "Actualizado a :" + statuscategory
+}
+
+func AddElement_Service(input_element models.Pg_Element) (int, bool, string, int) {
+
+	//Agregamos el elemento
+	idelement, _ := element_repository.Pg_Add(input_element)
+
+	return 201, false, "", idelement
+}
+
+func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleRange) (int, bool, string, string) {
+
+	//Agregamos el rango horario
+	error_add := schedule_range_repository.Pg_Add(idbusiness, input_schedule)
+	if error_add != nil {
+		return 404, true, "Error en el servidor interno al intentar agregar el rango horario, detalles: " + error_add.Error(), ""
+	}
+
+	return 201, false, "", "Rango horario creado correctamente"
+}
+
+/*----------------------UDPATE ALL DATA OF INVENTARIO----------------------*/
 
 func AddCategory_Service(idbusiness int, input_name_category string) (int, bool, string, int) {
 
@@ -46,30 +84,6 @@ func AddCategory_Service(idbusiness int, input_name_category string) (int, bool,
 
 	return 201, false, "", idcategory
 }
-
-func AddElement_Service(input_element models.Pg_Element) (int, bool, string, int) {
-
-	//Agregamos la categoria
-	idelement, error_add := element_repository.Pg_Add(input_element)
-	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar el elemento, detalles: " + error_add.Error(), 0
-	}
-
-	return 201, false, "", idelement
-}
-
-func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleRange) (int, bool, string, string) {
-
-	//Agregamos la categoria
-	error_add := schedule_range_repository.Pg_Add(idbusiness, input_schedule)
-	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar el rango horario, detalles: " + error_add.Error(), ""
-	}
-
-	return 201, false, "", "Rango horario creado correctamente"
-}
-
-/*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
 func UpdateElement_Service(idbusiness int, input_element models.Pg_Element) (int, bool, string, string) {
 
@@ -93,7 +107,7 @@ func UpdateScheduleRange_Service(idbusiness int, input_schedulerange models.Pg_S
 	return 201, false, "", "Rango horario actualizado correctamente"
 }
 
-/*----------------------FIND ALL DATA OF CARTA----------------------*/
+/*----------------------FIND ALL DATA OF INVENTARIO----------------------*/
 
 func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []models.Pg_Category) {
 

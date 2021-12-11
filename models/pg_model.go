@@ -4,6 +4,7 @@ type Pg_Category struct {
 	IDCategory int         `json:"id"`
 	IDBusiness int         `json:"business"`
 	Name       string      `json:"name"`
+	Elements   int         `json:"elements"`
 	Available  bool        `json:"available"`
 	UrlPhoto   interface{} `json:"url"`
 }

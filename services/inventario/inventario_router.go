@@ -86,6 +86,33 @@ func (cr *inventarioRouter_pg) AddCategory(c echo.Context) error {
 
 }
 
+func (cr *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idcategory := c.Param("idcategory")
+	idcategory_int, _ := strconv.Atoi(idcategory)
+
+	//Recibimos el estado
+	statuscategory := c.Param("status")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateCategoryStatus_Service(data_idbusiness, idcategory_int, statuscategory)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (cr *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth

@@ -1,0 +1,35 @@
+package repositories
+
+import (
+	"context"
+
+	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+)
+
+func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element, error) {
+
+	db := models.Conectar_Pg_DB()
+	q := "SELECT c.idcategory,c.name,e.idelement,e.name,e.description,e.typemoney,e.price,e.urlphoto FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND e.available=true ORDER BY e.name ASC LIMIT $2 OFFSET $3"
+	rows, error_shown := db.Query(context.Background(), q, idbusiness, limit, offset)
+
+	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
+	oListElement := []models.Pg_Element{}
+
+	if error_shown != nil {
+		defer db.Close()
+		return oListElement, error_shown
+	}
+
+	//Scaneamos l resultado y lo asignamos a la variable instanciada
+	for rows.Next() {
+		oElement := models.Pg_Element{}
+		rows.Scan(&oElement.IDCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto)
+		oListElement = append(oListElement, oElement)
+	}
+
+	defer db.Close()
+
+	//Si todo esta bien
+	return oListElement, nil
+
+}

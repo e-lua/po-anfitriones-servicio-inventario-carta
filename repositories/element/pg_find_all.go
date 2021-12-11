@@ -16,7 +16,7 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element, er
 	var oListElement []models.Pg_Element
 
 	if error_shown != nil {
-		defer db.Close()
+
 		return oListElement, error_shown
 	}
 
@@ -26,8 +26,6 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element, er
 		rows.Scan(&oElement.IDCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available)
 		oListElement = append(oListElement, oElement)
 	}
-
-	defer db.Close()
 
 	//Si todo esta bien
 	return oListElement, nil

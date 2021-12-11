@@ -16,7 +16,7 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_ScheduleRange, error) {
 	oListScheduleRange := []models.Pg_ScheduleRange{}
 
 	if error_shown != nil {
-		defer db.Close()
+
 		return oListScheduleRange, error_shown
 	}
 
@@ -26,8 +26,6 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_ScheduleRange, error) {
 		rows.Scan(&oScheduleRange.IDSchedule, &oScheduleRange.Name, &oScheduleRange.Description, &oScheduleRange.MinutePerFraction, &oScheduleRange.StartTime, &oScheduleRange.EndTime, &oScheduleRange.MaxOrders)
 		oListScheduleRange = append(oListScheduleRange, oScheduleRange)
 	}
-
-	defer db.Close()
 
 	//Si todo esta bien
 	return oListScheduleRange, nil

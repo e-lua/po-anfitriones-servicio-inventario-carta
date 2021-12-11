@@ -15,11 +15,9 @@ func Pg_Find_Main_Data(idbsuiness int) (models.Pg_Category_Element_ScheduleRange
 	error_showname := db.QueryRow(context.Background(), q, idbsuiness, idbsuiness, idbsuiness).Scan(&oCES.Category, &oCES.Element, &oCES.Schedule)
 
 	if error_showname != nil {
-		defer db.Close()
+
 		return oCES, error_showname
 	}
-
-	defer db.Close()
 
 	//Si todo esta bien
 	return oCES, nil

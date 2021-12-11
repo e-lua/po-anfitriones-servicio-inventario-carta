@@ -25,11 +25,11 @@ type Pg_Element_for_search struct {
 type Pg_Element struct {
 	IDElement    int         `json:"id"`
 	IDCategory   int         `json:"category"`
-	NameCategory string      `json:"nameCategory"`
+	NameCategory string      `json:"namecategory"`
 	Name         string      `json:"name"`
 	Price        float32     `json:"price"`
 	Description  string      `json:"description"`
-	TypeMoney    int         `json:"typeMoney"`
+	TypeMoney    int         `json:"typemoney"`
 	UrlPhoto     interface{} `json:"url"`
 	Available    bool        `json:"available"`
 }
@@ -39,9 +39,10 @@ type Pg_ScheduleRange struct {
 	IDBusiness        int    `json:"business"`
 	Name              string `json:"name"`
 	Description       string `json:"description"`
-	MinutePerFraction int    `json:"minutesPerFraction"`
+	MinutePerFraction int    `json:"minutesperfraction"`
 	StartTime         string `json:"startTime"`
 	EndTime           string `json:"endTime"`
+	NumberOfFractions int    `json:"numberoffractions"`
 	MaxOrders         int    `json:"maxOrders"`
 }
 
@@ -55,8 +56,8 @@ type Pg_Carta struct {
 	IDMenu       int    `json:"id"`
 	IDBusiness   int    `json:"business"`
 	Date         string `json:"date"`
-	AcceptOrders bool   `json:"acceptOrders"`
-	Available    bool   `json:"isAvailable"`
+	AcceptOrders bool   `json:"acceptorders"`
+	Available    bool   `json:"available"`
 }
 
 type Pg_ScheduleRangeXMenu struct {

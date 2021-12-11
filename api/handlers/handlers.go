@@ -78,7 +78,7 @@ func Consumer_Category() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
+
 		log.Fatal("Error connection canal")
 	}
 
@@ -108,7 +108,7 @@ func Consumer_Element() {
 
 	ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
-		defer ch.Close()
+
 		log.Fatal("Error connection canal")
 	}
 

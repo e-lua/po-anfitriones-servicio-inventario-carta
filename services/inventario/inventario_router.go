@@ -169,7 +169,7 @@ func (cr *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if len(scheduleRange.Name) > 12 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 5 || len(scheduleRange.EndTime) < 5 || scheduleRange.MaxOrders < 0 {
+	if len(scheduleRange.Name) > 12 || scheduleRange.NumberOfFractions <= 0 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 5 || len(scheduleRange.EndTime) < 5 || scheduleRange.MaxOrders < 0 {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}
@@ -243,7 +243,7 @@ func (cr *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if scheduleRange.IDSchedule < 0 || len(scheduleRange.Name) > 12 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 5 || len(scheduleRange.EndTime) < 5 || scheduleRange.MaxOrders < 0 {
+	if scheduleRange.IDSchedule < 0 || scheduleRange.NumberOfFractions <= 0 || len(scheduleRange.Name) > 12 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 5 || len(scheduleRange.EndTime) < 5 || scheduleRange.MaxOrders < 0 {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}

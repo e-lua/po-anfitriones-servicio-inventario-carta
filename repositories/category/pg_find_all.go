@@ -16,7 +16,7 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
 	var oListCategory []models.Pg_Category
 
 	if error_shown != nil {
-		defer db.Close()
+
 		return oListCategory, error_shown
 	}
 
@@ -26,8 +26,6 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
 		rows.Scan(&oCategory.IDCategory, &oCategory.Elements, &oCategory.Name, &oCategory.UrlPhoto, &oCategory.Available)
 		oListCategory = append(oListCategory, oCategory)
 	}
-
-	defer db.Close()
 
 	//Si todo esta bien
 	return oListCategory, nil

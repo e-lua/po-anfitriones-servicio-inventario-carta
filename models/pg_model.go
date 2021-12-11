@@ -42,7 +42,7 @@ type Pg_ScheduleRange struct {
 	MinutePerFraction int    `json:"minutesperfraction"`
 	StartTime         string `json:"startTime"`
 	EndTime           string `json:"endTime"`
-	NumberOfFractions int    `json:"numberoffractions"`
+	NumberOfFractions int    `json:"numberfractions"`
 	MaxOrders         int    `json:"maxOrders"`
 }
 

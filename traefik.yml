@@ -13,3 +13,8 @@ providers:
     
   file:
     filename: /config.yml
+
+log:
+  filePath: "/traefik.log"        
+  level: ERROR
+  format: json

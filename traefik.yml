@@ -1,5 +1,5 @@
 api:
-  insecure: true
+  insecure: false
 
 entrypoints:
   web:
@@ -13,6 +13,14 @@ providers:
     
   file:
     filename: /config.yml
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: "friendlyfood.correo@gmail.com"
+      storage: /acme.json
+      httpChallenge:
+        entrypoint: web
 
 log:
   filePath: "/traefik.log"        

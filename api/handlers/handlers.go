@@ -56,10 +56,6 @@ func Manejadores() {
 	router_total_data := version_1.Group("/totalcartvalues")
 	router_total_data.GET("", carta.CartaRouter_pg.FindAllCarta_MainData)
 
-	//V1 FROM V1 TO ...TO ENTITY CARTA
-	router_carta := version_1.Group("/carta")
-	router_carta.POST("", carta.CartaRouter_pg.AddCarta)
-
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
 	//Si dice que existe PORT

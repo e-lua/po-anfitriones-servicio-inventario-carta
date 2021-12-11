@@ -4,7 +4,6 @@ import (
 	"log"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
 	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/category"
 	element_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/element"
 	general_carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/general"
@@ -68,17 +67,6 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 	}
 
 	return 201, false, "", "Rango horario creado correctamente"
-}
-
-func AddCarta_Service(idbusiness int, input_carta models.Pg_Carta) (int, bool, string, string) {
-
-	//Agregamos la categoria
-	error_add := carta_repository.Pg_Add(idbusiness, input_carta.Date)
-	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar la carta, detalles: " + error_add.Error(), ""
-	}
-
-	return 201, false, "", "Carta creada correctamente"
 }
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/

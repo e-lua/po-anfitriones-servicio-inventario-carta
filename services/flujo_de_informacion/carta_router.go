@@ -154,35 +154,6 @@ func (cr *cartaRouter_pg) AddScheduleRange(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) AddCarta(c echo.Context) error {
-
-	//Obtenemos los datos del auth
-	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
-	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
-		return c.JSON(status, results)
-	}
-	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Instanciamos una variable del modelo Category
-	var carta models.Pg_Carta
-
-	//Agregamos los valores enviados a la variable creada
-	err := c.Bind(&carta)
-	if err != nil {
-		results := ResponseInt{Error: true, DataError: "Se debe enviar la fecha de la carta, revise la estructura o los valores", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := AddCarta_Service(data_idbusiness, carta)
-	results := Response{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
-}
-
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
 func (cr *cartaRouter_pg) UpdateCategory(c echo.Context) error {

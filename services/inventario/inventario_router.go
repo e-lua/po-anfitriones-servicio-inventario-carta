@@ -39,7 +39,7 @@ func (cr *inventarioRouter_pg) UpdateElement_Consumer(idelement int, urlphoto st
 
 func GetJWT(jwt string) (int, bool, string, int) {
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://147.182.242.142:5000/v1/trylogin?jwt=" + jwt)
+	respuesta, _ := http.Get("http://143.198.75.79:5000/v1/trylogin?jwt=" + jwt)
 	var get_respuesta ResponseJWT
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {

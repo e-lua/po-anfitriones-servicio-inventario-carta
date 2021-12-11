@@ -10,14 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-var CartaRouter_pg *cartaRouter_pg
+var InvetarioRouter_pg *inventarioRouter_pg
 
-type cartaRouter_pg struct {
+type inventarioRouter_pg struct {
 }
 
 /*----------------------CONSUMER----------------------*/
 
-func (cr *cartaRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto string, idbusiness int) {
+func (cr *inventarioRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto string, idbusiness int) {
 
 	//Enviamos los datos al servicio
 	error_update_category := UpdateCategory_Consumer_Service(idcategory, urlphoto, idbusiness)
@@ -26,7 +26,7 @@ func (cr *cartaRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto strin
 	}
 }
 
-func (cr *cartaRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
+func (cr *inventarioRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
 
 	//Enviamos los datos al servicio
 	error_update_element := UpdateElement_Consumer_Service(idelement, urlphoto, idbusiness)
@@ -50,7 +50,7 @@ func GetJWT(jwt string) (int, bool, string, int) {
 
 /*----------------------CREATE DATA OF CARTA----------------------*/
 
-func (cr *cartaRouter_pg) AddCategory(c echo.Context) error {
+func (cr *inventarioRouter_pg) AddCategory(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -86,7 +86,7 @@ func (cr *cartaRouter_pg) AddCategory(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) AddElement(c echo.Context) error {
+func (cr *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, _ := GetJWT(c.Request().Header.Get("Authorization"))
@@ -118,7 +118,7 @@ func (cr *cartaRouter_pg) AddElement(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) AddScheduleRange(c echo.Context) error {
+func (cr *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -156,43 +156,7 @@ func (cr *cartaRouter_pg) AddScheduleRange(c echo.Context) error {
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
-func (cr *cartaRouter_pg) UpdateCategory(c echo.Context) error {
-
-	//Obtenemos los datos del auth
-	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
-	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
-		return c.JSON(status, results)
-	}
-	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Instanciamos una variable del modelo Category
-	var category models.Pg_Category
-
-	//Agregamos los valores enviados a la variable creada
-	err := c.Bind(&category)
-	if err != nil {
-		results := ResponseInt{Error: true, DataError: "Se debe enviar el nombre de la categoria, revise la estructura o los valores", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Validamos los valores enviados
-	if category.IDCategory < 0 || len(category.Name) > 15 {
-		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
-		return c.JSON(403, results)
-	}
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateCategory_Service(data_idbusiness, category)
-	results := Response{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
-
-}
-
-func (cr *cartaRouter_pg) UpdateElement(c echo.Context) error {
+func (cr *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -216,7 +180,7 @@ func (cr *cartaRouter_pg) UpdateElement(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if element.IDElement < 0 || len(element.Name) > 25 || element.IDCategory < 0 || element.Price < 0 || element.TypeMoney < 0 {
+	if element.IDCategory < 0 || element.Price < 0 || element.TypeMoney != 0 && element.TypeMoney != 1 {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}
@@ -228,7 +192,7 @@ func (cr *cartaRouter_pg) UpdateElement(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) UpdateScheduleRange(c echo.Context) error {
+func (cr *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -266,7 +230,7 @@ func (cr *cartaRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 /*----------------------FIND ALL DATA OF CARTA----------------------*/
 
-func (cr *cartaRouter_pg) FindAllCategories(c echo.Context) error {
+func (cr *inventarioRouter_pg) FindAllCategories(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -286,7 +250,7 @@ func (cr *cartaRouter_pg) FindAllCategories(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) FindAllElements(c echo.Context) error {
+func (cr *inventarioRouter_pg) FindAllElements(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -313,7 +277,7 @@ func (cr *cartaRouter_pg) FindAllElements(c echo.Context) error {
 
 }
 
-func (cr *cartaRouter_pg) FindAllRangoHorario(c echo.Context) error {
+func (cr *inventarioRouter_pg) FindAllRangoHorario(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -335,7 +299,7 @@ func (cr *cartaRouter_pg) FindAllRangoHorario(c echo.Context) error {
 
 /*----------------------OBTENER TODOS LOS DATOS DE CATEGORIA, ELEMENTO Y RANGO HORARIO----------------------*/
 
-func (cr *cartaRouter_pg) FindAllCarta_MainData(c echo.Context) error {
+func (cr *inventarioRouter_pg) FindAllCarta_MainData(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))

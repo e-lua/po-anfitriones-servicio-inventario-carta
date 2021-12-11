@@ -71,17 +71,6 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
-func UpdateCategory_Service(idbusiness int, input_category models.Pg_Category) (int, bool, string, string) {
-
-	//Agregamos la categoria
-	error_udpate := category_repository.Pg_Update_Data(input_category.IDCategory, idbusiness, input_category.Name)
-	if error_udpate != nil {
-		return 404, true, "Error en el servidor interno al intentar actualizar la categoria, detalles: " + error_udpate.Error(), ""
-	}
-
-	return 201, false, "", "Categoria actualizada correctamente"
-}
-
 func UpdateElement_Service(idbusiness int, input_element models.Pg_Element) (int, bool, string, string) {
 
 	//Agregamos la categoria

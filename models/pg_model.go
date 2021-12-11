@@ -4,6 +4,7 @@ type Pg_Category struct {
 	IDCategory int         `json:"id"`
 	IDBusiness int         `json:"business"`
 	Name       string      `json:"name"`
+	Available  bool        `json:"available"`
 	UrlPhoto   interface{} `json:"url"`
 }
 
@@ -16,7 +17,8 @@ type Pg_Element_for_search struct {
 	IDElement int     `json:"id"`
 	Name      string  `json:"name"`
 	Price     float32 `json:"price"`
-	TypeMoney int     `json:"typeMoney"`
+
+	TypeMoney int `json:"typeMoney"`
 }
 
 type Pg_Element struct {
@@ -28,6 +30,7 @@ type Pg_Element struct {
 	Description  string      `json:"description"`
 	TypeMoney    int         `json:"typeMoney"`
 	UrlPhoto     interface{} `json:"url"`
+	Available    bool        `json:"available"`
 }
 
 type Pg_ScheduleRange struct {

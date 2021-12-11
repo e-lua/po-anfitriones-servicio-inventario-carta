@@ -12,7 +12,7 @@ import (
 	"github.com/rs/cors"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	carta "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/flujo_de_informacion"
+	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
 )
 
 func Manejadores() {
@@ -36,25 +36,24 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY CATEGORY
 	router_category := version_1.Group("/category")
-	router_category.POST("", carta.CartaRouter_pg.AddCategory)
-	router_category.PUT("", carta.CartaRouter_pg.UpdateCategory)
-	router_category.GET("", carta.CartaRouter_pg.FindAllCategories)
+	router_category.POST("", inventario.InvetarioRouter_pg.AddCategory)
+	router_category.GET("", inventario.InvetarioRouter_pg.FindAllCategories)
 
 	//V1 FROM V1 TO ...TO ENTITY ELEMENT
 	router_element := version_1.Group("/element")
-	router_element.POST("", carta.CartaRouter_pg.AddElement)
-	router_element.PUT("", carta.CartaRouter_pg.UpdateElement)
-	router_element.GET("/:limit/:offset", carta.CartaRouter_pg.FindAllElements)
+	router_element.POST("", inventario.InvetarioRouter_pg.AddElement)
+	router_element.PUT("", inventario.InvetarioRouter_pg.UpdateElement)
+	router_element.GET("/:limit/:offset", inventario.InvetarioRouter_pg.FindAllElements)
 
 	//V1 FROM V1 TO ...TO ENTITY ELEMENT
 	router_schedule_range := version_1.Group("/schedulerange")
-	router_schedule_range.POST("", carta.CartaRouter_pg.AddScheduleRange)
-	router_schedule_range.PUT("", carta.CartaRouter_pg.UpdateScheduleRange)
-	router_schedule_range.GET("", carta.CartaRouter_pg.FindAllRangoHorario)
+	router_schedule_range.POST("", inventario.InvetarioRouter_pg.AddScheduleRange)
+	router_schedule_range.PUT("", inventario.InvetarioRouter_pg.UpdateScheduleRange)
+	router_schedule_range.GET("", inventario.InvetarioRouter_pg.FindAllRangoHorario)
 
 	//V1 FROM V1 TO ...TO ENTITY ELEMENT
-	router_total_data := version_1.Group("/totalcartvalues")
-	router_total_data.GET("", carta.CartaRouter_pg.FindAllCarta_MainData)
+	router_total_data := version_1.Group("/totalinventario")
+	router_total_data.GET("", inventario.InvetarioRouter_pg.FindAllCarta_MainData)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
@@ -97,7 +96,7 @@ func Consumer_Category() {
 			if err_consume != nil {
 				log.Fatal("Error decoding")
 			}
-			carta.CartaRouter_pg.UpdateCategory_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
+			inventario.InvetarioRouter_pg.UpdateCategory_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
 		}
 	}()
 
@@ -127,7 +126,7 @@ func Consumer_Element() {
 			if err_consume != nil {
 				log.Fatal("Error decoding")
 			}
-			carta.CartaRouter_pg.UpdateElement_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
+			inventario.InvetarioRouter_pg.UpdateElement_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
 		}
 	}()
 

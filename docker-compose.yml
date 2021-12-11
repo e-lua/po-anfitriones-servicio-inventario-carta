@@ -8,8 +8,8 @@ services:
     labels: 
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`localhost`)"
-      - "traefik.http.routers.category.rule=Host(`/v1/category`)"
-      - "traefik.http.routers.element.rule=Host(`/v1/element`)"
+      - "traefik.http.routers.category.rule=PathPrefix(`/v1/category`)"
+      - "traefik.http.routers.element.rule=PathPrefix(`/v1/element`)"
     networks:
       - backend
     ports:
@@ -45,7 +45,7 @@ services:
     image: traefik:v2.3.6
     labels: 
       - "traefik.http.routers.api.rule=Host(`localhost`)"
-      - "traefik.http.routers.category.rule=Host(`/v1/category`)"
+      - "traefik.http.routers.category.rule=PathPrefix(`/v1/category`)"
       - "traefik.http.routers.api.service=api@internal"
       - "traefik.http.routers.api.middlewares=auth"
       - "traefik.http.middlewares.auth.basicauth.users=admin:{SHA}fEqNCco3Yq9h5ZUglD3CZJT4lBs="

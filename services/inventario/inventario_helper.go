@@ -1,4 +1,4 @@
-package carta
+package inventario
 
 import "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 

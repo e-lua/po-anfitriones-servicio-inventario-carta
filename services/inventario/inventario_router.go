@@ -1,4 +1,4 @@
-package carta
+package inventario
 
 import (
 	"encoding/json"
@@ -17,7 +17,7 @@ type inventarioRouter_pg struct {
 
 /*----------------------CONSUMER----------------------*/
 
-func (cr *inventarioRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto string, idbusiness int) {
+func (ir *inventarioRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto string, idbusiness int) {
 
 	//Enviamos los datos al servicio
 	error_update_category := UpdateCategory_Consumer_Service(idcategory, urlphoto, idbusiness)
@@ -26,7 +26,7 @@ func (cr *inventarioRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto 
 	}
 }
 
-func (cr *inventarioRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
+func (ir *inventarioRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
 
 	//Enviamos los datos al servicio
 	error_update_element := UpdateElement_Consumer_Service(idelement, urlphoto, idbusiness)
@@ -48,9 +48,9 @@ func GetJWT(jwt string) (int, bool, string, int) {
 	return 200, false, "", get_respuesta.Data.IdBusiness
 }
 
-/*----------------------CREATE DATA OF CARTA----------------------*/
+/*----------------------CREATE DATA OF INVENTARIO----------------------*/
 
-func (cr *inventarioRouter_pg) AddCategory(c echo.Context) error {
+func (ir *inventarioRouter_pg) AddCategory(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -86,7 +86,7 @@ func (cr *inventarioRouter_pg) AddCategory(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
+func (ir *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -113,7 +113,7 @@ func (cr *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) AddElement(c echo.Context) error {
+func (ir *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, _ := GetJWT(c.Request().Header.Get("Authorization"))
@@ -145,7 +145,7 @@ func (cr *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
+func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -183,7 +183,7 @@ func (cr *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
-func (cr *inventarioRouter_pg) UpdateElement(c echo.Context) error {
+func (ir *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -219,7 +219,7 @@ func (cr *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
+func (ir *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -257,7 +257,7 @@ func (cr *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 /*----------------------FIND ALL DATA OF CARTA----------------------*/
 
-func (cr *inventarioRouter_pg) FindAllCategories(c echo.Context) error {
+func (ir *inventarioRouter_pg) FindAllCategories(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -277,7 +277,7 @@ func (cr *inventarioRouter_pg) FindAllCategories(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) FindAllElements(c echo.Context) error {
+func (ir *inventarioRouter_pg) FindAllElements(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -304,7 +304,7 @@ func (cr *inventarioRouter_pg) FindAllElements(c echo.Context) error {
 
 }
 
-func (cr *inventarioRouter_pg) FindAllRangoHorario(c echo.Context) error {
+func (ir *inventarioRouter_pg) FindAllRangoHorario(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
@@ -326,7 +326,7 @@ func (cr *inventarioRouter_pg) FindAllRangoHorario(c echo.Context) error {
 
 /*----------------------OBTENER TODOS LOS DATOS DE CATEGORIA, ELEMENTO Y RANGO HORARIO----------------------*/
 
-func (cr *inventarioRouter_pg) FindAllCarta_MainData(c echo.Context) error {
+func (ir *inventarioRouter_pg) FindAllCarta_MainData(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))

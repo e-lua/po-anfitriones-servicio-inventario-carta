@@ -1,4 +1,4 @@
-package carta
+package inventario
 
 import (
 	"log"

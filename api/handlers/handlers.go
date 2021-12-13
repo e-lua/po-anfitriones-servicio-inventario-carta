@@ -12,6 +12,7 @@ import (
 	"github.com/rs/cors"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+	carta "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/carta"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
 )
 
@@ -52,7 +53,12 @@ func Manejadores() {
 	router_schedule_range.PUT("", inventario.InvetarioRouter_pg.UpdateScheduleRange)
 	router_schedule_range.GET("", inventario.InvetarioRouter_pg.FindAllRangoHorario)
 
-	//V1 FROM V1 TO ...TO ENTITY ELEMENT
+	//V1 FROM V1 TO ...TO ENTITY CARTA
+	router_menu := version_1.Group("/menu")
+	router_menu.POST("", carta.CartaRouter_pg.AddCarta)
+	router_menu.PUT("", carta.CartaRouter_pg.UpdateCartaStatus)
+
+	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")
 	router_total_data.GET("", inventario.InvetarioRouter_pg.FindAllCarta_MainData)
 

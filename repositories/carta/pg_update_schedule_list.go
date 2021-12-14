@@ -31,6 +31,7 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 				index = 1
 			}
 			hora_fin_toinsert := hora_fin[:index] + ":" + hora_fin[index:]
+			sch.StartTime = hora_fin_toinsert
 			//Fin de bucle para obtener la hora fin
 
 			//Insertamos los datos en el modelo

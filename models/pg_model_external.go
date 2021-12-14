@@ -24,7 +24,7 @@ type Pg_Element_With_Stock_External struct {
 	IDBusiness       int     `json:"idbusiness"`
 	IDCategory       int     `json:"idcategory"`
 	NameCategory     string  `json:"namecategory"`
-	UrlPhotoCategory string  `json:"urlcategory"`
+	UrlPhotoCategory string  `json:"urlphotocategory"`
 	Name             string  `json:"name"`
 	Price            float32 `json:"price"`
 	Description      string  `json:"description"`

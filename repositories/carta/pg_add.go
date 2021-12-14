@@ -13,7 +13,7 @@ func Pg_Add(idbusiness int, date string) (int, error) {
 
 	db_external := models.Conectar_Pg_DB_External()
 
-	query := `INSERT INTO Carta(idbusiness,data,updateddate) VALUES ($1,$2,$3) RETURNING idcarta`
+	query := `INSERT INTO Carta(idbusiness,date,updateddate) VALUES ($1,$2,$3) RETURNING idcarta`
 	err := db_external.QueryRow(context.Background(), query, idbusiness, date, time.Now()).Scan(&idcarta)
 
 	if err != nil {

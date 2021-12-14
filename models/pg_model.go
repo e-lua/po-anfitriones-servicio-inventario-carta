@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Pg_Category struct {
 	IDCategory int         `json:"id"`
 	Name       string      `json:"name"`
@@ -35,15 +37,15 @@ type Pg_Element struct {
 }
 
 type Pg_ScheduleRange struct {
-	IDSchedule        int    `json:"id"`
-	IDBusiness        int    `json:"business"`
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	MinutePerFraction int    `json:"minutesperfraction"`
-	StartTime         string `json:"starttime"`
-	EndTime           string `json:"endtime"`
-	NumberOfFractions int    `json:"numberfractions"`
-	MaxOrders         int    `json:"maxOrders"`
+	IDSchedule        int       `json:"id"`
+	IDBusiness        int       `json:"business"`
+	Name              string    `json:"name"`
+	Description       string    `json:"description"`
+	MinutePerFraction int       `json:"minutesperfraction"`
+	StartTime         time.Time `json:"starttime"`
+	EndTime           time.Time `json:"endtime"`
+	NumberOfFractions int       `json:"numberfractions"`
+	MaxOrders         int       `json:"maxOrders"`
 }
 
 type Pg_Category_Element_ScheduleRange struct {

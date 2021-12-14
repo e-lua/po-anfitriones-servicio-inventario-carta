@@ -20,7 +20,23 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 		for i := 0; i < sch.NumberOfFractions; i++ {
 
 			arr := strings.Split(sch.StartTime, ":")
-			hora_ini, _ := strconv.Atoi(arr[0] + arr[1][:2])
+
+			var minutos_string string
+
+			//Minutos y Horas
+			minutos, _ := strconv.Atoi(arr[1][:2])
+			horas, _ := strconv.Atoi(arr[0])
+
+			//Validamos que no sobrepase los 60 minutos
+			if minutos > 60 {
+				minutos_string = "00"
+				horas = horas + 1
+			} else {
+				minutos_string = arr[1][:2]
+			}
+
+			//Horas con minutos juntos
+			hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)
 
 			//Inicio de bucle para obtener la hora fin
 			hora_fin := strconv.Itoa(hora_ini + sch.MinutePerFraction)

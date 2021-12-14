@@ -28,8 +28,8 @@ func Pg_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_External, idc
 
 	}
 
-	q := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idCarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));`
-	if _, err_update := db_external.Exec(context.Background(), q, idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg); err_update != nil {
+	q := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));`
+	if _, err_update := db_external.Exec(context.Background(), q, idschedule_pg, idbusinessmain_pg, idcartamain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg); err_update != nil {
 		return err_update
 	}
 

@@ -64,13 +64,22 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 	//Eliminamos los datos anteriores
 	carta_repository.Pg_Delete_ScheduleRange_List(carta_schedule.IDCarta, idbusiness)
 
-	//Insertamos los datos en Mo
+	//Insertamos los datos en el horario
 	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
+		error_update := carta_repository.Pg_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
 		}
 	}()
+
+	//Insertamos los datos en la lista de horario
+	go func() {
+		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
+		if error_update != nil {
+			log.Fatal("Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update.Error())
+		}
+	}()
+
 	time.Sleep(3 * time.Second)
 
 	return 201, false, "", "Los rangos horario se actualizaron correctamente"

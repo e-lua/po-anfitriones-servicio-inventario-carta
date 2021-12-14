@@ -12,26 +12,10 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 
 	db_external := models.Conectar_Pg_DB_External()
 
-	//Rango horarios
-	idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}
-
 	//Lista de actualizacion de rangos horarios
 	idschedulerange_pg, idcarta_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}
 
 	for _, sch := range pg_schedule {
-
-		go func() {
-			idschedule_pg = append(idschedule_pg, sch.IDSchedule)
-			idcartamain_pg = append(idcartamain_pg, idcarta)
-			idbusinessmain_pg = append(idbusinessmain_pg, idbusiness)
-			name_pg = append(name_pg, sch.Name)
-			description_pg = append(description_pg, sch.Description)
-			minutesperfraction_pg = append(minutesperfraction_pg, sch.MinutePerFraction)
-			numberfractions_pg = append(numberfractions_pg, sch.NumberOfFractions)
-			start_pg = append(start_pg, sch.StartTime)
-			end_pg = append(end_pg, sch.EndTime)
-			maxorders_pg = append(maxorders_pg, sch.MaxOrders)
-		}()
 
 		for i := 0; i < sch.NumberOfFractions; i++ {
 
@@ -59,10 +43,8 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 		}
 	}
 
-	q := `
-	INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idCarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::string[],$5::string[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));
-	INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($11::int[],$12::int[],$13::int[],$14::string[],$15::string[],$16::int[]));`
-	if _, err_update := db_external.Exec(context.Background(), q, idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, idschedulerange_pg, idcarta_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders); err_update != nil {
+	q := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($11::int[],$12::int[],$13::int[],$14::string[],$15::string[],$16::int[]))`
+	if _, err_update := db_external.Exec(context.Background(), q, idschedulerange_pg, idcarta_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders); err_update != nil {
 		return err_update
 	}
 

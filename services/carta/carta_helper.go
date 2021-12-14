@@ -52,7 +52,7 @@ type CartaElements struct {
 
 type CartaSchedule struct {
 	IDCarta        int                                `json:"idcarta"`
-	ScheduleRanges []models.Pg_ScheduleRange_External `json:"elements"`
+	ScheduleRanges []models.Pg_ScheduleRange_External `json:"schedule"`
 }
 
 type ResponseCartaBasicData struct {

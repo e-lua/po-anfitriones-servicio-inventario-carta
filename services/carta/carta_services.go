@@ -109,6 +109,30 @@ func GetCartaElements_Service(idcarta_int int, idbusiness int) (int, bool, strin
 	return 201, false, "", carta_elements
 }
 
+func GetCartaCategoryElement_Service(idcarta_int int, idbusiness int) (int, bool, string, CartaCategoryAndElement) {
+
+	var category_element CartaCategoryAndElement
+
+	//Obtenemos las categorias
+	carta_category, error_update := carta_repository.Pg_Find_Category(idcarta_int, idbusiness)
+	if error_update != nil {
+		return 404, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), category_element
+	}
+
+	//Obtenemos los elementos
+	carta_elements, error_update := carta_repository.Pg_Find_Elements(idcarta_int, idbusiness)
+	if error_update != nil {
+		return 404, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update.Error(), category_element
+	}
+
+	//Asignamos los valores
+	category_element.IDCarta = idcarta_int
+	category_element.Categories = carta_category
+	category_element.Elements = carta_elements
+
+	return 201, false, "", category_element
+}
+
 func GetCartaScheduleRanges_Service(idcarta_int int, idbusiness int) (int, bool, string, []models.Pg_ScheduleRange_External) {
 
 	//Insertamos los datos en Mo

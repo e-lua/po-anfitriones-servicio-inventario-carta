@@ -60,6 +60,7 @@ func Manejadores() {
 	router_menu.POST("", carta.CartaRouter_pg.AddCarta)
 	router_menu.PUT("", carta.CartaRouter_pg.UpdateCartaStatus)
 	router_menu.GET("/:date", carta.CartaRouter_pg.GetCartaBasicData)
+	router_menu.GET("/:icarta/categorieselements", carta.CartaRouter_pg.GetCartaCategoryElement)
 	router_menu.PUT("/elements", carta.CartaRouter_pg.UpdateCartaElements)
 	router_menu.GET("/:idcarta/elements", carta.CartaRouter_pg.GetCartaElements)
 	router_menu.PUT("/onelement", carta.CartaRouter_pg.UpdateCartaOneElement)

@@ -72,3 +72,15 @@ type ResponseCartaSchedule struct {
 	DataError string                             `json:"dataError"`
 	Data      []models.Pg_ScheduleRange_External `json:"data"`
 }
+
+type ResponseCartaCategoryAndElement struct {
+	Error     bool                    `json:"error"`
+	DataError string                  `json:"dataError"`
+	Data      CartaCategoryAndElement `json:"data"`
+}
+
+type CartaCategoryAndElement struct {
+	IDCarta    int                                     `json:"icarta"`
+	Categories []models.Pg_Category_External           `json:"categories"`
+	Elements   []models.Pg_Element_With_Stock_External `json:"elements"`
+}

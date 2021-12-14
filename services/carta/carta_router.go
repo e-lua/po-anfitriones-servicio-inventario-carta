@@ -222,6 +222,29 @@ func (cr *cartaRouter_pg) GetCartaElements(c echo.Context) error {
 	return c.JSON(status, results)
 }
 
+func (cr *cartaRouter_pg) GetCartaCategoryElement(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el limit
+	idcarta := c.Param("icarta")
+	idcarta_int, _ := strconv.Atoi(idcarta)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetCartaCategoryElement_Service(idcarta_int, data_idbusiness)
+	results := ResponseCartaCategoryAndElement{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
 func (cr *cartaRouter_pg) GetCartaScheduleRanges(c echo.Context) error {
 
 	//Obtenemos los datos del auth

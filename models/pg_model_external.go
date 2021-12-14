@@ -12,25 +12,25 @@ type Pg_Carta_External struct {
 }
 
 type Pg_Category_External struct {
-	IDCategory       int         `json:"id"`
-	Name             string      `json:"name"`
-	AmountOfElements int         `json:"elements"`
-	UrlPhoto         interface{} `json:"urlphotocategory"`
+	IDCategory       int    `json:"idcategory"`
+	Name             string `json:"namecategory"`
+	UrlPhoto         string `json:"urlphotocategory"`
+	AmountOfElements int    `json:"elements"`
 }
 
 type Pg_Element_With_Stock_External struct {
-	IDElement        int         `json:"id"`
-	IDCarta          int         `json:"idcarta"`
-	IDBusiness       int         `json:"idbusiness"`
-	IDCategory       int         `json:"idcategory"`
-	NameCategory     string      `json:"namecategory"`
-	UrlPhotoCategory interface{} `json:"urlcategory"`
-	Name             string      `json:"name"`
-	Price            float32     `json:"price"`
-	Description      string      `json:"description"`
-	TypeMoney        int         `json:"typemoney"`
-	Stock            int         `json:"stock"`
-	UrlPhoto         interface{} `json:"url"`
+	IDElement        int     `json:"id"`
+	IDCarta          int     `json:"idcarta"`
+	IDBusiness       int     `json:"idbusiness"`
+	IDCategory       int     `json:"idcategory"`
+	NameCategory     string  `json:"namecategory"`
+	UrlPhotoCategory string  `json:"urlcategory"`
+	Name             string  `json:"name"`
+	Price            float32 `json:"price"`
+	Description      string  `json:"description"`
+	TypeMoney        int     `json:"typemoney"`
+	Stock            int     `json:"stock"`
+	UrlPhoto         string  `json:"url"`
 }
 
 type Pg_ScheduleRange_External struct {

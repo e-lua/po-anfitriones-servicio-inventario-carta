@@ -1,18 +1,12 @@
 package models
 
-import (
-	"time"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
-)
-
 type Pg_Carta_External struct {
-	IDCarta            primitive.ObjectID `json:"_id"`
-	Date               time.Time          `json:"date"`
-	AvailableForOrders bool               `json:"availablefororders"`
-	Visible            bool               `json:"visible"`
-	Elements           int                `json:"elements"`
-	ScheduleRanges     int                `json:"scheduleranges"`
+	IDCarta            int    `json:"_id"`
+	Date               string `json:"date"`
+	AvailableForOrders bool   `json:"availablefororders"`
+	Visible            bool   `json:"visible"`
+	Elements           int    `json:"elements"`
+	ScheduleRanges     int    `json:"scheduleranges"`
 }
 
 type Pg_Category_External struct {

@@ -27,7 +27,7 @@ func Pg_Update_Elements(pg_element_external []models.Pg_Element_With_Stock_Exter
 		idbusiness_pg = append(idbusiness_pg, idbusiness)
 	}
 
-	q := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness) (select * from unnest($2::int[], $3::int[],$4::int[],$5::varchar(100)[],$6::varchar(230)[],$7::varchar(100)[],$8::decimal(8,2)[],$9::varchar(250)[],$10::varchar(230)[],$11::int[],$12::int[],$13::int[]));`
+	q := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness) (select * from unnest($1::int[], $2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[]));`
 	if _, err_update := db_external.Exec(context.Background(), q, idelement_pg, idcarta_pg, idcategory_pg, namecategory_pg, urlphotocategory_pg, name_pg, price_pg, description_pg, urlphot_pg, typem_pg, stock_pg, idbusiness_pg); err_update != nil {
 		return err_update
 	}

@@ -14,7 +14,7 @@ func Pg_Update_Elements(pg_element_external []models.Pg_Element_With_Stock_Exter
 
 	for _, e := range pg_element_external {
 		idelement_pg = append(idelement_pg, e.IDElement)
-		idcarta_pg = append(idcarta_pg, e.IDCarta)
+		idcarta_pg = append(idcarta_pg, idcarta)
 		idcategory_pg = append(idcategory_pg, e.IDCategory)
 		namecategory_pg = append(namecategory_pg, e.NameCategory)
 		urlphotocategory_pg = append(urlphotocategory_pg, e.UrlPhotoCategory)

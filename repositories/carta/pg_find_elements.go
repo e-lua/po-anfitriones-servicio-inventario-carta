@@ -8,7 +8,7 @@ import (
 
 func Pg_Find_Elements(idcarta int, idbusiness int) ([]models.Pg_Element_With_Stock_External, error) {
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT idelement,idbusiness,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock FROM element WHERE idcarta=$1 AND idbusiness=$2 ORDER BY stock ASC"
 	rows, error_shown := db.Query(context.Background(), q, idcarta, idbusiness)

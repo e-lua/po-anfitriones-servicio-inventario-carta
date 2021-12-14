@@ -48,7 +48,7 @@ func Manejadores() {
 	router_element.PUT("/status/:idelement/:status", inventario.InvetarioRouter_pg.UpdateElementStatus)
 	router_element.GET("/:limit/:offset", inventario.InvetarioRouter_pg.FindAllElements)
 
-	//V1 FROM V1 TO ...TO ENTITY ELEMENT
+	//V1 FROM V1 TO ...TO ENTITY SCHEDULE RANGE
 	router_schedule_range := version_1.Group("/schedulerange")
 	router_schedule_range.POST("", inventario.InvetarioRouter_pg.AddScheduleRange)
 	router_schedule_range.PUT("", inventario.InvetarioRouter_pg.UpdateScheduleRange)

@@ -2,6 +2,9 @@ package carta
 
 import (
 	//REPOSITORIES
+	"log"
+	"time"
+
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
 )
@@ -41,22 +44,34 @@ func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusi
 
 func UpdateCartaElements_Service(carta_elements CartaElements, idbusiness int) (int, bool, string, string) {
 
+	//Eliminamos los datos anteriores
+	carta_repository.Pg_Delete_Elements(carta_elements.IDCarta, idbusiness)
+
 	//Insertamos los datos en Mo
-	error_update := carta_repository.Pg_Update_Elements(carta_elements.Elements, carta_elements.IDCarta, idbusiness)
-	if error_update != nil {
-		return 404, true, "Error en el servidor interno al intentar actualizar los elementos de la carta, detalles: " + error_update.Error(), ""
-	}
+	go func() {
+		error_update := carta_repository.Pg_Update_Elements(carta_elements.Elements, carta_elements.IDCarta, idbusiness)
+		if error_update != nil {
+			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
+		}
+	}()
+	time.Sleep(1 * time.Second)
 
 	return 201, false, "", "Los elementos se actualizaron correctamnte"
 }
 
 func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness int) (int, bool, string, string) {
 
+	//Eliminamos los datos anteriores
+	carta_repository.Pg_Delete_ScheduleRange_List(carta_schedule.IDCarta, idbusiness)
+
 	//Insertamos los datos en Mo
-	error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
-	if error_update != nil {
-		return 404, true, "Error en el servidor interno al intentar actualizar los rangos horarios de la carta, detalles: " + error_update.Error(), ""
-	}
+	go func() {
+		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
+		if error_update != nil {
+			log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
+		}
+	}()
+	time.Sleep(3 * time.Second)
 
 	return 201, false, "", "Los rangos horario se actualizaron correctamente"
 }
@@ -66,9 +81,9 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 func GetCartaBasicData_Service(date string, idbusiness int) (int, bool, string, models.Pg_Carta_External) {
 
 	//Insertamos los datos en Mo
-	carta_ini_values, error_update := carta_repository.Pg_Find_IniData(date, idbusiness)
-	if error_update != nil {
-		return 404, true, "Error en el servidor interno al intentar encontrar la informacion basica de la carta, detalles: " + error_update.Error(), carta_ini_values
+	carta_ini_values, error_show := carta_repository.Pg_Find_IniData(date, idbusiness)
+	if error_show != nil {
+		return 404, true, "Error en el servidor interno al intentar encontrar la informacion basica de la carta, detalles: " + error_show.Error(), carta_ini_values
 	}
 
 	return 201, false, "", carta_ini_values

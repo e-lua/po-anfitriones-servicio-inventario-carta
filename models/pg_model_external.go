@@ -11,8 +11,8 @@ type Pg_Carta_External struct {
 	Date               time.Time          `json:"date"`
 	AvailableForOrders bool               `json:"availablefororders"`
 	Visible            bool               `json:"visible"`
-	Elements           bool               `json:"elements"`
-	ScheduleRanges     bool               `json:"scheduleranges"`
+	Elements           int                `json:"elements"`
+	ScheduleRanges     int                `json:"scheduleranges"`
 }
 
 type Pg_Category_External struct {

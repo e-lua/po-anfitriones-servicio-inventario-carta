@@ -8,7 +8,7 @@ import (
 
 func Pg_Find_ScheduleRanges(idcarta int, idbusiness int) ([]models.Pg_ScheduleRange_External, error) {
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT idschedulerange,name,description,minuteperfraction,numberfractions,starttime,endtime,maxorders FROM schedulerange WHERE idcarta=$1 AND idbusiness=$2"
 	rows, error_shown := db.Query(context.Background(), q, idcarta, idbusiness)

@@ -59,13 +59,10 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 		}
 	}
 
-	q := `BEGIN;
-	DELETE FROM ScheduleRange WHERE idbusiness=$1;
-	DELETE FROM ListScheduleRange WHERE idbusiness=$2; 
+	q := `
 	INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idCarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($3::int[],$4::int[],$5::int[],$6::string[],$7::string[],$8::int[],$9::int[],$10::varchar(10)[],$11::varchar(10)[],$12::int[]));
-	INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($13::int[],$14::int[],$15::int[],$16::string[],$17::string[],$18::int[]));
-	ROLLBACK;`
-	if _, err_update := db_external.Exec(context.Background(), q, idbusiness, idbusiness, idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, idschedulerange_pg, idcarta_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders); err_update != nil {
+	INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($13::int[],$14::int[],$15::int[],$16::string[],$17::string[],$18::int[]));`
+	if _, err_update := db_external.Exec(context.Background(), q, idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, idschedulerange_pg, idcarta_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders); err_update != nil {
 		return err_update
 	}
 

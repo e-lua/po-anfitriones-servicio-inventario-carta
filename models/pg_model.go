@@ -36,12 +36,12 @@ type Pg_Element struct {
 
 type Pg_ScheduleRange struct {
 	IDSchedule        int    `json:"id"`
-	IDBusiness        int    `json:"business"`
 	Name              string `json:"name"`
 	Description       string `json:"description"`
 	MinutePerFraction int    `json:"minutesperfraction"`
 	StartTime         string `json:"starttime"`
 	EndTime           string `json:"endtime"`
+	Available         bool   `json:"available"`
 	NumberOfFractions int    `json:"numberfractions"`
 	MaxOrders         int    `json:"maxorders"`
 }

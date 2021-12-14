@@ -121,7 +121,7 @@ func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int, status_sc
 
 	error_status := schedule_range_repository.Pg_Update_Available(status_schedule, idschedule, idbusiness)
 	if error_status != nil {
-		return 404, true, "Error en el servidor interno al intentar cambiar el estado del elemento, detalles: " + error_status.Error(), ""
+		return 404, true, "Error en el servidor interno al intentar cambiar el estado del rango horario, detalles: " + error_status.Error(), ""
 	}
 
 	return 201, false, "", "Estado de rango horario actualizado correctamente"

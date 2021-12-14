@@ -213,7 +213,7 @@ func (cr *cartaRouter_pg) GetCartaElements(c echo.Context) error {
 	}
 
 	//Recibimos el limit
-	idcarta := c.Param("icarta")
+	idcarta := c.Param("idcarta")
 	idcarta_int, _ := strconv.Atoi(idcarta)
 
 	//Enviamos los datos al servicio
@@ -236,7 +236,7 @@ func (cr *cartaRouter_pg) GetCartaCategoryElement(c echo.Context) error {
 	}
 
 	//Recibimos el limit
-	idcarta := c.Param("icarta")
+	idcarta := c.Param("idcarta")
 	idcarta_int, _ := strconv.Atoi(idcarta)
 
 	//Enviamos los datos al servicio

@@ -43,7 +43,7 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 		}
 	}
 
-	q := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($11::int[],$12::int[],$13::int[],$14::varchar(6)[],$15::varchar(6)[],$16::int[]))`
+	q := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[]))`
 	if _, err_update := db_external.Exec(context.Background(), q, idcarta_pg, idschedulerange_pg, idbusiness_pg, startime_pg, endtime_pg, max_orders); err_update != nil {
 		return err_update
 	}

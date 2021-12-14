@@ -36,21 +36,15 @@ func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness i
 
 /*----------------------CREATE DATA OF INVENTARIO----------------------*/
 
-func UpdateCategoryStatus_Service(idbusiness int, idcategory int, statuscategory string) (int, bool, string, string) {
+func AddCategory_Service(idbusiness int, input_name_category string) (int, bool, string, int) {
 
-	if statuscategory == "true" {
-		error_status_true := category_repository.Pg_Update_AvailableToTrue(idcategory, idbusiness)
-		if error_status_true != nil {
-			return 404, true, "Error en el servidor interno al intentar cambiar el estado, detalles: " + error_status_true.Error(), ""
-		}
-	} else {
-		error_status_false := category_repository.Pg_Update_AvailableToFalse(idcategory, idbusiness)
-		if error_status_false != nil {
-			return 404, true, "Error en el servidor interno al intentar cambiar el estado, detalles: " + error_status_false.Error(), ""
-		}
+	//Agregamos la categoria
+	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category)
+	if error_add != nil {
+		return 404, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
 	}
 
-	return 201, false, "", "Actualizado a :" + statuscategory
+	return 201, false, "", idcategory
 }
 
 func AddElement_Service(input_element models.Pg_Element) (int, bool, string, int) {
@@ -74,15 +68,21 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 
 /*----------------------UDPATE ALL DATA OF INVENTARIO----------------------*/
 
-func AddCategory_Service(idbusiness int, input_name_category string) (int, bool, string, int) {
+func UpdateCategoryStatus_Service(idbusiness int, idcategory int, statuscategory string) (int, bool, string, string) {
 
-	//Agregamos la categoria
-	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category)
-	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
+	if statuscategory == "true" {
+		error_status_true := category_repository.Pg_Update_AvailableToTrue(idcategory, idbusiness)
+		if error_status_true != nil {
+			return 404, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_true.Error(), ""
+		}
+	} else {
+		error_status_false := category_repository.Pg_Update_AvailableToFalse(idcategory, idbusiness)
+		if error_status_false != nil {
+			return 404, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_false.Error(), ""
+		}
 	}
 
-	return 201, false, "", idcategory
+	return 201, false, "", "Actualizado a :" + statuscategory
 }
 
 func UpdateElement_Service(idbusiness int, input_element models.Pg_Element) (int, bool, string, string) {
@@ -96,6 +96,16 @@ func UpdateElement_Service(idbusiness int, input_element models.Pg_Element) (int
 	return 201, false, "", "Elemento actualizado correctamente"
 }
 
+func UpdateElementStatus_Service(idbusiness int, idelement int, statuselement bool) (int, bool, string, string) {
+
+	error_status := element_repository.Pg_Update_Available(statuselement, idelement, idbusiness)
+	if error_status != nil {
+		return 404, true, "Error en el servidor interno al intentar cambiar el estado del elemento, detalles: " + error_status.Error(), ""
+	}
+
+	return 201, false, "", "Estado de elemento actualizado correctamente"
+}
+
 func UpdateScheduleRange_Service(idbusiness int, input_schedulerange models.Pg_ScheduleRange) (int, bool, string, string) {
 
 	//Agregamos la categoria
@@ -105,6 +115,16 @@ func UpdateScheduleRange_Service(idbusiness int, input_schedulerange models.Pg_S
 	}
 
 	return 201, false, "", "Rango horario actualizado correctamente"
+}
+
+func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int, status_schedule bool) (int, bool, string, string) {
+
+	error_status := schedule_range_repository.Pg_Update_Available(status_schedule, idschedule, idbusiness)
+	if error_status != nil {
+		return 404, true, "Error en el servidor interno al intentar cambiar el estado del elemento, detalles: " + error_status.Error(), ""
+	}
+
+	return 201, false, "", "Estado de rango horario actualizado correctamente"
 }
 
 /*----------------------FIND ALL DATA OF INVENTARIO----------------------*/

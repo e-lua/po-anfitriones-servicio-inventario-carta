@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Update_AvailableToFalse(available bool, visible bool, idcarta int, idbusiness int) error {
+func Pg_Update_Available_Visible(available bool, visible bool, idcarta int, idbusiness int) error {
 
 	db_external := models.Conectar_Pg_DB_External()
 

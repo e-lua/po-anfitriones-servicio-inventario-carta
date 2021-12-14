@@ -2,7 +2,6 @@ package models
 
 type Pg_Category struct {
 	IDCategory int         `json:"id"`
-	IDBusiness int         `json:"business"`
 	Name       string      `json:"name"`
 	Elements   int         `json:"elements"`
 	Available  bool        `json:"available"`
@@ -24,7 +23,7 @@ type Pg_Element_for_search struct {
 
 type Pg_Element struct {
 	IDElement        int         `json:"id"`
-	IDCategory       int         `json:"category"`
+	IDCategory       int         `json:"idcategory"`
 	NameCategory     string      `json:"namecategory"`
 	URLPhotoCategory string      `json:"urlphotocategory"`
 	Name             string      `json:"name"`

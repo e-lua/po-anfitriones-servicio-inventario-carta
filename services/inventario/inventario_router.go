@@ -86,33 +86,6 @@ func (ir *inventarioRouter_pg) AddCategory(c echo.Context) error {
 
 }
 
-func (ir *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
-
-	//Obtenemos los datos del auth
-	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
-	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
-		return c.JSON(status, results)
-	}
-	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Recibimos el id de la categoria
-	idcategory := c.Param("idcategory")
-	idcategory_int, _ := strconv.Atoi(idcategory)
-
-	//Recibimos el estado
-	statuscategory := c.Param("status")
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateCategoryStatus_Service(data_idbusiness, idcategory_int, statuscategory)
-	results := Response{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
-
-}
-
 func (ir *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -183,6 +156,33 @@ func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
+func (ir *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idcategory := c.Param("idcategory")
+	idcategory_int, _ := strconv.Atoi(idcategory)
+
+	//Recibimos el estado
+	statuscategory := c.Param("status")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateCategoryStatus_Service(data_idbusiness, idcategory_int, statuscategory)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (ir *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -219,6 +219,34 @@ func (ir *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 
 }
 
+func (ir *inventarioRouter_pg) UpdateElementStatus(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idelement := c.Param("idelement")
+	idelement_int, _ := strconv.Atoi(idelement)
+
+	//Recibimos el estado
+	statusElement := c.Param("status")
+	status_bool_element, _ := strconv.ParseBool(statusElement)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateElementStatus_Service(data_idbusiness, idelement_int, status_bool_element)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (ir *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -250,6 +278,34 @@ func (ir *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := UpdateScheduleRange_Service(data_idbusiness, scheduleRange)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (ir *inventarioRouter_pg) UpdateScheduleRangeStatus(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idschedulerange := c.Param("idschedulerange")
+	idschedulerange_int, _ := strconv.Atoi(idschedulerange)
+
+	//Recibimos el estado
+	statusSchedule := c.Param("status")
+	status_bool_schedule, _ := strconv.ParseBool(statusSchedule)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateScheduleRangeStatus_Service(data_idbusiness, idschedulerange_int, status_bool_schedule)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 

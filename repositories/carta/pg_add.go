@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Add(idbusiness int, date time.Time) (int, error) {
+func Pg_Add(idbusiness int, date string) (int, error) {
 
 	var idcarta int
 

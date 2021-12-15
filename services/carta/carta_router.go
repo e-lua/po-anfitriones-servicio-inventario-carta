@@ -259,7 +259,7 @@ func (cr *cartaRouter_pg) GetCartaScheduleRanges(c echo.Context) error {
 	}
 
 	//Recibimos el limit
-	idcarta := c.Param("icarta")
+	idcarta := c.Param("idcarta")
 	idcarta_int, _ := strconv.Atoi(idcarta)
 
 	//Enviamos los datos al servicio

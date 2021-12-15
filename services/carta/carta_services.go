@@ -87,7 +87,7 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 		}
 	}()
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(5 * time.Second)
 
 	return 201, false, "", "Los rangos horario se actualizaron correctamente"
 }

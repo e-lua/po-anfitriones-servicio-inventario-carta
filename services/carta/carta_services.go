@@ -62,7 +62,10 @@ func UpdateCartaElements_Service(carta_elements CartaElements, idbusiness int) (
 func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness int) (int, bool, string, string) {
 
 	//Eliminamos los datos anteriores
-	carta_repository.Pg_Delete_ScheduleRange_List(carta_schedule.IDCarta, idbusiness)
+	error_delete := carta_repository.Pg_Delete_ScheduleRange_List(carta_schedule.IDCarta, idbusiness)
+	if error_delete != nil {
+		log.Fatal("Error en el servidor interno al intentar eliminar los rangos horarios, detalles: " + error_delete.Error())
+	}
 
 	error_update := carta_repository.Pg_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
 	if error_update != nil {

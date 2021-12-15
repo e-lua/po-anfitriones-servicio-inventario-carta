@@ -17,17 +17,33 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 
 	for _, sch := range pg_schedule {
 
+		arr := strings.Split(sch.StartTime, ":")
+		hora_ini := 0
+
 		for i := 0; i < sch.NumberOfFractions; i++ {
 
-			arr := strings.Split(sch.StartTime, ":")
+			if i == 0 {
+				//TODO SOBRE LA HORA DE INICIO
+				hora_ini_c, _ := strconv.Atoi(arr[0] + arr[1][:2])
+				hora_ini = hora_ini_c
+			}
 
-			var minutos_string string
+			//TODO SOBRE LA HORA PRE FIN
+			hora_pre_fin := strconv.Itoa(hora_ini + sch.MinutePerFraction)
+
+			var index_pre_fin int
+			if len(hora_pre_fin) > 3 {
+				index_pre_fin = 2
+			} else {
+				index_pre_fin = 1
+			}
 
 			//Minutos y Horas
-			minutos, _ := strconv.Atoi(arr[1][:2])
-			horas, _ := strconv.Atoi(arr[0])
+			minutos, _ := strconv.Atoi(hora_pre_fin[index_pre_fin:])
+			horas, _ := strconv.Atoi(hora_pre_fin[index_pre_fin:])
 
 			//Validamos que no sobrepase los 60 minutos
+			var minutos_string string
 			if minutos > 59 {
 				minutos = 60 - minutos
 				if minutos < 10 {
@@ -37,21 +53,18 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 				}
 				horas = horas + 1
 			} else {
-				minutos_string = arr[1][:2]
+				minutos_string = hora_pre_fin[index_pre_fin:]
 			}
+			hora_finaliza := strconv.Itoa(horas) + minutos_string
 
-			//Horas con minutos juntos
-			hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)
-
-			//Inicio de bucle para obtener la hora fin
-			hora_fin := strconv.Itoa(hora_ini + sch.MinutePerFraction)
-			var index int
-			if len(hora_fin) > 3 {
-				index = 2
+			//TODO SOBRE LA HORA FIN
+			var index_fin int
+			if len(hora_finaliza) > 3 {
+				index_fin = 2
 			} else {
-				index = 1
+				index_fin = 1
 			}
-			hora_fin_toinsert := hora_fin[:index] + ":" + hora_fin[index:]
+			hora_fin_toinsert := hora_finaliza[:index_fin] + ":" + hora_finaliza[index_fin:]
 
 			//Fin de bucle para obtener la hora fin
 
@@ -64,7 +77,8 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 			max_orders = append(max_orders, sch.MaxOrders)
 
 			//Nuevo valor de hora de inicio
-			sch.StartTime = hora_fin_toinsert
+			new_hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)
+			hora_ini = new_hora_ini
 		}
 	}
 

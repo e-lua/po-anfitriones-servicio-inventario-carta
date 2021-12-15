@@ -188,7 +188,7 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 	}
 
 	//Insertamos los datos en la lista de horario
-	error_update_schedulelist := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
+	error_update_schedulelist := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta, idbusiness)
 	if error_update_schedulelist != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
 	}

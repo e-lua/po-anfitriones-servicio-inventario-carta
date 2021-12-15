@@ -52,10 +52,17 @@ func (cr *cartaRouter_pg) AddCarta(c echo.Context) error {
 		return c.JSON(403, results)
 	}
 
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := AddCarta_Service(carta, data_idbusiness)
-	results := ResponseInt{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
+	if !carta.WannaCopy {
+		//Enviamos los datos al servicio
+		status, boolerror, dataerror, data := AddCarta_Service(carta, data_idbusiness)
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: data}
+		return c.JSON(status, results)
+	} else {
+		//Enviamos los datos al servicio
+		status, boolerror, dataerror, data := AddCartaFromOther_Service(carta, data_idbusiness)
+		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: data}
+		return c.JSON(status, results)
+	}
 
 }
 

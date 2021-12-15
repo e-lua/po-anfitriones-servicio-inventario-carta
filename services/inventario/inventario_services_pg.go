@@ -41,7 +41,7 @@ func AddCategory_Service(idbusiness int, input_name_category string) (int, bool,
 	//Agregamos la categoria
 	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
+		return 500, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
 	}
 
 	return 201, false, "", idcategory
@@ -60,7 +60,7 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 	//Agregamos el rango horario
 	error_add := schedule_range_repository.Pg_Add(idbusiness, input_schedule)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar agregar el rango horario, detalles: " + error_add.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar agregar el rango horario, detalles: " + error_add.Error(), ""
 	}
 
 	return 201, false, "", "Rango horario creado correctamente"
@@ -73,12 +73,12 @@ func UpdateCategoryStatus_Service(idbusiness int, idcategory int, statuscategory
 	if statuscategory == "true" {
 		error_status_true := category_repository.Pg_Update_AvailableToTrue(idcategory, idbusiness)
 		if error_status_true != nil {
-			return 404, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_true.Error(), ""
+			return 500, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_true.Error(), ""
 		}
 	} else {
 		error_status_false := category_repository.Pg_Update_AvailableToFalse(idcategory, idbusiness)
 		if error_status_false != nil {
-			return 404, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_false.Error(), ""
+			return 500, true, "Error en el servidor interno al intentar cambiar el estado de la categoria, detalles: " + error_status_false.Error(), ""
 		}
 	}
 
@@ -90,7 +90,7 @@ func UpdateElement_Service(idbusiness int, input_element models.Pg_Element) (int
 	//Agregamos la categoria
 	error_udpate := element_repository.Pg_Update_Data(input_element, idbusiness)
 	if error_udpate != nil {
-		return 404, true, "Error en el servidor interno al intentar actualizar el elemento, detalles: " + error_udpate.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar actualizar el elemento, detalles: " + error_udpate.Error(), ""
 	}
 
 	return 201, false, "", "Elemento actualizado correctamente"
@@ -100,7 +100,7 @@ func UpdateElementStatus_Service(idbusiness int, idelement int, statuselement bo
 
 	error_status := element_repository.Pg_Update_Available(statuselement, idelement, idbusiness)
 	if error_status != nil {
-		return 404, true, "Error en el servidor interno al intentar cambiar el estado del elemento, detalles: " + error_status.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar cambiar el estado del elemento, detalles: " + error_status.Error(), ""
 	}
 
 	return 201, false, "", "Estado de elemento actualizado correctamente"
@@ -111,7 +111,7 @@ func UpdateScheduleRange_Service(idbusiness int, input_schedulerange models.Pg_S
 	//Agregamos la categoria
 	error_udpate := schedule_range_repository.Pg_Update_Data(input_schedulerange, idbusiness)
 	if error_udpate != nil {
-		return 404, true, "Error en el servidor interno al intentar actualizar el rango horario, detalles: " + error_udpate.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar actualizar el rango horario, detalles: " + error_udpate.Error(), ""
 	}
 
 	return 201, false, "", "Rango horario actualizado correctamente"
@@ -121,7 +121,7 @@ func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int, status_sc
 
 	error_status := schedule_range_repository.Pg_Update_Available(status_schedule, idschedule, idbusiness)
 	if error_status != nil {
-		return 404, true, "Error en el servidor interno al intentar cambiar el estado del rango horario, detalles: " + error_status.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar cambiar el estado del rango horario, detalles: " + error_status.Error(), ""
 	}
 
 	return 201, false, "", "Estado de rango horario actualizado correctamente"
@@ -134,7 +134,7 @@ func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []model
 	//Agregamos la categoria
 	lista_category, error_add := category_repository.Pg_Find_All(input_idbusiness)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al intentar listar las categorías de este negocio, detalles: " + error_add.Error(), lista_category
+		return 500, true, "Error en el servidor interno al intentar listar las categorías de este negocio, detalles: " + error_add.Error(), lista_category
 	}
 
 	return 201, false, "", lista_category
@@ -145,7 +145,7 @@ func FindAllElements_Service(input_idbusiness int, input_limit int, input_offset
 	//Agregamos la categoria
 	lista_Elemento, error_add := element_repository.Pg_Find_All(input_idbusiness, input_limit, input_offset)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), lista_Elemento
+		return 500, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), lista_Elemento
 	}
 
 	return 201, false, "", lista_Elemento
@@ -156,7 +156,7 @@ func FindAllRangoHorario_Service(input_idbusiness int) (int, bool, string, []mod
 	//Agregamos la categoria
 	lista_RangoHorario, error_add := schedule_range_repository.Pg_Find_All(input_idbusiness)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), lista_RangoHorario
+		return 500, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), lista_RangoHorario
 	}
 
 	return 201, false, "", lista_RangoHorario
@@ -169,7 +169,7 @@ func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, mod
 	//Agregamos la categoria
 	all_main_Data, error_add := general_carta_repository.Pg_Find_Main_Data(input_idbusiness)
 	if error_add != nil {
-		return 404, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), all_main_Data
+		return 500, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), all_main_Data
 	}
 
 	return 201, false, "", all_main_Data

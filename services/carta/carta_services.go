@@ -67,12 +67,10 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 		log.Fatal("Error en el servidor interno al intentar eliminar la lista de rangos horarios, detalles: " + error_delete_list.Error())
 	}
 
-	go func() {
-		error_delete := carta_repository.Pg_Delete_ScheduleRange(carta_schedule.IDCarta, idbusiness)
-		if error_delete != nil {
-			log.Fatal("Error en el servidor interno al intentar eliminar los rangos horarios, detalles: " + error_delete.Error())
-		}
-	}()
+	error_delete := carta_repository.Pg_Delete_ScheduleRange(carta_schedule.IDCarta, idbusiness)
+	if error_delete != nil {
+		log.Fatal("Error en el servidor interno al intentar eliminar los rangos horarios, detalles: " + error_delete.Error())
+	}
 
 	go func() {
 		error_update := carta_repository.Pg_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)

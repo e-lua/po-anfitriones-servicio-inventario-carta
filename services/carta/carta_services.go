@@ -177,29 +177,21 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 		return 500, true, "Error en el servidor interno al intentar encontrar los rangos horarios de la carta, detalles: " + error_update_schedule.Error(), 0
 	}
 
-	go func() {
-		error_update := carta_repository.Pg_Update_Elements(carta_elements, idcarta, idbusiness)
-		if error_update != nil {
-			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
-		}
-	}()
+	error_update_element_nc := carta_repository.Pg_Update_Elements(carta_elements, idcarta, idbusiness)
+	if error_update_element_nc != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update_element_nc.Error(), 0
+	}
 
-	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta, idbusiness)
-		if error_update != nil {
-			log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
-		}
-	}()
+	error_update_schedule_nc := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta, idbusiness)
+	if error_update_schedule_nc != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update_schedule_nc.Error(), 0
+	}
 
 	//Insertamos los datos en la lista de horario
-	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
-		if error_update != nil {
-			log.Fatal("Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update.Error())
-		}
-	}()
-
-	time.Sleep(4 * time.Second)
+	error_update_schedulelist := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
+	if error_update_schedulelist != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
+	}
 
 	return 201, false, "", idcarta
 }

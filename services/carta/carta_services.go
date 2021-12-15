@@ -155,31 +155,37 @@ func GetCartaScheduleRanges_Service(idcarta_int int, idbusiness int) (int, bool,
 
 func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, string, int) {
 
-	//Insertamos los datos en Mo
-	idcarta_int, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
+	//Buscamos la carta
+	idcarta_int, error_add_carta := carta_repository.Pg_Find_IniData(input_carta.FromCarta, idbusiness)
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
 
-	carta_elements, error_update_element := carta_repository.Pg_Find_Elements(idcarta_int, idbusiness)
+	//Insertamos los datos en Mo
+	idcarta, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
+	if error_add_carta != nil {
+		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
+	}
+
+	carta_elements, error_update_element := carta_repository.Pg_Find_Elements(idcarta_int.IDCarta, idbusiness)
 	if error_update_element != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update_element.Error(), 0
 	}
 
-	carta_scheduleranges, error_update_schedule := carta_repository.Pg_Find_ScheduleRanges(idcarta_int, idbusiness)
+	carta_scheduleranges, error_update_schedule := carta_repository.Pg_Find_ScheduleRanges(idcarta_int.IDCarta, idbusiness)
 	if error_update_schedule != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los rangos horarios de la carta, detalles: " + error_update_schedule.Error(), 0
 	}
 
 	go func() {
-		error_update := carta_repository.Pg_Update_Elements(carta_elements, idcarta_int, idbusiness)
+		error_update := carta_repository.Pg_Update_Elements(carta_elements, idcarta_int.IDCarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
 		}
 	}()
 
 	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta_int, idbusiness)
+		error_update := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
 		}
@@ -187,13 +193,13 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 
 	//Insertamos los datos en la lista de horario
 	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta_int, idbusiness)
+		error_update := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update.Error())
 		}
 	}()
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(2 * time.Second)
 
-	return 201, false, "", idcarta_int
+	return 201, false, "", idcarta
 }

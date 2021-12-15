@@ -178,14 +178,14 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 	}
 
 	go func() {
-		error_update := carta_repository.Pg_Update_Elements(carta_elements, idcarta_int.IDCarta, idbusiness)
+		error_update := carta_repository.Pg_Update_Elements(carta_elements, idcarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
 		}
 	}()
 
 	go func() {
-		error_update := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta_int.IDCarta, idbusiness)
+		error_update := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta, idbusiness)
 		if error_update != nil {
 			log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
 		}
@@ -199,7 +199,7 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 		}
 	}()
 
-	time.Sleep(2 * time.Second)
+	time.Sleep(4 * time.Second)
 
 	return 201, false, "", idcarta
 }

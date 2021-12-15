@@ -19,6 +19,7 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 
 		arr := strings.Split(sch.StartTime, ":")
 		hora_ini := 0
+		hora_ini_string := sch.StartTime
 
 		for i := 0; i < sch.NumberOfFractions; i++ {
 
@@ -72,13 +73,14 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 			idschedulerange_pg = append(idschedulerange_pg, sch.IDSchedule)
 			idcarta_pg = append(idcarta_pg, idcarta)
 			idbusiness_pg = append(idbusiness_pg, idbusiness)
-			startime_pg = append(startime_pg, sch.StartTime)
+			startime_pg = append(startime_pg, hora_ini_string)
 			endtime_pg = append(endtime_pg, hora_fin_toinsert)
 			max_orders = append(max_orders, sch.MaxOrders)
 
 			//Nuevo valor de hora de inicio
 			new_hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)
 			hora_ini = new_hora_ini
+			hora_ini_string = hora_fin_toinsert
 		}
 	}
 

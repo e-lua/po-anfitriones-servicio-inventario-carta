@@ -40,7 +40,7 @@ func Pg_Update_ScheduleRange_List(pg_schedule []models.Pg_ScheduleRange_External
 
 			//Minutos y Horas
 			minutos, _ := strconv.Atoi(hora_pre_fin[index_pre_fin:])
-			horas, _ := strconv.Atoi(hora_pre_fin[index_pre_fin:])
+			horas, _ := strconv.Atoi(hora_pre_fin[:index_pre_fin])
 
 			//Validamos que no sobrepase los 60 minutos
 			var minutos_string string

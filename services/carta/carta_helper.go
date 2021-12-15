@@ -36,7 +36,7 @@ type ResponseObjectId struct {
 type Carta struct {
 	Date      string `json:"date"`
 	WannaCopy bool   `json:"wannacopy"`
-	FromCarta int    `json:"fromcarta"`
+	FromCarta string `json:"fromcarta"`
 }
 
 type CartaStatus struct {

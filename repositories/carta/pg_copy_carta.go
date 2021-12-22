@@ -4,17 +4,13 @@ import (
 	"context"
 	"strconv"
 	"strings"
-	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_external []models.Pg_Element_With_Stock_External, idbusiness int, date string) (int, error) {
+func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_external []models.Pg_Element_With_Stock_External, idbusiness int, date string, idcarta int) (int, error) {
 
 	db_external := models.Conectar_Pg_DB_External()
-
-	//Variable
-	var idcarta int
 
 	//Elementos
 	idelement_pg, idcarta_pg, idcategory_pg, namecategory_pg, urlphotocategory_pg, name_pg, price_pg, description_pg, urlphot_pg, typem_pg, stock_pg, idbusiness_pg := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}
@@ -127,13 +123,6 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 	tx, error_tx := db_external.Begin(context.Background())
 	if error_tx != nil {
 		return 0, error_tx
-	}
-
-	//INSERTAR CARTA
-	query_add := `INSERT INTO Carta(idbusiness,date,updateddate) VALUES ($1,$2,$3) RETURNING idcarta`
-	err := tx.QueryRow(context.Background(), query_add, idbusiness, date, time.Now()).Scan(&idcarta)
-	if err != nil {
-		return idcarta, err
 	}
 
 	//INSERTAR ELEMENTO

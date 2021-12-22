@@ -181,34 +181,34 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 	}
 
 	//Insertamos los datos en Mo
-	idcarta, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
+	/*idcarta, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
 
-	/*
-		error_update_element_nc := carta_repository.Pg_Update_Elements(carta_elements, idcarta, idbusiness)
-		if error_update_element_nc != nil {
-			return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update_element_nc.Error(), 0
-		}
-
-		error_update_schedule_nc := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta, idbusiness)
-		if error_update_schedule_nc != nil {
-			return 500, true, "Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update_schedule_nc.Error(), 0
-		}
-
-		//Insertamos los datos en la lista de horario
-		error_update_schedulelist := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta, idbusiness)
-		if error_update_schedulelist != nil {
-			return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
-		}*/
-
-	error_copy_carta := carta_repository.Pg_Copy_Carta(carta_scheduleranges, carta_elements, idcarta, idbusiness)
-	if error_update_schedule != nil {
-		return 500, true, "Error en el servidor interno al intentar encontrar copiar los datos de la carta, detalles: " + error_copy_carta.Error(), 0
+	error_update_element_nc := carta_repository.Pg_Update_Elements(carta_elements, idcarta, idbusiness)
+	if error_update_element_nc != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update_element_nc.Error(), 0
 	}
 
-	return 201, false, "", idcarta
+	error_update_schedule_nc := carta_repository.Pg_Update_ScheduleRange(carta_scheduleranges, idcarta, idbusiness)
+	if error_update_schedule_nc != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update_schedule_nc.Error(), 0
+	}
+
+	//Insertamos los datos en la lista de horario
+	error_update_schedulelist := carta_repository.Pg_Update_ScheduleRange_List(carta_scheduleranges, idcarta, idbusiness)
+	if error_update_schedulelist != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
+	}*/
+
+	//Transaccion
+	id_carta, error_update_schedulelist := carta_repository.Pg_Copy_Carta(carta_scheduleranges, carta_elements, idbusiness, input_carta.Date)
+	if error_update_schedulelist != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
+	}
+
+	return 201, false, "", id_carta
 }
 
 /*----------------------DELETE MENU----------------------*/

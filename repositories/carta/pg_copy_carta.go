@@ -4,13 +4,17 @@ import (
 	"context"
 	"strconv"
 	"strings"
+	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_external []models.Pg_Element_With_Stock_External, idcarta int, idbusiness int) error {
+func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_external []models.Pg_Element_With_Stock_External, idbusiness int, date string) (int, error) {
 
 	db_external := models.Conectar_Pg_DB_External()
+
+	//Variable
+	var idcarta int
 
 	//Elementos
 	idelement_pg, idcarta_pg, idcategory_pg, namecategory_pg, urlphotocategory_pg, name_pg, price_pg, description_pg, urlphot_pg, typem_pg, stock_pg, idbusiness_pg := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}
@@ -119,10 +123,42 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 		}
 	}
 
-	q := `BEGIN;INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[]));INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($13::int[],$14::int[],$15::int[],$16::varchar(12)[],$17::varchar(60)[],$18::int[],$19::int[],$20::varchar(10)[],$21::varchar(10)[],$22::int[]));INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($23::int[],$24::int[],$25::int[],$26::varchar(6)[],$27::varchar(6)[],$28::int[]));COMMIT;`
-	if _, err_update := db_external.Exec(context.Background(), q, idelement_pg, idcarta_pg, idcategory_pg, namecategory_pg, urlphotocategory_pg, name_pg, price_pg, description_pg, urlphot_pg, typem_pg, stock_pg, idbusiness_pg, idschedule_pg_2, idbusinessmain_pg_2, idcartamain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2, idcarta_pg_3, idschedulerange_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3); err_update != nil {
-		return err_update
+	//BEGIN
+	tx, error_tx := db_external.Begin(context.Background())
+	if error_tx != nil {
+		return 0, error_tx
 	}
 
-	return nil
+	//INSERTAR CARTA
+	query_add := `INSERT INTO Carta(idbusiness,date,updateddate) VALUES ($1,$2,$3) RETURNING idcarta`
+	err := tx.QueryRow(context.Background(), query_add, idbusiness, date, time.Now()).Scan(&idcarta)
+	if err != nil {
+		return idcarta, err
+	}
+
+	//INSERTAR ELEMENTO
+	q_element := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[]));`
+	if _, err_insert_element := db_external.Exec(context.Background(), q_element, idelement_pg, idcarta_pg, idcategory_pg, namecategory_pg, urlphotocategory_pg, name_pg, price_pg, description_pg, urlphot_pg, typem_pg, stock_pg, idbusiness_pg); err_insert_element != nil {
+		return 0, err_insert_element
+	}
+
+	//INSERTAR RANGO HORARIO
+	q_schedulerange := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(12)[],$5::varchar(60)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));`
+	if _, err_insert_schedulerange := db_external.Exec(context.Background(), q_schedulerange, idschedule_pg_2, idbusinessmain_pg_2, idcartamain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2); err_insert_schedulerange != nil {
+		return 0, err_insert_schedulerange
+	}
+
+	//INSERTAR LISTAS DE RANGOS HORARIOS
+	q_listschedulerange := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[]))`
+	if _, err_listschedulerange := db_external.Exec(context.Background(), q_listschedulerange, idcarta_pg_3, idschedulerange_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3); err_listschedulerange != nil {
+		return 0, err_listschedulerange
+	}
+
+	//TERMINAMOS LA TRANSACCION
+	err_commit := tx.Commit(context.Background())
+	if err_commit != nil {
+		return 0, err_commit
+	}
+
+	return idcarta, nil
 }

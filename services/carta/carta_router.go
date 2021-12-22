@@ -206,6 +206,56 @@ func (cr *cartaRouter_pg) GetCartaBasicData(c echo.Context) error {
 	return c.JSON(status, results)
 }
 
+func (cr *cartaRouter_pg) GetCartaCategory(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el limit
+	idcarta := c.Param("idcarta")
+	idcarta_int, _ := strconv.Atoi(idcarta)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetCartaCategory_Service(idcarta_int, data_idbusiness)
+	results := ResponseCartaCategory{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+func (cr *cartaRouter_pg) GetCartaElementsByCarta(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el idcarta
+	idcarta := c.Param("idcarta")
+	idcarta_int, _ := strconv.Atoi(idcarta)
+
+	//Recibimos el idcategory
+	idcategory := c.Param("idcategory")
+	idcategory_int, _ := strconv.Atoi(idcategory)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetCartaElementsByCarta_Service(idcarta_int, data_idbusiness, idcategory_int)
+	results := ResponseCartaElements{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
 func (cr *cartaRouter_pg) GetCartaElements(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -229,29 +279,6 @@ func (cr *cartaRouter_pg) GetCartaElements(c echo.Context) error {
 	return c.JSON(status, results)
 }
 
-func (cr *cartaRouter_pg) GetCartaCategoryElement(c echo.Context) error {
-
-	//Obtenemos los datos del auth
-	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
-	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
-		return c.JSON(status, results)
-	}
-	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
-		return c.JSON(400, results)
-	}
-
-	//Recibimos el limit
-	idcarta := c.Param("idcarta")
-	idcarta_int, _ := strconv.Atoi(idcarta)
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := GetCartaCategoryElement_Service(idcarta_int, data_idbusiness)
-	results := ResponseCartaCategoryAndElement{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
-}
-
 func (cr *cartaRouter_pg) GetCartaScheduleRanges(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -272,5 +299,55 @@ func (cr *cartaRouter_pg) GetCartaScheduleRanges(c echo.Context) error {
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := GetCartaScheduleRanges_Service(idcarta_int, data_idbusiness)
 	results := ResponseCartaSchedule{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+func (cr *cartaRouter_pg) GetCartas(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetCartas_Service(data_idbusiness)
+	results := ResponseCartas{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+/*----------------------GET DATA OF MENU----------------------*/
+
+func (cr *cartaRouter_pg) DeleteCarta(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Instanciamos una variable del modelo Category
+	var carta_status CartaStatus
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&carta_status)
+	if err != nil {
+		results := Response{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: ""}
+		return c.JSON(403, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := DeleteCarta_Service(data_idbusiness, carta_status.IDCarta)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

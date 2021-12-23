@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Pg_Carta_Found struct {
-	Date     string `json:"date"`
-	Elements int    `json:"elements"`
+	Date     time.Time `json:"date"`
+	Elements int       `json:"elements"`
 }
 
 type Pg_Carta_External struct {

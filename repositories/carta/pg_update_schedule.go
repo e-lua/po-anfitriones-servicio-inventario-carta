@@ -110,18 +110,21 @@ func Pg_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_External, idc
 	//RANGO HORARIO
 	q_schedulerange := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(12)[],$5::varchar(60)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));`
 	if _, err_schedule := tx.Exec(context.Background(), q_schedulerange, idschedule_pg, idbusinessmain_pg, idcartamain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg); err_schedule != nil {
+		tx.Rollback(context.Background())
 		return err_schedule
 	}
 
 	//LISTA RANGOS HORARIOS
 	q_listschedule := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[]))`
 	if _, err_listschedule := tx.Exec(context.Background(), q_listschedule, idcarta_pg_2, idschedulerange_pg_2, idbusiness_pg_2, startime_pg_2, endtime_pg_2, max_orders_2); err_listschedule != nil {
+		tx.Rollback(context.Background())
 		return err_listschedule
 	}
 
 	//TERMINAMOS LA TRANSACCION
 	err_commit := tx.Commit(context.Background())
 	if err_commit != nil {
+		tx.Rollback(context.Background())
 		return err_commit
 	}
 

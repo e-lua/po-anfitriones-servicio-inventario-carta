@@ -106,7 +106,7 @@ func (ir *inventarioRouter_pg) AddElement(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if len(element.Name) > 25 || element.IDCategory < 0 || element.Price < 0 || element.TypeMoney < 0 {
+	if len(element.Name) > 80 || element.IDCategory < 0 || element.Price < 0 || element.TypeMoney < 0 {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}

@@ -74,7 +74,7 @@ func (ir *inventarioRouter_pg) AddCategory(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if len(category.Name) > 15 {
+	if len(category.Name) > 20 {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}

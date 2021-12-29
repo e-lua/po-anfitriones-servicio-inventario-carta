@@ -50,7 +50,10 @@ func AddCategory_Service(idbusiness int, input_name_category string) (int, bool,
 func AddElement_Service(input_element models.Pg_Element) (int, bool, string, int) {
 
 	//Agregamos el elemento
-	idelement, _ := element_repository.Pg_Add(input_element)
+	idelement, error_add := element_repository.Pg_Add(input_element)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar agregar el elemento, detalles: " + error_add.Error(), 0
+	}
 
 	return 201, false, "", idelement
 }

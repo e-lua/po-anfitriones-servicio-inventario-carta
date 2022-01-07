@@ -28,7 +28,7 @@ type Pg_Element_With_Stock_External struct {
 	IDCarta          int     `json:"idcarta"`
 	IDBusiness       int     `json:"idbusiness"`
 	IDCategory       int     `json:"idcategory"`
-	Typefood         int     `json:"typefood"`
+	Typefood         string  `json:"typefood"`
 	NameCategory     string  `json:"namecategory"`
 	UrlPhotoCategory string  `json:"urlphotocategory"`
 	Name             string  `json:"name"`

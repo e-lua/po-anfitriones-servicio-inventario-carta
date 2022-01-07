@@ -24,8 +24,10 @@ func Manejadores() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", index)
+
 	//VERSION
 	version_1 := e.Group("/v1")
+	version_3 := e.Group("/v3")
 
 	go Consumer_Category()
 
@@ -69,6 +71,9 @@ func Manejadores() {
 	router_menu.PUT("/onelement", carta.CartaRouter_pg.UpdateCartaOneElement)
 	router_menu.PUT("/scheduleranges", carta.CartaRouter_pg.UpdateCartaScheduleRanges)
 	router_menu.GET("/:idcarta/scheduleranges", carta.CartaRouter_pg.GetCartaScheduleRanges)
+	/*------------------------VERSION 3---------------------*/
+	router_menu_v3 := version_3.Group("/menu")
+	router_menu_v3.PUT("/elements", carta.CartaRouter_pg.UpdateCartaElements_v3)
 
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")

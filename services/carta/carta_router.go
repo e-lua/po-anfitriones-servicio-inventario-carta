@@ -124,6 +124,35 @@ func (cr *cartaRouter_pg) UpdateCartaElements(c echo.Context) error {
 	return c.JSON(status, results)
 }
 
+func (cr *cartaRouter_pg) UpdateCartaElements_v3(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Instanciamos una variable del modelo CartaElements
+	var carta_elements CartaElements_WithAction
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&carta_elements)
+	if err != nil {
+		results := Response{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: ""}
+		return c.JSON(403, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateCartaElements_v3_Service(carta_elements, data_idbusiness)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
 func (cr *cartaRouter_pg) UpdateCartaOneElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth

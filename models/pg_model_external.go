@@ -28,6 +28,7 @@ type Pg_Element_With_Stock_External struct {
 	IDCarta          int     `json:"idcarta"`
 	IDBusiness       int     `json:"idbusiness"`
 	IDCategory       int     `json:"idcategory"`
+	Typefood         int     `json:"typefood"`
 	NameCategory     string  `json:"namecategory"`
 	UrlPhotoCategory string  `json:"urlphotocategory"`
 	Name             string  `json:"name"`
@@ -47,4 +48,23 @@ type Pg_ScheduleRange_External struct {
 	EndTime           string `json:"endtime"`
 	NumberOfFractions int    `json:"numberfractions"`
 	MaxOrders         int    `json:"maxOrders"`
+}
+
+/*===============TESTEANDO===============*/
+
+type Pg_Element_With_Stock_External_Action struct {
+	IDElement        int     `json:"id"`
+	IDCarta          int     `json:"idcarta"`
+	IDBusiness       int     `json:"idbusiness"`
+	IDCategory       int     `json:"idcategory"`
+	NameCategory     string  `json:"namecategory"`
+	Typefood         string  `json:"typefood"`
+	UrlPhotoCategory string  `json:"urlphotocategory"`
+	Name             string  `json:"name"`
+	Price            float32 `json:"price"`
+	Description      string  `json:"description"`
+	TypeMoney        int     `json:"typemoney"`
+	Stock            int     `json:"stock"`
+	UrlPhoto         string  `json:"url"`
+	Action           int     `json:"action"`
 }

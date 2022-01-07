@@ -96,3 +96,10 @@ type CartaCategoryAndElement struct {
 	Categories []models.Pg_Category_External           `json:"categories"`
 	Elements   []models.Pg_Element_With_Stock_External `json:"elements"`
 }
+
+/*===============TESTEANDO===============*/
+
+type CartaElements_WithAction struct {
+	IDCarta            int                                            `json:"idcarta"`
+	ElementsWithAction []models.Pg_Element_With_Stock_External_Action `json:"elements"`
+}

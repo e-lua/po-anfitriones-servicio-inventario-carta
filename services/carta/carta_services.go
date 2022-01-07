@@ -59,6 +59,23 @@ func UpdateCartaElements_Service(carta_elements CartaElements, idbusiness int) (
 	return 201, false, "", "Los elementos se actualizaron correctamnte"
 }
 
+func UpdateCartaElements_v3_Service(carta_elements CartaElements_WithAction, idbusiness int) (int, bool, string, string) {
+
+	//Eliminamos los datos anteriores
+	carta_repository.Pg_Delete_Elements(carta_elements.IDCarta, idbusiness)
+
+	//Insertamos los datos en Mo
+	go func() {
+		error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness)
+		if error_update != nil {
+			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
+		}
+	}()
+	time.Sleep(1 * time.Second)
+
+	return 201, false, "", "Los elementos se actualizaron correctamente"
+}
+
 func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness int) (int, bool, string, string) {
 
 	//Eliminamos los datos anteriores

@@ -6,6 +6,7 @@ type Pg_Category struct {
 	Elements   int         `json:"elements"`
 	Available  bool        `json:"available"`
 	UrlPhoto   interface{} `json:"url"`
+	TypeFood   string      `json:"typefood"`
 }
 
 type Pg_Category_for_search struct {
@@ -26,6 +27,7 @@ type Pg_Element struct {
 	IDCategory       int         `json:"idcategory"`
 	NameCategory     string      `json:"namecategory"`
 	URLPhotoCategory string      `json:"urlphotocategory"`
+	Typefood         string      `json:"typefood"`
 	Name             string      `json:"name"`
 	Price            float32     `json:"price"`
 	Description      string      `json:"description"`

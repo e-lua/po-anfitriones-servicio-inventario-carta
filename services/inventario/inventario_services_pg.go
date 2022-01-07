@@ -36,10 +36,10 @@ func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness i
 
 /*----------------------CREATE DATA OF INVENTARIO----------------------*/
 
-func AddCategory_Service(idbusiness int, input_name_category string) (int, bool, string, int) {
+func AddCategory_Service(idbusiness int, input_name_category string, input_typefood_category string) (int, bool, string, int) {
 
 	//Agregamos la categoria
-	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category)
+	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category, input_typefood_category)
 	if error_add != nil {
 		return 500, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
 	}

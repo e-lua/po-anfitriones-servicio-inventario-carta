@@ -9,7 +9,7 @@ import (
 func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element, error) {
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT c.idcategory,c.urlphoto,c.name,e.idelement,e.name,e.description,e.typemoney,e.price,e.urlphoto,e.available FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 ORDER BY e.name ASC LIMIT $2 OFFSET $3"
+	q := "SELECT c.typefood,c.idcategory,c.urlphoto,c.name,e.idelement,e.name,e.description,e.typemoney,e.price,e.urlphoto,e.available FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 ORDER BY e.name ASC LIMIT $2 OFFSET $3"
 	rows, error_shown := db.Query(context.Background(), q, idbusiness, limit, offset)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
@@ -23,7 +23,7 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element, er
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
 		oElement := models.Pg_Element{}
-		rows.Scan(&oElement.IDCategory, &oElement.URLPhotoCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available)
+		rows.Scan(&oElement.Typefood, &oElement.IDCategory, &oElement.URLPhotoCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available)
 		oListElement = append(oListElement, oElement)
 	}
 

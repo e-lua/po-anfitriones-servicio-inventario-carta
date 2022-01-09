@@ -6,7 +6,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models.Pg_Element_With_Stock_External_Action, idcarta int, idbusiness int) error {
+func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models.Pg_Element_With_Stock_External_Action, idcarta int, idbusiness int) string {
 
 	//Variables a Insertar (Action=1)
 	idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}, []string{}
@@ -52,44 +52,44 @@ func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models
 	//INICIAMOS TRANSACCIÓN
 	tx, error_tx := db_external.Begin(context.Background())
 	if error_tx != nil {
-		return error_tx
+		return error_tx.Error()
 	}
 
 	//ELIMINAMOS
 	query_delete := `DELETE FROM element (select * from  unnest($1::int[],$2::int[])) as ex(idelem,idcrt) WHERE idelement=ex.idelem AND idcarta=ex.idcrt`
 	if _, err_d := tx.Exec(context.Background(), query_delete, idelement_pg_delete, idcarta_pg_delete); err_d != nil {
 		tx.Rollback(context.Background())
-		return err_d
+		return "Error en el primer delete" + err_d.Error()
 	}
 
 	//INSERTAMOS
-	query_insert := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness,typefood) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[],$13::varchar(100)[]));`
+	query_insert := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness,typefood) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[],$13::varchar(100)[]))`
 	if _, err_i := tx.Exec(context.Background(), query_insert, idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert); err_i != nil {
 		tx.Rollback(context.Background())
-		return err_i
+		return "Error al insertar" + err_i.Error()
 	}
 
 	//ELIMINAMOS
 	query_delete_2 := `DELETE FROM element (select * from  unnest($1::int[],$2::int[])) as ex(idelem,idcrt) WHERE idelement=ex.idelem AND idcarta=ex.idcrt`
 	if _, err_d_2 := tx.Exec(context.Background(), query_delete_2, idelement_pg_delete, idcarta_pg_delete); err_d_2 != nil {
 		tx.Rollback(context.Background())
-		return err_d_2
+		return "Error en el segundo delete" + err_d_2.Error()
 	}
 
 	//ACTUALIZAMOS
 	query_update := `UPDATE element SET stock=el.stck FROM (select * from  unnest($1::int[],$2::int[],$3::int[])) as ex(idelem,idcart,stck) WHERE idelement=ex.idelem AND idcarta=ex.idcart`
 	if _, err_u := tx.Exec(context.Background(), query_update, idelement_pg_update, idcarta_pg_update, idstock_pg_update); err_u != nil {
 		tx.Rollback(context.Background())
-		return err_u
+		return "Error en el actualzar" + err_u.Error()
 	}
 
 	err_commit := tx.Commit(context.Background())
 	if err_commit != nil {
 		tx.Rollback(context.Background())
-		return err_commit
+		return err_commit.Error()
 	}
 
 	/*=====================TERMINAMOS LA TRANSACCIÓN=====================*/
 
-	return nil
+	return ""
 }

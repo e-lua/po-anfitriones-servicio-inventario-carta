@@ -3,7 +3,6 @@ package carta
 import (
 	//REPOSITORIES
 	"log"
-	"time"
 
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
@@ -42,54 +41,19 @@ func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusi
 	return 201, false, "", "Elemento actualizado correctamente"
 }
 
-func UpdateCartaElements_Service(carta_elements CartaElements, idbusiness int) (int, bool, string, string) {
+func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int) (int, bool, string, string) {
 
-	//Eliminamos los datos anteriores
-	carta_repository.Pg_Delete_Elements(carta_elements.IDCarta, idbusiness)
-
-	//Insertamos los datos en Mo
-	go func() {
-		error_update := carta_repository.Pg_Update_Elements(carta_elements.Elements, carta_elements.IDCarta, idbusiness)
-		if error_update != nil {
-			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
-		}
-	}()
-	time.Sleep(1 * time.Second)
-
-	return 201, false, "", "Los elementos se actualizaron correctamnte"
-}
-
-func UpdateCartaElements_v3_Service(carta_elements CartaElements_WithAction, idbusiness int) (int, bool, string, string) {
-
-	//Eliminamos los datos anteriores
-	carta_repository.Pg_Delete_Elements(carta_elements.IDCarta, idbusiness)
-
-	//Insertamos los datos en Mo
-	go func() {
-		error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness)
-		if error_update != nil {
-			log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
-		}
-	}()
-	time.Sleep(1 * time.Second)
+	error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness)
+	if error_update != nil {
+		log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
+	}
 
 	return 201, false, "", "Los elementos se actualizaron correctamente"
 }
 
 func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness int) (int, bool, string, string) {
 
-	//Eliminamos los datos anteriores
-	error_delete_list := carta_repository.Pg_Delete_ScheduleRange_List(carta_schedule.IDCarta, idbusiness)
-	if error_delete_list != nil {
-		log.Fatal("Error en el servidor interno al intentar eliminar la lista de rangos horarios, detalles: " + error_delete_list.Error())
-	}
-
-	error_delete := carta_repository.Pg_Delete_ScheduleRange(carta_schedule.IDCarta, idbusiness)
-	if error_delete != nil {
-		log.Fatal("Error en el servidor interno al intentar eliminar los rangos horarios, detalles: " + error_delete.Error())
-	}
-
-	error_update := carta_repository.Pg_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
+	error_update := carta_repository.Pg_Delete_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
 	if error_update != nil {
 		log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
 	}

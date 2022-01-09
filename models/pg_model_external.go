@@ -46,6 +46,7 @@ type Pg_ScheduleRange_External struct {
 	MinutePerFraction int    `json:"minutesperfraction"`
 	StartTime         string `json:"starttime"`
 	EndTime           string `json:"endtime"`
+	TimeZone          string `json:"timezone"`
 	NumberOfFractions int    `json:"numberfractions"`
 	MaxOrders         int    `json:"maxOrders"`
 }

@@ -27,7 +27,6 @@ func Manejadores() {
 
 	//VERSION
 	version_1 := e.Group("/v1")
-	version_3 := e.Group("/v3")
 
 	go Consumer_Category()
 
@@ -54,7 +53,7 @@ func Manejadores() {
 	router_schedule_range := version_1.Group("/schedulerange")
 	router_schedule_range.POST("", inventario.InvetarioRouter_pg.AddScheduleRange)
 	router_schedule_range.PUT("", inventario.InvetarioRouter_pg.UpdateScheduleRange)
-	router_schedule_range.PUT("/status/:idschedulerange/:status", inventario.InvetarioRouter_pg.UpdateScheduleRangeStatus)
+	router_schedule_range.DELETE("/:idschedulerange", inventario.InvetarioRouter_pg.UpdateScheduleRangeStatus)
 	router_schedule_range.GET("", inventario.InvetarioRouter_pg.FindAllRangoHorario)
 
 	//V1 FROM V1 TO ...TO ENTITY CARTA
@@ -71,9 +70,6 @@ func Manejadores() {
 	router_menu.PUT("/onelement", carta.CartaRouter_pg.UpdateCartaOneElement)
 	router_menu.PUT("/scheduleranges", carta.CartaRouter_pg.UpdateCartaScheduleRanges)
 	router_menu.GET("/:idcarta/scheduleranges", carta.CartaRouter_pg.GetCartaScheduleRanges)
-	/*------------------------VERSION 3---------------------*/
-	router_menu_v3 := version_3.Group("/menu")
-	router_menu_v3.PUT("/elements", carta.CartaRouter_pg.UpdateCartaElements_v3)
 
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")

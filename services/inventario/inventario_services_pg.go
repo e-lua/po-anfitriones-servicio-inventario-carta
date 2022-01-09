@@ -120,11 +120,11 @@ func UpdateScheduleRange_Service(idbusiness int, input_schedulerange models.Pg_S
 	return 201, false, "", "Rango horario actualizado correctamente"
 }
 
-func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int, status_schedule bool) (int, bool, string, string) {
+func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int) (int, bool, string, string) {
 
-	error_status := schedule_range_repository.Pg_Update_Available(status_schedule, idschedule, idbusiness)
+	error_status := schedule_range_repository.Pg_Delete(idschedule, idbusiness)
 	if error_status != nil {
-		return 500, true, "Error en el servidor interno al intentar cambiar el estado del rango horario, detalles: " + error_status.Error(), ""
+		return 500, true, "Error en el servidor interno al intentar eliminar el rango horario, detalles: " + error_status.Error(), ""
 	}
 
 	return 201, false, "", "Estado de rango horario actualizado correctamente"

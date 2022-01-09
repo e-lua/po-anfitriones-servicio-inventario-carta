@@ -142,7 +142,7 @@ func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if len(scheduleRange.Name) > 12 || scheduleRange.NumberOfFractions <= 0 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 4 || len(scheduleRange.EndTime) < 4 || scheduleRange.MaxOrders < 0 {
+	if len(scheduleRange.Name) > 12 || scheduleRange.NumberOfFractions <= 0 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 4 || len(scheduleRange.EndTime) < 4 || scheduleRange.MaxOrders < 0 || scheduleRange.TimeZone == "" {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}
@@ -271,7 +271,7 @@ func (ir *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if scheduleRange.IDSchedule < 0 || len(scheduleRange.StartTime) < 4 || len(scheduleRange.EndTime) < 4 || scheduleRange.NumberOfFractions <= 0 || len(scheduleRange.Name) > 12 || scheduleRange.MinutePerFraction < 0 || scheduleRange.MaxOrders < 0 {
+	if scheduleRange.IDSchedule < 0 || len(scheduleRange.StartTime) < 4 || len(scheduleRange.EndTime) < 4 || scheduleRange.NumberOfFractions <= 0 || len(scheduleRange.Name) > 12 || scheduleRange.MinutePerFraction < 0 || scheduleRange.MaxOrders < 0 || scheduleRange.TimeZone == "" {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}
@@ -300,12 +300,8 @@ func (ir *inventarioRouter_pg) UpdateScheduleRangeStatus(c echo.Context) error {
 	idschedulerange := c.Param("idschedulerange")
 	idschedulerange_int, _ := strconv.Atoi(idschedulerange)
 
-	//Recibimos el estado
-	statusSchedule := c.Param("status")
-	status_bool_schedule, _ := strconv.ParseBool(statusSchedule)
-
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateScheduleRangeStatus_Service(data_idbusiness, idschedulerange_int, status_bool_schedule)
+	status, boolerror, dataerror, data := UpdateScheduleRangeStatus_Service(data_idbusiness, idschedulerange_int)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 

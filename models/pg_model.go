@@ -45,6 +45,7 @@ type Pg_ScheduleRange struct {
 	EndTime           string `json:"endtime"`
 	Available         bool   `json:"available"`
 	NumberOfFractions int    `json:"numberfractions"`
+	TimeZone          string `json:"timezone"`
 	MaxOrders         int    `json:"maxorders"`
 }
 

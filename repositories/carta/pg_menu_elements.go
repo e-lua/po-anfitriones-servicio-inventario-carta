@@ -56,7 +56,7 @@ func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models
 	}
 
 	//ELIMINAMOS
-	query_delete := `DELETE (select * from  unnest($1::int[],$2::int[])) as ex(idelem,idcrt) FROM element WHERE idelement=ex.idelem AND idcarta=ex.idcrt`
+	query_delete := `DELETE FROM element WHERE (idelement,idcarta) IN (select * from  unnest($1::int[],$2::int[]))`
 	if _, err_d := tx.Exec(context.Background(), query_delete, idelement_pg_delete, idcarta_pg_delete); err_d != nil {
 		tx.Rollback(context.Background())
 		return "Error en el primer delete" + err_d.Error()
@@ -70,7 +70,7 @@ func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models
 	}
 
 	//ELIMINAMOS
-	query_delete_2 := `DELETE FROM element (select * from  unnest($1::int[],$2::int[])) as ex(idelem,idcrt) WHERE idelement=ex.idelem AND idcarta=ex.idcrt`
+	query_delete_2 := `DELETE FROM element WHERE (idelement,idcarta) IN (select * from  unnest($1::int[],$2::int[]))`
 	if _, err_d_2 := tx.Exec(context.Background(), query_delete_2, idelement_pg_delete, idcarta_pg_delete); err_d_2 != nil {
 		tx.Rollback(context.Background())
 		return "Error en el segundo delete" + err_d_2.Error()

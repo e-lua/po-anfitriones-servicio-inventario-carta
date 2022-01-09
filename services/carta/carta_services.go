@@ -2,7 +2,6 @@ package carta
 
 import (
 	//REPOSITORIES
-	"log"
 
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
@@ -45,7 +44,7 @@ func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusi
 
 	error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness)
 	if error_update != nil {
-		log.Fatal("Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error())
+		return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error(), ""
 	}
 
 	return 201, false, "", "Los elementos se actualizaron correctamente"
@@ -55,7 +54,7 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 
 	error_update := carta_repository.Pg_Delete_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
 	if error_update != nil {
-		log.Fatal("Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error())
+		return 500, true, "Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error(), ""
 	}
 
 	return 201, false, "", "Los rangos horario se actualizaron correctamente"

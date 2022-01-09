@@ -10,7 +10,7 @@ func Pg_Find_ScheduleRanges(idcarta int, idbusiness int) ([]models.Pg_ScheduleRa
 
 	db := models.Conectar_Pg_DB_External()
 
-	q := "SELECT idschedulerange,name,description,minuteperfraction,numberfractions,starttime,endtime,maxorders FROM schedulerange WHERE idcarta=$1 AND idbusiness=$2"
+	q := "SELECT idschedulerange,name,description,minuteperfraction,numberfractions,starttime,endtime,maxorders,timezone FROM schedulerange WHERE idcarta=$1 AND idbusiness=$2"
 	rows, error_shown := db.Query(context.Background(), q, idcarta, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
@@ -24,7 +24,7 @@ func Pg_Find_ScheduleRanges(idcarta int, idbusiness int) ([]models.Pg_ScheduleRa
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
 		var oSchedule models.Pg_ScheduleRange_External
-		rows.Scan(&oSchedule.IDSchedule, &oSchedule.Name, &oSchedule.Description, &oSchedule.MinutePerFraction, &oSchedule.NumberOfFractions, &oSchedule.StartTime, &oSchedule.EndTime, &oSchedule.MaxOrders)
+		rows.Scan(&oSchedule.IDSchedule, &oSchedule.Name, &oSchedule.Description, &oSchedule.MinutePerFraction, &oSchedule.NumberOfFractions, &oSchedule.StartTime, &oSchedule.EndTime, &oSchedule.MaxOrders, &oSchedule.TimeZone)
 		oListSchedule = append(oListSchedule, oSchedule)
 	}
 

@@ -6,10 +6,10 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models.Pg_Element_With_Stock_External_Action, idcarta int, idbusiness int) string {
+func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models.Pg_Element_With_Stock_External_Action, idcarta int, idbusiness int, latitude float64, longitude float64) string {
 
 	//Variables a Insertar (Action=1)
-	idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}, []string{}
+	idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert, latitude_pg_insert, longitude_pg_insert := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}, []string{}, []float64{}, []float64{}
 
 	//Variables a Eliminar (Action=3)
 	idelement_pg_delete, idcarta_pg_delete := []int{}, []int{}
@@ -33,6 +33,8 @@ func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models
 			stock_pg_insert = append(stock_pg_insert, e.Stock)
 			idbusiness_pg_insert = append(idbusiness_pg_insert, idbusiness)
 			typefood_pg_insert = append(typefood_pg_insert, e.Typefood)
+			latitude_pg_insert = append(latitude_pg_insert, latitude)
+			longitude_pg_insert = append(longitude_pg_insert, longitude)
 		}
 		if e.Action == 3 {
 			idelement_pg_delete = append(idelement_pg_delete, e.IDElement)
@@ -63,8 +65,8 @@ func Pg_Update_ElementsOfMenu_WithAction(pg_element_withaction_external []models
 	}
 
 	//INSERTAMOS
-	query_insert := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness,typefood) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[],$13::varchar(100)[]))`
-	if _, err_i := tx.Exec(context.Background(), query_insert, idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert); err_i != nil {
+	query_insert := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness,typefood) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[],$13::varchar(100)[],$14::real[],$15::real[]))`
+	if _, err_i := tx.Exec(context.Background(), query_insert, idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert, latitude_pg_insert, longitude_pg_insert); err_i != nil {
 		tx.Rollback(context.Background())
 		return "- insert " + err_i.Error()
 	}

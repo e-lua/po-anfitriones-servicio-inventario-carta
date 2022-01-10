@@ -40,9 +40,9 @@ func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusi
 	return 201, false, "", "Elemento actualizado correctamente"
 }
 
-func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int) (int, bool, string, string) {
+func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int, latitude float64, longitude float64) (int, bool, string, string) {
 
-	error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness)
+	error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness, latitude, longitude)
 	if error_update != "" {
 		return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update, ""
 	}

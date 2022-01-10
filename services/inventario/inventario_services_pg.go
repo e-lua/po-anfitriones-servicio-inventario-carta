@@ -127,7 +127,7 @@ func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int) (int, boo
 		return 500, true, "Error en el servidor interno al intentar eliminar el rango horario, detalles: " + error_status.Error(), ""
 	}
 
-	return 201, false, "", "Estado de rango horario actualizado correctamente"
+	return 201, false, "", "Rango horario eliminado correctamente"
 }
 
 /*----------------------FIND ALL DATA OF INVENTARIO----------------------*/

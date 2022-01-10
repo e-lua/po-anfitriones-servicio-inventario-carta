@@ -28,13 +28,13 @@ func GetJWT(jwt string) (int, bool, string, int) {
 
 func ObtenerAddress(idbusiness string) (int, bool, string, Mo_Address) {
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://a-informacion.restoner-api.fun:5800/v1/business?idbusiness=" + idbusiness)
-	var get_respuesta InputAddress
-	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
+	respuesta_a, _ := http.Get("http://a-informacion.restoner-api.fun:5800/v1/business?idbusiness=" + idbusiness)
+	var get_respuesta_a InputAddress
+	error_decode_respuesta := json.NewDecoder(respuesta_a.Body).Decode(&get_respuesta_a)
 	if error_decode_respuesta != nil {
-		return 500, true, "Error en el sevidor interno al intentar decodificar la autenticacion, detalles: " + error_decode_respuesta.Error(), get_respuesta.Data
+		return 500, true, "Error en el sevidor interno al intentar decodificar la dirección del anfitrion, detalles: " + error_decode_respuesta.Error(), get_respuesta_a.Data
 	}
-	return 200, false, "", get_respuesta.Data
+	return 200, false, "", get_respuesta_a.Data
 }
 
 /*----------------------CREATE DATA OF MENU----------------------*/

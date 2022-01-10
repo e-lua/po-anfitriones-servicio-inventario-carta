@@ -28,7 +28,7 @@ func GetJWT(jwt string) (int, bool, string, int) {
 
 func GetAddress(jwt string) (int, bool, string, B_Address) {
 	//Obtenemos los datos del auth
-	respuesta_2, _ := http.Get("http://c-busqueda.restoner-api.fun:6850/v1/business/address?idbusiness" + jwt)
+	respuesta_2, _ := http.Get("http://c-busqueda.restoner-api.fun:6850/v1/business/address?idbusiness=" + jwt)
 	var get_respuesta_2 ResponseAddress
 	error_decode_respuesta_2 := json.NewDecoder(respuesta_2.Body).Decode(&get_respuesta_2)
 	if error_decode_respuesta_2 != nil {
@@ -122,7 +122,7 @@ func (cr *cartaRouter_pg) UpdateCartaElements(c echo.Context) error {
 	//Obtenemos los datos de latitud y longitud
 	status, boolerror, dataerror, data_address := GetAddress(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: dataerror, Data: ""}
 		return c.JSON(status, results)
 	}
 

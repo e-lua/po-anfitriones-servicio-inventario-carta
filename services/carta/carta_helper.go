@@ -106,18 +106,14 @@ type CartaElements_WithAction struct {
 
 /*===============EXTERNO===============*/
 
-type InputAddress struct {
-	Error     bool       `json:"error"`
-	DataError string     `json:"dataError"`
-	Data      Mo_Address `json:"data"`
+//ADDRESS
+type ResponseAddress struct {
+	Error     bool      `json:"error"`
+	DataError string    `json:"dataError"`
+	Data      B_Address `json:"data"`
 }
 
-type Mo_Address struct {
-	Latitude         float64 `bson:"latitude" json:"latitude"`
-	Longitude        float64 `bson:"longitude" json:"longitude"`
-	FullAddress      string  `bson:"fulladdress" json:"fulladdress"`
-	PostalCode       int     `bson:"postalcode" json:"postalcode"`
-	State            string  `bson:"state" json:"state"`
-	City             string  `bson:"city" json:"city"`
-	ReferenceAddress string  `bson:"referenceaddress" json:"referenceaddress"`
+type B_Address struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
 }

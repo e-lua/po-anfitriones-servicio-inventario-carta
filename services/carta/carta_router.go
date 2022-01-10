@@ -26,6 +26,17 @@ func GetJWT(jwt string) (int, bool, string, int) {
 	return 200, false, "", get_respuesta.Data.IdBusiness
 }
 
+func GetAddress(jwt string) (int, bool, string, B_Address) {
+	//Obtenemos los datos del auth
+	respuesta_2, _ := http.Get("http://c-busqueda.restoner-api.fun:6850/v1/business/address?idbusiness" + jwt)
+	var get_respuesta_2 ResponseAddress
+	error_decode_respuesta_2 := json.NewDecoder(respuesta_2.Body).Decode(&get_respuesta_2)
+	if error_decode_respuesta_2 != nil {
+		return 500, true, "Error en el sevidor interno al intentar decodificar la dirección, detalles: " + error_decode_respuesta_2.Error(), get_respuesta_2.Data
+	}
+	return 200, false, "", get_respuesta_2.Data
+}
+
 /*----------------------CREATE DATA OF MENU----------------------*/
 
 func (cr *cartaRouter_pg) AddCarta(c echo.Context) error {
@@ -108,6 +119,13 @@ func (cr *cartaRouter_pg) UpdateCartaElements(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
+	//Obtenemos los datos de latitud y longitud
+	status, boolerror, dataerror, data_address := GetAddress(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+
 	//Instanciamos una variable del modelo CartaElements
 	var carta_elements CartaElements_WithAction
 
@@ -119,7 +137,7 @@ func (cr *cartaRouter_pg) UpdateCartaElements(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateCartaElements_Service(carta_elements, data_idbusiness)
+	status, boolerror, dataerror, data := UpdateCartaElements_Service(carta_elements, data_idbusiness, data_address.Latitude, data_address.Longitude)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

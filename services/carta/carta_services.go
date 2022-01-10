@@ -3,8 +3,6 @@ package carta
 import (
 	//REPOSITORIES
 
-	"log"
-
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
 )
@@ -42,12 +40,7 @@ func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusi
 	return 201, false, "", "Elemento actualizado correctamente"
 }
 
-func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int) (int, bool, string, string) {
-
-	latitude, longitude, error_find := carta_repository.Pg_Find_Address(idbusiness)
-	if error_find != nil {
-		log.Fatal("Error en el servidor interno al buscar latitude y longitude, detalles: " + error_find.Error())
-	}
+func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int, latitude float64, longitude float64) (int, bool, string, string) {
 
 	error_update := carta_repository.Pg_Update_ElementsOfMenu_WithAction(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness, latitude, longitude)
 	if error_update != "" {

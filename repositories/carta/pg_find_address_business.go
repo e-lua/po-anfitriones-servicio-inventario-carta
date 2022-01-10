@@ -12,7 +12,7 @@ func Pg_Find_Address(idbusiness int) (float64, float64, error) {
 	var longitude float64
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT latitude,longitude FROM idbusiness=$1"
+	q := "SELECT latitude,longitude FROM business where idbusiness=$1"
 	error_shown := db.QueryRow(context.Background(), q, idbusiness).Scan(&latitude, &longitude)
 
 	if error_shown != nil {

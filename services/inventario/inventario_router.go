@@ -142,7 +142,7 @@ func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 	}
 
 	//Validamos los valores enviados
-	if len(scheduleRange.Name) > 12 || scheduleRange.NumberOfFractions <= 0 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) < 4 || len(scheduleRange.EndTime) < 4 || scheduleRange.MaxOrders < 0 || scheduleRange.TimeZone == "" {
+	if len(scheduleRange.Name) > 12 || scheduleRange.NumberOfFractions <= 0 || scheduleRange.MinutePerFraction < 0 || len(scheduleRange.StartTime) != 5 || len(scheduleRange.EndTime) != 5 || scheduleRange.MaxOrders < 0 || scheduleRange.TimeZone == "" {
 		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
 		return c.JSON(403, results)
 	}

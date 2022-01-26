@@ -100,8 +100,8 @@ type CartaCategoryAndElement struct {
 /*===============TESTEANDO===============*/
 
 type CartaElements_WithAction struct {
-	IDCarta            int                                            `json:"idcarta"`
-	ElementsWithAction []models.Pg_Element_With_Stock_External_Action `json:"elements"`
+	IDCarta            int                                     `json:"idcarta"`
+	ElementsWithAction []models.Pg_Element_With_Stock_External `json:"elements"`
 }
 
 /*===============EXTERNO===============*/

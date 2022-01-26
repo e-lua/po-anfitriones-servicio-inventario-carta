@@ -36,7 +36,7 @@ services:
       - "90:80"
     environment:
       PGADMIN_DEFAULT_EMAIL: adminxd2@adminxd2.com
-      PGADMIN_DEFAULT_PASSWORD: adminxd2
+      PGADMIN_DEFAULT_PASSWORD: asf435vcf235HEFGHg435fd3h2s
     depends_on:
       - postgres
   traefik: # apache.app.test - nginx.app.test

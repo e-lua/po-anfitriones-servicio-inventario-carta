@@ -44,12 +44,12 @@ func (cr *cartaRouter_pg) AddCarta(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: boolerror, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -82,11 +82,11 @@ func (cr *cartaRouter_pg) UpdateCartaStatus(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -111,11 +111,11 @@ func (cr *cartaRouter_pg) UpdateCartaElements(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -147,11 +147,11 @@ func (cr *cartaRouter_pg) UpdateCartaOneElement(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -176,11 +176,11 @@ func (cr *cartaRouter_pg) UpdateCartaScheduleRanges(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -207,11 +207,11 @@ func (cr *cartaRouter_pg) GetCartaBasicData(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -229,11 +229,11 @@ func (cr *cartaRouter_pg) GetCartaCategory(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -252,11 +252,11 @@ func (cr *cartaRouter_pg) GetCartaElementsByCarta(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -279,11 +279,11 @@ func (cr *cartaRouter_pg) GetCartaElements(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -302,11 +302,11 @@ func (cr *cartaRouter_pg) GetCartaScheduleRanges(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -325,11 +325,11 @@ func (cr *cartaRouter_pg) GetCartas(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 
@@ -346,11 +346,11 @@ func (cr *cartaRouter_pg) DeleteCarta(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := Response{Error: boolerror, DataError: dataerror, Data: dataerror}
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := Response{Error: boolerror, DataError: "Token incorrecto", Data: ""}
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
 		return c.JSON(400, results)
 	}
 

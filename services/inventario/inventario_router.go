@@ -55,11 +55,11 @@ func (ir *inventarioRouter_pg) AddCategory(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -89,10 +89,14 @@ func (ir *inventarioRouter_pg) AddCategory(c echo.Context) error {
 func (ir *inventarioRouter_pg) AddElement(c echo.Context) error {
 
 	//Obtenemos los datos del auth
-	status, boolerror, dataerror, _ := GetJWT(c.Request().Header.Get("Authorization"))
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
 	}
 
 	//Instanciamos una variable del modelo Category
@@ -123,11 +127,11 @@ func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -161,11 +165,11 @@ func (ir *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -188,11 +192,11 @@ func (ir *inventarioRouter_pg) UpdateElement(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -224,11 +228,11 @@ func (ir *inventarioRouter_pg) UpdateElementStatus(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -252,11 +256,11 @@ func (ir *inventarioRouter_pg) UpdateScheduleRange(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -288,11 +292,11 @@ func (ir *inventarioRouter_pg) UpdateScheduleRangeStatus(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -314,11 +318,11 @@ func (ir *inventarioRouter_pg) FindAllCategories(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -334,11 +338,11 @@ func (ir *inventarioRouter_pg) FindAllElements(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -361,11 +365,11 @@ func (ir *inventarioRouter_pg) FindAllRangoHorario(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 
@@ -383,11 +387,11 @@ func (ir *inventarioRouter_pg) FindAllCarta_MainData(c echo.Context) error {
 	//Obtenemos los datos del auth
 	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
 	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: dataerror, Data: 0}
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
 		return c.JSON(status, results)
 	}
 	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "Token incorrecto", Data: 0}
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
 		return c.JSON(400, results)
 	}
 

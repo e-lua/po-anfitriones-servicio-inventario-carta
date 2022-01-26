@@ -12,7 +12,7 @@ func Pg_Update_Data(shcedule_range models.Pg_ScheduleRange, idbusiness int) erro
 	db := models.Conectar_Pg_DB()
 
 	q := "UPDATE ScheduleRange SET name=$1,description=$2,minutePerFraction=$3,startTime=$4,endTime=$5,maxOrders=$6,updateddate=$7,numberfractions=$8,timezone=$9 WHERE idScheduleRange=$10 AND idbusiness=$11"
-	if _, err_update := db.Exec(context.Background(), q, shcedule_range.Name, shcedule_range.Description, shcedule_range.MinutePerFraction, shcedule_range.StartTime, shcedule_range.EndTime, shcedule_range.MaxOrders, time.Now(), shcedule_range.NumberOfFractions, shcedule_range.TimeZone, shcedule_range.IDSchedule, idbusiness); err_update != nil {
+	if _, err_update := db.Exec(context.TODO(), q, shcedule_range.Name, shcedule_range.Description, shcedule_range.MinutePerFraction, shcedule_range.StartTime, shcedule_range.EndTime, shcedule_range.MaxOrders, time.Now(), shcedule_range.NumberOfFractions, shcedule_range.TimeZone, shcedule_range.IDSchedule, idbusiness); err_update != nil {
 		return err_update
 	}
 

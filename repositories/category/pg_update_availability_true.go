@@ -12,7 +12,7 @@ func Pg_Update_AvailableToTrue(idcategory int, idbusiness int) error {
 	db := models.Conectar_Pg_DB()
 
 	q := "UPDATE Category SET available=true,updateddate=$1 WHERE idcategory=$2 AND idbusiness=$3"
-	if _, err_update := db.Exec(context.Background(), q, time.Now(), idcategory, idbusiness); err_update != nil {
+	if _, err_update := db.Exec(context.TODO(), q, time.Now(), idcategory, idbusiness); err_update != nil {
 		return err_update
 	}
 

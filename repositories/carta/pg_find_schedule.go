@@ -11,7 +11,7 @@ func Pg_Find_ScheduleRanges(idcarta int, idbusiness int) ([]models.Pg_ScheduleRa
 	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT idschedulerange,name,description,minuteperfraction,numberfractions,starttime,endtime,maxorders,timezone FROM schedulerange WHERE idcarta=$1 AND idbusiness=$2"
-	rows, error_shown := db.Query(context.Background(), q, idcarta, idbusiness)
+	rows, error_shown := db.Query(context.TODO(), q, idcarta, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListSchedule []models.Pg_ScheduleRange_External

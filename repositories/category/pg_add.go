@@ -14,7 +14,7 @@ func Pg_Add(idbusiness int, name_category string, typefood string) (int, error) 
 	var idcategory int
 
 	query := `INSERT INTO Category(idbusiness,name,updateddate,available,typefood) VALUES ($1,$2,$3,$4,$5) RETURNING idcategory`
-	err := db.QueryRow(context.Background(), query, idbusiness, name_category, time.Now(), true, typefood).Scan(&idcategory)
+	err := db.QueryRow(context.TODO(), query, idbusiness, name_category, time.Now(), true, typefood).Scan(&idcategory)
 
 	if err != nil {
 		return idcategory, err

@@ -14,7 +14,7 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	var idelement int
 
 	query := `INSERT INTO Element(idcategory,name,price,description,typemoney,updateddate,available) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING idelement`
-	err := db.QueryRow(context.Background(), query, element.IDCategory, element.Name, element.Price, element.Description, element.TypeMoney, time.Now(), true).Scan(&idelement)
+	err := db.QueryRow(context.TODO(), query, element.IDCategory, element.Name, element.Price, element.Description, element.TypeMoney, time.Now(), true).Scan(&idelement)
 
 	if err != nil {
 		return idelement, err

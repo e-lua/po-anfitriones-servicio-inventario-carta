@@ -33,28 +33,28 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 	}
 
 	//BEGIN
-	tx, error_tx := db_external.Begin(context.Background())
+	tx, error_tx := db_external.Begin(context.TODO())
 	if error_tx != nil {
 		return error_tx
 	}
 
 	//ELIMINAR LOS ELEMENTOS
 	q_delete_list := `DELETE FROM Element WHERE idbusiness=$1 AND idcarta=$2`
-	if _, err_update := tx.Exec(context.Background(), q_delete_list, idbusiness, idcarta); err_update != nil {
-		tx.Rollback(context.Background())
+	if _, err_update := tx.Exec(context.TODO(), q_delete_list, idbusiness, idcarta); err_update != nil {
+		tx.Rollback(context.TODO())
 		return err_update
 	}
 
 	//INSERTAMOS LOS ELEMENTOS
 	query_insert := `INSERT INTO element(idelement,idcarta,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,idbusiness,typefood,latitude,longitude) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(100)[],$5::varchar(230)[],$6::varchar(100)[],$7::decimal(8,2)[],$8::varchar(250)[],$9::varchar(230)[],$10::int[],$11::int[],$12::int[],$13::varchar(100)[],$14::real[],$15::real[]))`
-	if _, err_i := db_external.Exec(context.Background(), query_insert, idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert, latitude_pg_insert, longitude_pg_insert); err_i != nil {
+	if _, err_i := db_external.Exec(context.TODO(), query_insert, idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert, latitude_pg_insert, longitude_pg_insert); err_i != nil {
 		return err_i
 	}
 
 	//TERMINAMOS LA TRANSACCION
-	err_commit := tx.Commit(context.Background())
+	err_commit := tx.Commit(context.TODO())
 	if err_commit != nil {
-		tx.Rollback(context.Background())
+		tx.Rollback(context.TODO())
 		return err_commit
 	}
 

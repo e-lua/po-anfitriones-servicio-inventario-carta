@@ -2,16 +2,22 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
 func Pg_Find_Elements(idcarta int, idbusiness int) ([]models.Pg_Element_With_Stock_External, error) {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT idelement,idcarta,idbusiness,idcategory,namecategory,urlphotcategory,name,price,description,urlphoto,typemoney,stock,typefood FROM element WHERE idcarta=$1 AND idbusiness=$2 ORDER BY stock ASC"
-	rows, error_shown := db.Query(context.TODO(), q, idcarta, idbusiness)
+	rows, error_shown := db.Query(ctx, q, idcarta, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListElementsWithStock []models.Pg_Element_With_Stock_External

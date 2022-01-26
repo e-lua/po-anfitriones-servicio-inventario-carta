@@ -4,12 +4,17 @@ import (
 	"context"
 	"strconv"
 	"strings"
+	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
 func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_External, idcarta int, idbusiness int) error {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
 	db_external := models.Conectar_Pg_DB_External()
 
 	//Rango horarios
@@ -107,44 +112,44 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 	}
 
 	//BEGIN
-	tx, error_tx := db_external.Begin(context.TODO())
+	tx, error_tx := db_external.Begin(ctx)
 	if error_tx != nil {
 		return error_tx
 	}
 
 	//ELIMINAR LISTA DE RANGOS HORARIOS
 	q_delete_list := `DELETE FROM ListScheduleRange WHERE idbusiness=$1 AND idcarta=$2`
-	if _, err_update := tx.Exec(context.TODO(), q_delete_list, idbusiness, idcarta); err_update != nil {
-		tx.Rollback(context.TODO())
+	if _, err_update := tx.Exec(ctx, q_delete_list, idbusiness, idcarta); err_update != nil {
+		tx.Rollback(ctx)
 		return err_update
 	}
 
 	//ELIMINAR RANGO HORARIO
 	q_2 := `DELETE FROM ScheduleRange WHERE idbusiness=$1 AND idcarta=$2`
-	_, err_update := tx.Exec(context.TODO(), q_2, idbusiness, idcarta)
+	_, err_update := tx.Exec(ctx, q_2, idbusiness, idcarta)
 	if err_update != nil {
-		tx.Rollback(context.TODO())
+		tx.Rollback(ctx)
 		return err_update
 	}
 
 	//RANGO HORARIO
 	q_schedulerange := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders,timezone) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(12)[],$5::varchar(60)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[],$11::varchar(3)[]));`
-	if _, err_schedule := tx.Exec(context.TODO(), q_schedulerange, idschedule_pg, idbusinessmain_pg, idcartamain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, timezone_pg); err_schedule != nil {
-		tx.Rollback(context.TODO())
+	if _, err_schedule := tx.Exec(ctx, q_schedulerange, idschedule_pg, idbusinessmain_pg, idcartamain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, timezone_pg); err_schedule != nil {
+		tx.Rollback(ctx)
 		return err_schedule
 	}
 
 	//LISTA RANGOS HORARIOS
 	q_listschedule := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders,timezone) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[],$7::varchar(3)[]))`
-	if _, err_listschedule := tx.Exec(context.TODO(), q_listschedule, idcarta_pg_2, idschedulerange_pg_2, idbusiness_pg_2, startime_pg_2, endtime_pg_2, max_orders_2, timezone_2); err_listschedule != nil {
-		tx.Rollback(context.TODO())
+	if _, err_listschedule := tx.Exec(ctx, q_listschedule, idcarta_pg_2, idschedulerange_pg_2, idbusiness_pg_2, startime_pg_2, endtime_pg_2, max_orders_2, timezone_2); err_listschedule != nil {
+		tx.Rollback(ctx)
 		return err_listschedule
 	}
 
 	//TERMINAMOS LA TRANSACCION
-	err_commit := tx.Commit(context.TODO())
+	err_commit := tx.Commit(ctx)
 	if err_commit != nil {
-		tx.Rollback(context.TODO())
+		tx.Rollback(ctx)
 		return err_commit
 	}
 

@@ -2,15 +2,21 @@ package repositories
 
 import (
 	"context"
+	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
 func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
 
+	//Tiempo limite al contexto
+	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
+	//defer cancelara el contexto
+	defer cancel()
+
 	db := models.Conectar_Pg_DB()
 	q := "SELECT c.idcategory, COUNT(e.idelement) as elements ,c.name,c.urlphoto,c.available,c.typefood FROM Category c LEFT OUTER JOIN Element e on c.idcategory=e.idcategory WHERE c.idbusiness=$1 GROUP BY c.idcategory"
-	rows, error_shown := db.Query(context.TODO(), q, idbusiness)
+	rows, error_shown := db.Query(ctx, q, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListCategory []models.Pg_Category

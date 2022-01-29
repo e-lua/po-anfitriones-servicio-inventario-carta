@@ -25,7 +25,7 @@ services:
     environment:
       - DATABASE_HOST=127.0.0.1
       - POSTGRES_USER=postgresxd2
-      - POSTGRES_PASSWORD=postgresxd2
+      - POSTGRES_PASSWORD=asf45vcf235sfds435GFHg435fd3h2s
       - POSTGRES_DB=postgresxd2
   pgadmin:
     restart: always

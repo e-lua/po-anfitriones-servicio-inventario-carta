@@ -16,7 +16,7 @@ var (
 func GetConnMqtt() *amqp.Connection {
 
 	once_mqtt.Do(func() {
-		p_mqtt, _ = amqp.Dial("amqp://edwardlopez:servermqtt@143.110.233.233:8888/")
+		p_mqtt, _ = amqp.Dial("amqp://edwardlopez:servermqtt@c-a-mqtt.restoner-api.fun:8888/")
 	})
 
 	return p_mqtt

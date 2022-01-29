@@ -39,9 +39,9 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY CATEGORY
 	router_category := version_1.Group("/category")
 	router_category.POST("", inventario.InvetarioRouter_pg.AddCategory)
-	router_category.GET("/status/:idcategory", inventario.InvetarioRouter_pg.GetElementsByCategory)
+	router_category.GET("/status/:idcategory/elements", inventario.InvetarioRouter_pg.GetElementsByCategory)
 	router_category.PUT("/status/:idcategory/:status", inventario.InvetarioRouter_pg.UpdateCategoryStatus)
-	router_category.GET("", inventario.InvetarioRouter_pg.FindAllCategories)
+	router_category.GET("/all", inventario.InvetarioRouter_pg.FindAllCategories)
 
 	//V1 FROM V1 TO ...TO ENTITY ELEMENT
 	router_element := version_1.Group("/element")

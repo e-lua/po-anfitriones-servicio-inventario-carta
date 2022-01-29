@@ -30,10 +30,10 @@ func Pg_Find_ByCategory(idbusiness int, idcategory int) ([]models.Pg_ElementsByC
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
+		quantity = quantity + 1
 		oElement_by_Category := models.Pg_ElementsByCategory{}
 		rows.Scan(&oElement_by_Category.Element, &oElement_by_Category.Available)
 		oListElementByCategory = append(oListElementByCategory, oElement_by_Category)
-		quantity = quantity + 1
 	}
 
 	//Si todo esta bien

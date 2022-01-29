@@ -8,6 +8,17 @@ type Response struct {
 	Data      string `json:"data"`
 }
 
+type ResponseElementsByCategory struct {
+	Error     bool               `json:"error"`
+	DataError string             `json:"dataError"`
+	Data      ElementsByCategory `json:"data"`
+}
+
+type ElementsByCategory struct {
+	Element  []models.Pg_ElementsByCategory `json:"elements"`
+	Quantity int                            `json:"quantity"`
+}
+
 type ResponseInt struct {
 	Error     bool   `json:"error"`
 	DataError string `json:"dataError"`

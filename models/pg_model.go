@@ -80,3 +80,8 @@ type Pg_ToCarta_Mqtt struct {
 	IdType                    int    `json:"idType"`
 	Url                       string `json:"url"`
 }
+
+type Pg_ElementsByCategory struct {
+	Element   string `json:"element"`
+	Available bool   `json:"available"`
+}

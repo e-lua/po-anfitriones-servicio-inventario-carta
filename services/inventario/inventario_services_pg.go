@@ -71,6 +71,21 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 
 /*----------------------UDPATE ALL DATA OF INVENTARIO----------------------*/
 
+func GetElementsByCategory_Service(idbusiness int, idcategory int) (int, bool, string, ElementsByCategory) {
+
+	var elements_by_category ElementsByCategory
+
+	elements, quantity, error_status_true := element_repository.Pg_Find_ByCategory(idcategory, idbusiness)
+	if error_status_true != nil {
+		return 500, true, "Error en el servidor interno al intentar buscar los elementos de esta categoria, detalles: " + error_status_true.Error(), elements_by_category
+	}
+
+	elements_by_category.Element = elements
+	elements_by_category.Quantity = quantity
+
+	return 201, false, "", elements_by_category
+}
+
 func UpdateCategoryStatus_Service(idbusiness int, idcategory int, statuscategory string) (int, bool, string, string) {
 
 	if statuscategory == "true" {

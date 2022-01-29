@@ -160,6 +160,30 @@ func (ir *inventarioRouter_pg) AddScheduleRange(c echo.Context) error {
 
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
+func (ir *inventarioRouter_pg) GetElementsByCategory(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idcategory := c.Param("idcategory")
+	idcategory_int, _ := strconv.Atoi(idcategory)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetElementsByCategory_Service(data_idbusiness, idcategory_int)
+	results := ResponseElementsByCategory{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (ir *inventarioRouter_pg) UpdateCategoryStatus(c echo.Context) error {
 
 	//Obtenemos los datos del auth

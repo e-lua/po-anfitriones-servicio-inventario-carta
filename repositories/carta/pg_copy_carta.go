@@ -35,7 +35,7 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 	}
 
 	//Rango horarios
-	idschedule_pg_2, idcartamain_pg_2, idbusinessmain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2 := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}
+	idschedule_pg_2, idcartamain_pg_2, idbusinessmain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2 := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}
 
 	for _, sch := range pg_schedule {
 
@@ -53,7 +53,7 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 	}
 
 	//Lista de actualizacion de rangos horarios
-	idschedulerange_pg_3, idcarta_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3 := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}
+	idschedulerange_pg_3, idcarta_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3 := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}
 
 	for _, sch := range pg_schedule {
 

@@ -40,7 +40,7 @@ type Pg_Element_With_Stock_External struct {
 }
 
 type Pg_ScheduleRange_External struct {
-	IDSchedule        int    `json:"id"`
+	IDSchedule        int64  `json:"id"`
 	Name              string `json:"name"`
 	Description       string `json:"description"`
 	MinutePerFraction int    `json:"minutesperfraction"`

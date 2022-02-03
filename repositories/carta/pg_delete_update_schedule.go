@@ -18,7 +18,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 	db_external := models.Conectar_Pg_DB_External()
 
 	//Rango horarios
-	idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, timezone_pg := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}, []string{}
+	idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, timezone_pg := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}, []string{}
 	for _, sch := range pg_schedule {
 
 		if sch.TimeZone != "" {
@@ -37,7 +37,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 	}
 
 	//Lista de actualizacion de rangos horarios
-	idschedulerange_pg_2, idcarta_pg_2, idbusiness_pg_2, startime_pg_2, endtime_pg_2, max_orders_2, timezone_2 := []int{}, []int{}, []int{}, []string{}, []string{}, []int{}, []string{}
+	idschedulerange_pg_2, idcarta_pg_2, idbusiness_pg_2, startime_pg_2, endtime_pg_2, max_orders_2, timezone_2 := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []string{}
 
 	for _, sch := range pg_schedule {
 

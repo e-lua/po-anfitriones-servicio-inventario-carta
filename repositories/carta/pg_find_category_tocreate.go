@@ -14,7 +14,7 @@ func Pg_Find_Category_ToCreate(date string, idbusiness int) ([]models.Pg_Categor
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT c.idcarta,e.idcategory,e.namecategory,e.urlphotcategory,COUNT(e.idelement) FROM Element e LEFT JOIN Carta c ON e.idcarta=c.idcarta WHERE c.date=$1 AND e.idbusiness=$2 GROUP BY c.idcarta,e.idcategory,e.namecategory,e.urlphotcategory ORDER BY e.namecategory ASC"
 	rows, error_shown := db.Query(ctx, q, date, idbusiness)

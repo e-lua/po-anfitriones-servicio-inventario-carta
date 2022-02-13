@@ -14,7 +14,7 @@ func Pg_Find_Elements_ToCreate(date string, idbusiness int, idcategory int) ([]m
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT e.idelement,e.idbusiness,e.idcategory,e.namecategory,e.urlphotcategory,e.name,e.price,e.description,e.urlphoto,e.typemoney,e.stock,e.typefood FROM element e LEFT JOIN carta c ON e.idcarta=c.idcarta WHERE c.date=$1 AND e.idbusiness=$2 AND e.idcategory=$3 ORDER BY stock ASC"
 	rows, error_shown := db.Query(ctx, q, date, idbusiness, idcategory)

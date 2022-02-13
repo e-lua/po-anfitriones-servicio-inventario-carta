@@ -14,7 +14,7 @@ func Pg_Find_ScheduleRange_ToCreate(date string, idbusiness int) ([]models.Pg_Sc
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT ls.idschedule,c.date::date::varchar(12),ls.starttime::time::varchar(5),ls.endtime::time::varchar(5),ls.timezone,ls.maxorders,CONCAT(ls.starttime,' - ',ls.endtime) FROM listschedulerange ls LEFT JOIN carta c ON ls.idcarta=c.idcarta WHERE c.date::date=$1::date AND ls.idbusiness=$2 AND ls.maxorders>0 AND concat(ls.starttime,'-',(ls.timezone::integer*-1)::varchar(3))::time with time zone > NOW()::time at time zone CONCAT('UTC',(ls.timezone::integer*-1)::varchar(3)) ORDER BY REPLACE(ls.starttime,':','')::int  ASC"
 	rows, error_shown := db.Query(ctx, q, date, idbusiness)

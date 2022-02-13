@@ -71,6 +71,10 @@ func Manejadores() {
 	router_menu.PUT("/onelement", carta.CartaRouter_pg.UpdateCartaOneElement)
 	router_menu.PUT("/scheduleranges", carta.CartaRouter_pg.UpdateCartaScheduleRanges)
 	router_menu.GET("/:idcarta/scheduleranges", carta.CartaRouter_pg.GetCartaScheduleRanges)
+	/*to create an order*/
+	router_menu.GET("/createorder/:date/category", carta.CartaRouter_pg.GetCategories_ToCreateOrder)
+	router_menu.GET("/createorder/:date/category/:idcategory/elements", carta.CartaRouter_pg.GetElements_ToCreateOrder)
+	router_menu.GET("/createorder/:date/scheduleranges", carta.CartaRouter_pg.GetSchedule_ToCreateOrder)
 
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")

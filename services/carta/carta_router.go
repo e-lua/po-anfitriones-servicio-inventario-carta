@@ -369,3 +369,75 @@ func (cr *cartaRouter_pg) DeleteCarta(c echo.Context) error {
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
+
+/*----------------------GET DATA TO CREATE ORDER----------------------*/
+
+func (cr *cartaRouter_pg) GetCategories_ToCreateOrder(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos la fecha de la carta
+	date := c.Param("date")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetCategories_ToCreateOrder_Service(date, data_idbusiness)
+	results := ResponseCartaCategory_ToCreate{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+func (cr *cartaRouter_pg) GetElements_ToCreateOrder(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos la fecha de la carta
+	date := c.Param("date")
+
+	//Recibimos el id de la categoria
+	idcategory := c.Param("idcategory")
+	idcategory_int, _ := strconv.Atoi(idcategory)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetElements_ToCreateOrder_Service(date, data_idbusiness, idcategory_int)
+	results := ResponseCartaElements_ToCreate{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+func (cr *cartaRouter_pg) GetSchedule_ToCreateOrder(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: dataerror}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: boolerror, DataError: "000" + "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos la fecha de la carta
+	date := c.Param("date")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := GetSchedule_ToCreateOrder_Service(date, data_idbusiness)
+	results := ResponseCartaSchedule_ToCreate{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}

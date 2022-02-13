@@ -175,3 +175,38 @@ func DeleteCarta_Service(idbusiness int, idcarta int) (int, bool, string, string
 
 	return 201, false, "", "Eliminado correctamente"
 }
+
+/*----------------------GET DATA TO CREATE ORDER----------------------*/
+
+func GetCategories_ToCreateOrder_Service(date string, idbusiness int) (int, bool, string, []models.Pg_Category_ToCreate) {
+
+	//Obtenemos las categorias
+	category_tocreate, error_update := carta_repository.Pg_Find_Category_ToCreate(date, idbusiness)
+	if error_update != nil {
+		return 500, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), category_tocreate
+	}
+
+	return 201, false, "", category_tocreate
+}
+
+func GetElements_ToCreateOrder_Service(date string, idbusiness int, idcategory int) (int, bool, string, []models.Pg_Element_ToCreate) {
+
+	//Obtenemos las categorias
+	elements_tocreate, error_update := carta_repository.Pg_Find_Elements_ToCreate(date, idbusiness, idcategory)
+	if error_update != nil {
+		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update.Error(), elements_tocreate
+	}
+
+	return 201, false, "", elements_tocreate
+}
+
+func GetSchedule_ToCreateOrder_Service(date string, idbusiness int) (int, bool, string, []models.Pg_Schedule_ToCreate) {
+
+	//Obtenemos las categorias
+	schedule_tocreate, error_update := carta_repository.Pg_Find_ScheduleRange_ToCreate(date, idbusiness)
+	if error_update != nil {
+		return 500, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), schedule_tocreate
+	}
+
+	return 201, false, "", schedule_tocreate
+}

@@ -9,6 +9,14 @@ type Pg_Category struct {
 	TypeFood   string      `json:"typefood"`
 }
 
+type Pg_Category_ToCreate struct {
+	IDCarta          int    `json:"idcarta"`
+	IDCategory       int    `json:"idcategory"`
+	Name             string `json:"namecategory"`
+	UrlPhoto         string `json:"urlphotocategory"`
+	AmountOfElements int    `json:"elements"`
+}
+
 type Pg_Category_for_search struct {
 	IDCategory int    `json:"id"`
 	Name       string `json:"name"`
@@ -84,4 +92,29 @@ type Pg_ToCarta_Mqtt struct {
 type Pg_ElementsByCategory struct {
 	Element   string `json:"element"`
 	Available bool   `json:"available"`
+}
+
+type Pg_Element_ToCreate struct {
+	IDElement        int     `json:"id"`
+	IDBusiness       int     `json:"idbusiness"`
+	IDCategory       int     `json:"idcategory"`
+	NameCategory     string  `json:"namecategory"`
+	TypeFood         string  `json:"typefood"`
+	UrlPhotoCategory string  `json:"urlphotocategory"`
+	Name             string  `json:"name"`
+	Price            float32 `json:"price"`
+	Description      string  `json:"description"`
+	TypeMoney        int     `json:"typemoney"`
+	Stock            int     `json:"stock"`
+	UrlPhoto         string  `json:"url"`
+}
+
+type Pg_Schedule_ToCreate struct {
+	IDSchedule     int    `json:"idschedule"`
+	Date           string `json:"date"`
+	Starttime      string `json:"starttime"`
+	Endtime        string `json:"endtime"`
+	TimeZone       string `json:"timezone"`
+	MaxOrders      int    `json:"maxorders"`
+	ShowToComensal string `json:"showtocomensal"`
 }

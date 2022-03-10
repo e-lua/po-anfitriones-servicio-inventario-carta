@@ -3,6 +3,11 @@ package carta
 import (
 	//REPOSITORIES
 
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"time"
+
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
 )
@@ -14,6 +19,42 @@ func AddCarta_Service(input_carta Carta, idbusiness int) (int, bool, string, int
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
+
+	go func() {
+
+		var nameday string
+
+		t, _ := time.Parse("2006-01-02", input_carta.Date)
+
+		switch int(t.Weekday()) {
+		case 0:
+			nameday = "Domingo "
+		case 1:
+			nameday = "Lunes "
+		case 2:
+			nameday = "Martes "
+		case 3:
+			nameday = "Miercoles "
+		case 4:
+			nameday = "Jueves "
+		case 5:
+			nameday = "Viernes "
+		default:
+			nameday = "Sabado "
+		}
+
+		/*--SENT NOTIFICATION--*/
+		notification := map[string]interface{}{
+			"message":  "Se creó una nueva carta para el día " + nameday + string(input_carta.Date[8:]) + "/" + string(input_carta.Date[5]) + string(input_carta.Date[6]) + "/" + string(input_carta.Date[:4]),
+			"iduser":   idbusiness,
+			"typeuser": 1,
+			"priority": 1,
+			"title":    "Restoner anfitriones",
+		}
+		json_data, _ := json.Marshal(notification)
+		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+		/*---------------------*/
+	}()
 
 	return 201, false, "", idcarta
 }
@@ -160,6 +201,39 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
 	}
 
+	/*--SENT NOTIFICATION--*/
+	var nameday string
+
+	t, _ := time.Parse("2006-01-02", input_carta.Date)
+
+	switch int(t.Weekday()) {
+	case 0:
+		nameday = "Domingo "
+	case 1:
+		nameday = "Lunes "
+	case 2:
+		nameday = "Martes "
+	case 3:
+		nameday = "Miercoles "
+	case 4:
+		nameday = "Jueves "
+	case 5:
+		nameday = "Viernes "
+	default:
+		nameday = "Sabado "
+	}
+
+	notification := map[string]interface{}{
+		"message":  "Se copió la carta del " + string(input_carta.FromCarta[8:]) + "/" + string(input_carta.FromCarta[5]) + string(input_carta.FromCarta[6]) + "/" + string(input_carta.FromCarta[:4]) + " para crear una nueva carta para el día " + nameday + string(input_carta.Date[8:]) + "/" + string(input_carta.Date[5]) + string(input_carta.Date[6]) + "/" + string(input_carta.Date[:4]),
+		"iduser":   idbusiness,
+		"typeuser": 1,
+		"priority": 1,
+		"title":    "Restoner anfitriones",
+	}
+	json_data, _ := json.Marshal(notification)
+	http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+	/*---------------------*/
+
 	return 201, false, "", id_carta
 }
 
@@ -172,6 +246,20 @@ func DeleteCarta_Service(idbusiness int, idcarta int) (int, bool, string, string
 	if error_delete != nil {
 		return 500, true, "Error en el servidor interno al intentar eliminar la carta, detalles: " + error_delete.Error(), ""
 	}
+
+	go func() {
+		/*--SENT NOTIFICATION--*/
+		notification := map[string]interface{}{
+			"message":  "Se eliminó una carta",
+			"iduser":   idbusiness,
+			"typeuser": 1,
+			"priority": 1,
+			"title":    "Restoner anfitriones",
+		}
+		json_data, _ := json.Marshal(notification)
+		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+		/*---------------------*/
+	}()
 
 	return 201, false, "", "Eliminado correctamente"
 }

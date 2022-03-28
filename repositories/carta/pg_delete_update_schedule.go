@@ -21,7 +21,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 	idschedule_pg, idcartamain_pg, idbusinessmain_pg, name_pg, description_pg, minutesperfraction_pg, numberfractions_pg, start_pg, end_pg, maxorders_pg, timezone_pg := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}, []string{}
 	for _, sch := range pg_schedule {
 
-		if sch.TimeZone != "" {
+		if "-5" != "" {
 			idschedule_pg = append(idschedule_pg, sch.IDSchedule)
 			idcartamain_pg = append(idcartamain_pg, idcarta)
 			idbusinessmain_pg = append(idbusinessmain_pg, idbusiness)
@@ -32,7 +32,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 			start_pg = append(start_pg, sch.StartTime)
 			end_pg = append(end_pg, sch.EndTime)
 			maxorders_pg = append(maxorders_pg, sch.MaxOrders)
-			timezone_pg = append(timezone_pg, sch.TimeZone)
+			timezone_pg = append(timezone_pg, "-5")
 		}
 	}
 
@@ -41,7 +41,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 
 	for _, sch := range pg_schedule {
 
-		if sch.TimeZone != "" {
+		if "-5" != "" {
 			arr := strings.Split(sch.StartTime, ":")
 			hora_ini := 0
 			hora_ini_string := sch.StartTime
@@ -101,7 +101,7 @@ func Pg_Delete_Update_ScheduleRange(pg_schedule []models.Pg_ScheduleRange_Extern
 				startime_pg_2 = append(startime_pg_2, hora_ini_string)
 				endtime_pg_2 = append(endtime_pg_2, hora_fin_toinsert)
 				max_orders_2 = append(max_orders_2, sch.MaxOrders)
-				timezone_2 = append(timezone_2, sch.TimeZone)
+				timezone_2 = append(timezone_2, "-5")
 
 				//Nuevo valor de hora de inicio
 				new_hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)

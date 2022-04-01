@@ -194,10 +194,7 @@ func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, inp
 func FindStadisticByElement_Service(input_idelement int) (int, bool, string, models.Pg_StadisticByElement) {
 
 	//Agregamos la categoria
-	stadistic_byelement, error_add := element_repository.Pg_Find_Stadistic_BYDay(input_idelement)
-	if error_add != nil {
-		return 500, true, "Error en el servidor interno al intentar listar el rating de los elementos de este negocio, detalles: " + error_add.Error(), stadistic_byelement
-	}
+	stadistic_byelement, _ := element_repository.Pg_Find_Stadistic_BYDay(input_idelement)
 
 	return 201, false, "", stadistic_byelement
 }

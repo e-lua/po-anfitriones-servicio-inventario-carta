@@ -68,9 +68,9 @@ type ResponseListElement_WithRating struct {
 }
 
 type Response_StadisticElement struct {
-	Error     bool                         `json:"error"`
-	DataError string                       `json:"dataError"`
-	Data      models.Pg_StadisticByElement `json:"data"`
+	Error     bool          `json:"error"`
+	DataError string        `json:"dataError"`
+	Data      []interface{} `json:"data"`
 }
 
 type ResponseListElementForSearch struct {

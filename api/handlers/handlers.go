@@ -144,7 +144,7 @@ func Consumer_Element() {
 		log.Fatal("Error connection cola")
 	}
 
-	noStop := make(chan bool)
+	noStop2 := make(chan bool)
 	go func() {
 		for d := range msgs {
 			var toCarta models.Pg_ToCarta_Mqtt
@@ -158,7 +158,7 @@ func Consumer_Element() {
 		}
 	}()
 
-	<-noStop
+	<-noStop2
 }
 
 func Consumer_StadisticOrder() {
@@ -174,7 +174,7 @@ func Consumer_StadisticOrder() {
 		log.Fatal("Error connection cola")
 	}
 
-	noStop := make(chan bool)
+	noStop3 := make(chan bool)
 	go func() {
 		for d := range msgs {
 			var export_byelement []models.Pg_Import_StadisticOrders
@@ -188,5 +188,5 @@ func Consumer_StadisticOrder() {
 		}
 	}()
 
-	<-noStop
+	<-noStop3
 }

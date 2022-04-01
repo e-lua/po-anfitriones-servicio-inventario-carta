@@ -191,14 +191,6 @@ func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, inp
 	return 201, false, "", lista_Elemento
 }
 
-func FindStadisticByElement_Service(input_idelement int) (int, bool, string, []interface{}) {
-
-	//Agregamos la categoria
-	stadistic_byelement, _ := element_repository.Pg_Find_Stadistic_BYDay(input_idelement)
-
-	return 201, false, "", stadistic_byelement
-}
-
 func FindElementsRatingByName_Service(input_idbusiness int, name string) (int, bool, string, []models.Pg_Element) {
 
 	//Agregamos la categoria

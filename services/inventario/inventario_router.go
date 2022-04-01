@@ -423,30 +423,6 @@ func (ir *inventarioRouter_pg) FindElementsRatingByDay(c echo.Context) error {
 
 }
 
-func (ir *inventarioRouter_pg) FindStadisticByElement(c echo.Context) error {
-
-	//Obtenemos los datos del auth
-	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
-	if dataerror != "" {
-		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
-		return c.JSON(status, results)
-	}
-	if data_idbusiness <= 0 {
-		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
-		return c.JSON(400, results)
-	}
-
-	//Recibimos el idelement
-	idelement := c.Request().URL.Query().Get("idelement")
-	idelement_int, _ := strconv.Atoi(idelement)
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := FindStadisticByElement_Service(idelement_int)
-	results := Response_StadisticElement{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
-
-}
-
 func (ir *inventarioRouter_pg) FindElementsRatingByName(c echo.Context) error {
 
 	//Obtenemos los datos del auth

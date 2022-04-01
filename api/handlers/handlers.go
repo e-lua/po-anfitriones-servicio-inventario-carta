@@ -51,7 +51,6 @@ func Manejadores() {
 	router_element.GET("/:limit/:offset", inventario.InvetarioRouter_pg.FindAllElements)
 	router_element.GET("/rating/:day/:limit/:offset", inventario.InvetarioRouter_pg.FindElementsRatingByDay)
 	router_element.GET("/search", inventario.InvetarioRouter_pg.FindElementsRatingByName)
-	router_element.GET("/ratingbyday/:idelement", inventario.InvetarioRouter_pg.FindStadisticByElement)
 
 	//V1 FROM V1 TO ...TO ENTITY SCHEDULE RANGE
 	router_schedule_range := version_1.Group("/schedulerange")

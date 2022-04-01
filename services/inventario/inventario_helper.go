@@ -61,6 +61,12 @@ type ResponseListElement struct {
 	Data      []models.Pg_Element `json:"data"`
 }
 
+type Response_StadisticElement struct {
+	Error     bool                         `json:"error"`
+	DataError string                       `json:"dataError"`
+	Data      models.Pg_StadisticByElement `json:"data"`
+}
+
 type ResponseListElementForSearch struct {
 	Error     bool                           `json:"error"`
 	DataError string                         `json:"dataError"`

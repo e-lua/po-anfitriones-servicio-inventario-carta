@@ -35,6 +35,15 @@ func (ir *inventarioRouter_pg) UpdateElement_Consumer(idelement int, urlphoto st
 	}
 }
 
+func (ir *inventarioRouter_pg) Import_OrderStadistic(order_stadistic []models.Pg_Import_StadisticOrders) {
+
+	//Enviamos los datos importados a registrar
+	error_order_details := Import_OrderStadistic_Service(order_stadistic)
+	if error_order_details != nil {
+		log.Fatal(error_order_details)
+	}
+}
+
 /*----------------------TRAEMOS LOS DATOS DEL AUTENTICADOR----------------------*/
 
 func GetJWT(jwt string) (int, bool, string, int) {
@@ -379,6 +388,83 @@ func (ir *inventarioRouter_pg) FindAllElements(c echo.Context) error {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindAllElements_Service(data_idbusiness, limit_int, offset_int)
+	results := ResponseListElement{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (ir *inventarioRouter_pg) FindElementsRatingByDay(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el day
+	day := c.Param("day")
+	day_int, _ := strconv.Atoi(day)
+	//Recibimos el limit
+	limit := c.Param("limit")
+	limit_int, _ := strconv.Atoi(limit)
+	//Recibimos el offset
+	offset := c.Param("offset")
+	offset_int, _ := strconv.Atoi(offset)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindElementsRatingByDay_Service(data_idbusiness, day_int, limit_int, offset_int)
+	results := ResponseListElement{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (ir *inventarioRouter_pg) FindStadisticByElement(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el idelement
+	idelement := c.Request().URL.Query().Get("idelement")
+	idelement_int, _ := strconv.Atoi(idelement)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindStadisticByElement_Service(idelement_int)
+	results := Response_StadisticElement{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (ir *inventarioRouter_pg) FindElementsRatingByName(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el nombre
+	name := c.Request().URL.Query().Get("name")
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindElementsRatingByName_Service(data_idbusiness, name)
 	results := ResponseListElement{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 

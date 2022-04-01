@@ -7,6 +7,7 @@ import (
 	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/category"
 	element_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/element"
 	general_carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/general"
+	ordersstadistic_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/orders-stadistic"
 	schedule_range_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/schedule_range"
 )
 
@@ -29,6 +30,16 @@ func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness i
 
 	if error_add_business != nil {
 		log.Fatal(error_add_business)
+	}
+
+	return nil
+}
+
+func Import_OrderStadistic_Service(orders_stadistic []models.Pg_Import_StadisticOrders) error {
+
+	err_add_ordersstadistic := ordersstadistic_repository.Pg_Insert_OrderStadistic(orders_stadistic)
+	if err_add_ordersstadistic != nil {
+		log.Fatal(err_add_ordersstadistic)
 	}
 
 	return nil
@@ -164,6 +175,39 @@ func FindAllElements_Service(input_idbusiness int, input_limit int, input_offset
 	lista_Elemento, error_add := element_repository.Pg_Find_All(input_idbusiness, input_limit, input_offset)
 	if error_add != nil {
 		return 500, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), lista_Elemento
+	}
+
+	return 201, false, "", lista_Elemento
+}
+
+func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, input_limit int, input_offset int) (int, bool, string, []models.Pg_Element) {
+
+	//Agregamos la categoria
+	lista_Elemento, error_add := element_repository.Pg_Find_ByDayWeek(input_idbusiness, input_dayint, input_limit, input_offset)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar listar el rating de los elementos de este negocio, detalles: " + error_add.Error(), lista_Elemento
+	}
+
+	return 201, false, "", lista_Elemento
+}
+
+func FindStadisticByElement_Service(input_idelement int) (int, bool, string, models.Pg_StadisticByElement) {
+
+	//Agregamos la categoria
+	stadistic_byelement, error_add := element_repository.Pg_Find_Stadistic_BYDay(input_idelement)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar listar el rating de los elementos de este negocio, detalles: " + error_add.Error(), stadistic_byelement
+	}
+
+	return 201, false, "", stadistic_byelement
+}
+
+func FindElementsRatingByName_Service(input_idbusiness int, name string) (int, bool, string, []models.Pg_Element) {
+
+	//Agregamos la categoria
+	lista_Elemento, error_add := element_repository.Pg_Find_ByName(input_idbusiness, name)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar buscar el elementopor su nombre, detalles: " + error_add.Error(), lista_Elemento
 	}
 
 	return 201, false, "", lista_Elemento

@@ -89,6 +89,22 @@ type Pg_ToCarta_Mqtt struct {
 	Url                       string `json:"url"`
 }
 
+type Pg_Import_StadisticOrders struct {
+	IdElement int    `json:"idelement"`
+	Quantity  int    `json:"quantity"`
+	Datetime  string `json:"datetime"`
+}
+
+type Pg_StadisticByElement struct {
+	Mon int `json:"1"`
+	Tue int `json:"2"`
+	Wed int `json:"3"`
+	Thr int `json:"4"`
+	Fri int `json:"5"`
+	Sat int `json:"6"`
+	Sun int `json:"7"`
+}
+
 type Pg_ElementsByCategory struct {
 	Element   string `json:"element"`
 	Available bool   `json:"available"`

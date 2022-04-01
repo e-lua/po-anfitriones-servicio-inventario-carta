@@ -29,8 +29,8 @@ func Manejadores() {
 	version_1 := e.Group("/v1")
 
 	go Consumer_Category()
-
 	go Consumer_Element()
+	go Consumer_StadisticOrder()
 
 	/*====================FLUJO DE INFORMACIÓN====================*/
 
@@ -49,6 +49,9 @@ func Manejadores() {
 	router_element.PUT("", inventario.InvetarioRouter_pg.UpdateElement)
 	router_element.PUT("/status/:idelement/:status", inventario.InvetarioRouter_pg.UpdateElementStatus)
 	router_element.GET("/:limit/:offset", inventario.InvetarioRouter_pg.FindAllElements)
+	router_element.GET("/rating/:day/:limit/:offset", inventario.InvetarioRouter_pg.FindElementsRatingByDay)
+	router_element.GET("/search", inventario.InvetarioRouter_pg.FindElementsRatingByName)
+	router_element.GET("/ratingbyday/:idelement", inventario.InvetarioRouter_pg.FindStadisticByElement)
 
 	//V1 FROM V1 TO ...TO ENTITY SCHEDULE RANGE
 	router_schedule_range := version_1.Group("/schedulerange")
@@ -152,6 +155,36 @@ func Consumer_Element() {
 				log.Fatal("Error decoding")
 			}
 			inventario.InvetarioRouter_pg.UpdateElement_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
+		}
+	}()
+
+	<-noStop
+}
+
+func Consumer_StadisticOrder() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+
+		log.Fatal("Error connection canal")
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/ordersperelement", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola")
+	}
+
+	noStop := make(chan bool)
+	go func() {
+		for d := range msgs {
+			var export_byelement []models.Pg_Import_StadisticOrders
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&export_byelement)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			inventario.InvetarioRouter_pg.Import_OrderStadistic(export_byelement)
 		}
 	}()
 

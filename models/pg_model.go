@@ -44,6 +44,21 @@ type Pg_Element struct {
 	Available        bool        `json:"available"`
 }
 
+type Pg_Element_WithRating struct {
+	IDElement        int         `json:"id"`
+	IDCategory       int         `json:"idcategory"`
+	NameCategory     string      `json:"namecategory"`
+	URLPhotoCategory string      `json:"urlphotocategory"`
+	Typefood         string      `json:"typefood"`
+	Name             string      `json:"name"`
+	Price            float32     `json:"price"`
+	Description      string      `json:"description"`
+	TypeMoney        int         `json:"typemoney"`
+	UrlPhoto         interface{} `json:"url"`
+	Available        bool        `json:"available"`
+	Orders           int         `json:"orders"`
+}
+
 type Pg_ScheduleRange struct {
 	IDSchedule        int    `json:"id"`
 	Name              string `json:"name"`

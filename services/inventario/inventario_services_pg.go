@@ -180,7 +180,7 @@ func FindAllElements_Service(input_idbusiness int, input_limit int, input_offset
 	return 201, false, "", lista_Elemento
 }
 
-func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, input_limit int, input_offset int) (int, bool, string, []models.Pg_Element) {
+func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, input_limit int, input_offset int) (int, bool, string, []models.Pg_Element_WithRating) {
 
 	//Agregamos la categoria
 	lista_Elemento, error_add := element_repository.Pg_Find_ByDayWeek(input_idbusiness, input_dayint, input_limit, input_offset)

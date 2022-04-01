@@ -418,7 +418,7 @@ func (ir *inventarioRouter_pg) FindElementsRatingByDay(c echo.Context) error {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindElementsRatingByDay_Service(data_idbusiness, day_int, limit_int, offset_int)
-	results := ResponseListElement{Error: boolerror, DataError: dataerror, Data: data}
+	results := ResponseListElement_WithRating{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
 }

@@ -487,3 +487,13 @@ func (ir *inventarioRouter_pg) FindAllCarta_MainData(c echo.Context) error {
 	return c.JSON(status, results)
 
 }
+
+/*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/
+
+func (ir *inventarioRouter_pg) SearchToNotifySchedulerange() {
+
+	//Enviamos los datos al servicio
+	status, _, dataerror, _ := SearchToNotifySchedulerange_Service()
+	log.Println(strconv.Itoa(status) + " " + dataerror)
+	//results := ResponseAllBusinesses{Error: boolerror, DataError: dataerror, Data: data}
+}

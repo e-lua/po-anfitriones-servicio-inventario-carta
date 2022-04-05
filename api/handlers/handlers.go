@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -31,6 +32,8 @@ func Manejadores() {
 	go Consumer_Category()
 	go Consumer_Element()
 	go Consumer_StadisticOrder()
+	go Notify_ByScheduleRange()
+	go Notify_ByCarta()
 
 	/*====================FLUJO DE INFORMACIÓN====================*/
 
@@ -59,7 +62,12 @@ func Manejadores() {
 	router_schedule_range.DELETE("/:idschedulerange", inventario.InvetarioRouter_pg.UpdateScheduleRangeStatus)
 	router_schedule_range.GET("", inventario.InvetarioRouter_pg.FindAllRangoHorario)
 
-	//V1 FROM V1 TO ...TO ENTITY CARTA
+	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
+	router_total_data := version_1.Group("/totalinventario")
+	router_total_data.GET("", inventario.InvetarioRouter_pg.FindAllCarta_MainData)
+
+	/*===========CARTA DIARIA===========*/
+
 	router_menu := version_1.Group("/menu")
 	router_menu.POST("", carta.CartaRouter_pg.AddCarta)
 	router_menu.PUT("", carta.CartaRouter_pg.UpdateCartaStatus)
@@ -77,10 +85,6 @@ func Manejadores() {
 	router_menu.GET("/createorder/:date/category", carta.CartaRouter_pg.GetCategories_ToCreateOrder)
 	router_menu.GET("/createorder/:date/category/:idcategory/elements", carta.CartaRouter_pg.GetElements_ToCreateOrder)
 	router_menu.GET("/createorder/:date/scheduleranges", carta.CartaRouter_pg.GetSchedule_ToCreateOrder)
-
-	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
-	router_total_data := version_1.Group("/totalinventario")
-	router_total_data.GET("", inventario.InvetarioRouter_pg.FindAllCarta_MainData)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
@@ -188,4 +192,18 @@ func Consumer_StadisticOrder() {
 	}()
 
 	<-noStop3
+}
+
+func Notify_ByScheduleRange() {
+	for {
+		time.Sleep(48 * time.Hour)
+		inventario.InvetarioRouter_pg.SearchToNotifySchedulerange()
+	}
+}
+
+func Notify_ByCarta() {
+	for {
+		time.Sleep(24 * time.Hour)
+		carta.CartaRouter_pg.SearchToNotifyCarta()
+	}
 }

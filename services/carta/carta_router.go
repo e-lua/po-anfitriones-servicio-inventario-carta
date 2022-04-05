@@ -2,6 +2,7 @@ package carta
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -440,4 +441,13 @@ func (cr *cartaRouter_pg) GetSchedule_ToCreateOrder(c echo.Context) error {
 	status, boolerror, dataerror, data := GetSchedule_ToCreateOrder_Service(date, data_idbusiness)
 	results := ResponseCartaSchedule_ToCreate{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
+}
+
+/*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/
+
+func (cr *cartaRouter_pg) SearchToNotifyCarta() {
+
+	//Enviamos los datos al servicio
+	status, _, dataerror, _ := SearchToNotifyCarta_Service()
+	log.Println(strconv.Itoa(status) + " " + dataerror)
 }

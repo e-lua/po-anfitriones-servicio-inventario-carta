@@ -1,7 +1,10 @@
 package inventario
 
 import (
+	"bytes"
+	"encoding/json"
 	"log"
+	"net/http"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/category"
@@ -224,4 +227,31 @@ func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, mod
 	}
 
 	return 201, false, "", all_main_Data
+}
+
+/*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/
+
+func SearchToNotifySchedulerange_Service() (int, bool, string, []int) {
+
+	//Agregamos la categoria
+	all_business, quantity, error_add := schedule_range_repository.Pg_SearchToNotify()
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos a no notificar, detalles: " + error_add.Error(), all_business
+	}
+
+	if quantity > 0 {
+		/*--SENT NOTIFICATION--*/
+		notification := map[string]interface{}{
+			"message":      "El rango horario es el horario de atención. Por ejemplo, horario mañana de 8:00 a 12:00, o, turno tarde de 14:00 a 18:00",
+			"multipleuser": all_business,
+			"typeuser":     6,
+			"priority":     1,
+			"title":        "Restoner anfitriones",
+		}
+		json_data, _ := json.Marshal(notification)
+		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+		/*---------------------*/
+	}
+
+	return 201, false, "", all_business
 }

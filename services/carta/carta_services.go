@@ -298,3 +298,41 @@ func GetSchedule_ToCreateOrder_Service(date string, idbusiness int) (int, bool, 
 
 	return 201, false, "", schedule_tocreate
 }
+
+/*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/
+
+func SearchToNotifyCarta_Service() (int, bool, string, []int) {
+
+	//Agregamos la categoria
+	all_business, quantity, error_add := carta_repository.Pg_SearchToNotify()
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos a no notificar, detalles: " + error_add.Error(), all_business
+	}
+
+	if quantity > 0 {
+		/*--SENT NOTIFICATION--*/
+		notification := map[string]interface{}{
+			"message":      "Recuerde crear la carta para el día hoy. Cree la carta desde cero, o copie la del día anterior, pero tenga en cuenta revisar el stock de elementos disponibles de la nueva carta, y habilitar la visibilidad",
+			"multipleuser": all_business,
+			"typeuser":     6,
+			"priority":     1,
+			"title":        "Restoner anfitriones",
+		}
+		json_data, _ := json.Marshal(notification)
+		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+		/*---------------------*/
+	} else {
+		/*--SENT NOTIFICATION--*/
+		notification := map[string]interface{}{
+			"message":  "Recuerde crear la carta para el día hoy. Cree la carta desde cero, o copie la del día anterior, pero tenga en cuenta revisar el stock de elementos disponibles de la nueva carta, y habilitar la visibilidad",
+			"typeuser": 4,
+			"priority": 1,
+			"title":    "Restoner anfitriones",
+		}
+		json_data, _ := json.Marshal(notification)
+		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+		/*---------------------*/
+	}
+
+	return 201, false, "", all_business
+}

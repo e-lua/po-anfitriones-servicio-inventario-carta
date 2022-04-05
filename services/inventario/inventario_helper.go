@@ -129,3 +129,11 @@ type JWT struct {
 type CategoryForSearch struct {
 	Name string `json:"name"`
 }
+
+//Notify
+
+type ResponseAllBusinesses struct {
+	Error     bool   `json:"error"`
+	DataError string `json:"dataError"`
+	Data      []int  `json:"data"`
+}

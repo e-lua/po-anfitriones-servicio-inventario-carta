@@ -135,3 +135,11 @@ type B_Address struct {
 	Latitude  float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
 }
+
+//Notify
+
+type ResponseAllBusinesses struct {
+	Error     bool   `json:"error"`
+	DataError string `json:"dataError"`
+	Data      []int  `json:"data"`
+}

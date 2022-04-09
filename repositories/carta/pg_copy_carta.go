@@ -35,7 +35,7 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 	}
 
 	//Rango horarios
-	idschedule_pg_2, idcartamain_pg_2, idbusinessmain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2 := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}
+	timezone_pg_2, idschedule_pg_2, idcartamain_pg_2, idbusinessmain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2 := []string{}, []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}, []int{}, []string{}, []string{}, []int{}
 
 	for _, sch := range pg_schedule {
 
@@ -49,11 +49,12 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 		start_pg_2 = append(start_pg_2, sch.StartTime)
 		end_pg_2 = append(end_pg_2, sch.EndTime)
 		maxorders_pg_2 = append(maxorders_pg_2, sch.MaxOrders)
+		timezone_pg_2 = append(timezone_pg_2, sch.TimeZone)
 
 	}
 
 	//Lista de actualizacion de rangos horarios
-	idschedulerange_pg_3, idcarta_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3 := []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}
+	timezone_pg_3, idschedulerange_pg_3, idcarta_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3 := []string{}, []int64{}, []int{}, []int{}, []string{}, []string{}, []int{}
 
 	for _, sch := range pg_schedule {
 
@@ -116,7 +117,7 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 			startime_pg_3 = append(startime_pg_3, hora_ini_string)
 			endtime_pg_3 = append(endtime_pg_3, hora_fin_toinsert)
 			max_orders_3 = append(max_orders_3, sch.MaxOrders)
-
+			timezone_pg_3 = append(timezone_pg_3, sch.TimeZone)
 			//Nuevo valor de hora de inicio
 			new_hora_ini, _ := strconv.Atoi(strconv.Itoa(horas) + minutos_string)
 			hora_ini = new_hora_ini
@@ -138,15 +139,15 @@ func Pg_Copy_Carta(pg_schedule []models.Pg_ScheduleRange_External, pg_element_ex
 	}
 
 	//INSERTAR RANGO HORARIO
-	q_schedulerange := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(12)[],$5::varchar(60)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[]));`
-	if _, err_insert_schedulerange := tx.Exec(ctx, q_schedulerange, idschedule_pg_2, idbusinessmain_pg_2, idcartamain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2); err_insert_schedulerange != nil {
+	q_schedulerange := `INSERT INTO ScheduleRange(idScheduleRange,idbusiness,idcarta,name,description,minuteperfraction,numberfractions,startTime,endTime,maxOrders,timezone) (SELECT * FROM unnest($1::int[],$2::int[],$3::int[],$4::varchar(12)[],$5::varchar(60)[],$6::int[],$7::int[],$8::varchar(10)[],$9::varchar(10)[],$10::int[],$11::varchar(3)[]));`
+	if _, err_insert_schedulerange := tx.Exec(ctx, q_schedulerange, idschedule_pg_2, idbusinessmain_pg_2, idcartamain_pg_2, name_pg_2, description_pg_2, minutesperfraction_pg_2, numberfractions_pg_2, start_pg_2, end_pg_2, maxorders_pg_2, timezone_pg_2); err_insert_schedulerange != nil {
 		tx.Rollback(ctx)
 		return 0, err_insert_schedulerange
 	}
 
 	//INSERTAR LISTAS DE RANGOS HORARIOS
-	q_listschedulerange := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[]))`
-	if _, err_listschedulerange := tx.Exec(ctx, q_listschedulerange, idcarta_pg_3, idschedulerange_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3); err_listschedulerange != nil {
+	q_listschedulerange := `INSERT INTO ListScheduleRange(idcarta,idschedulemain,idbusiness,starttime,endtime,maxorders,timezone) (select * from unnest($1::int[],$2::int[],$3::int[],$4::varchar(6)[],$5::varchar(6)[],$6::int[],$7::varchar(3)[]))`
+	if _, err_listschedulerange := tx.Exec(ctx, q_listschedulerange, idcarta_pg_3, idschedulerange_pg_3, idbusiness_pg_3, startime_pg_3, endtime_pg_3, max_orders_3, timezone_pg_3); err_listschedulerange != nil {
 		tx.Rollback(ctx)
 		return 0, err_listschedulerange
 	}

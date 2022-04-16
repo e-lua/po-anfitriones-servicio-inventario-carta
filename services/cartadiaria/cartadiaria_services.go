@@ -306,7 +306,7 @@ func SearchToNotifyCarta_Service() (int, bool, string, []int) {
 	//Agregamos la categoria
 	all_business, quantity, error_add := cartadiaria_repository.Pg_SearchToNotify()
 	if error_add != nil {
-		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos a no notificar, detalles: " + error_add.Error(), all_business
+		return 500, true, "Error en el servidor interno al intentar listar los negocios con datos de la carta a no notificar, detalles: " + error_add.Error(), all_business
 	}
 
 	if quantity > 0 {

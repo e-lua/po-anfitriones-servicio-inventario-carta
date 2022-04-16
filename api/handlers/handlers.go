@@ -245,15 +245,15 @@ func Consumer_StadisticOrder() {
 
 func Notify_ByScheduleRange() {
 	for {
-		carta.CartaRouter_pg.SearchToNotifySchedulerange()
 		time.Sleep(48 * time.Hour)
+		carta.CartaRouter_pg.SearchToNotifySchedulerange()
 	}
 }
 
 func Notify_ByCarta() {
 	for {
-		cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
 		time.Sleep(24 * time.Hour)
+		cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
 	}
 }
 
@@ -261,36 +261,36 @@ func Notify_ByCarta() {
 
 func Clean_Categories() {
 	for {
-		carta.CartaRouter_pg.UpdateCategory_Delete()
 		time.Sleep(24 * time.Hour)
+		carta.CartaRouter_pg.UpdateCategory_Delete()
 	}
 }
 
 func Clean_Elements() {
 	for {
-		log.Println("Testing deleting Elements")
-		carta.CartaRouter_pg.UpdateElement_Delete()
 		time.Sleep(24 * time.Hour)
+		log.Println("==========Testing deleting Elements===================")
+		carta.CartaRouter_pg.UpdateElement_Delete()
 	}
 }
 
 func Clean_Providers() {
 	for {
-		inventario.InventarioRouter_pg.UpdateProvider_Delete()
 		time.Sleep(24 * time.Hour)
+		inventario.InventarioRouter_pg.UpdateProvider_Delete()
 	}
 }
 
 func Clean_StoreHouses() {
 	for {
-		inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
 		time.Sleep(24 * time.Hour)
+		inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
 	}
 }
 
 func Clean_Insumos() {
 	for {
-		inventario.InventarioRouter_pg.UpdateInsumo_Delete()
 		time.Sleep(24 * time.Hour)
+		inventario.InventarioRouter_pg.UpdateInsumo_Delete()
 	}
 }

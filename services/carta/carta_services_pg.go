@@ -236,7 +236,7 @@ func SearchToNotifySchedulerange_Service() (int, bool, string, []int) {
 	//Agregamos la categoria
 	all_business, quantity, error_add := schedule_range_repository.Pg_SearchToNotify()
 	if error_add != nil {
-		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos a no notificar, detalles: " + error_add.Error(), all_business
+		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos de los rangos horarios a no notificar, detalles: " + error_add.Error(), all_business
 	}
 
 	if quantity > 0 {

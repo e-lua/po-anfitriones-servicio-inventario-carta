@@ -20,7 +20,7 @@ type Mo_Providers struct {
 	Description      string    `json:"description"`
 	Available        bool      `json:"available"`
 	SendToDelete     time.Time `json:"sendtodelete"`
-	IsDelete         bool      `json:"isdeleted"`
+	IsDeleted        bool      `json:"isdeleted"`
 	IsExported       bool      `json:"isexported"`
 	DeletedDate      time.Time `json:"deleteddate"`
 	IsSendToDelete   bool      `json:"issendtodelete"`
@@ -49,7 +49,7 @@ type Mo_StoreHouse struct {
 	IsExported     bool      `json:"isexported"`
 	Available      bool      `json:"available"`
 	SendToDelete   time.Time `json:"sendtodelete"`
-	IsDelete       bool      `json:"isdeleted"`
+	IsDeleted      bool      `json:"isdeleted"`
 	DeletedDate    time.Time `json:"deleteddate"`
 	IsSendToDelete bool      `json:"issendtodelete"`
 }
@@ -80,7 +80,7 @@ type Mo_Insumo struct {
 	Description    string        `json:"description"`
 	Stock          []*Mo_Stock   `json:"stock"`
 	Available      bool          `json:"available"`
-	IsDelete       bool          `json:"isdeleted"`
+	IsDeleted      bool          `json:"isdeleted"`
 	IsExported     bool          `json:"isexported"`
 	SendToDelete   time.Time     `json:"sendtodelete"`
 	DeletedDate    time.Time     `json:"deleteddate"`

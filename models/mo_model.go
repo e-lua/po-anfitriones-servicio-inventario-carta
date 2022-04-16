@@ -27,18 +27,18 @@ type Mo_Providers struct {
 }
 
 type Mo_Providers_Response struct {
-	Type             int       `json:"type"`
-	IDBusiness       int       `json:"idbusiness"`
-	Number           string    `json:"number"`
-	ProviderName     string    `json:"providername"`
-	Email            string    `json:"email"`
-	Phone            string    `json:"phone"`
-	NameContact      string    `json:"namecontact"`
-	Address          string    `json:"address"`
-	ReferenceAddress string    `json:"referenceaddress"`
-	Description      string    `json:"description"`
-	Available        bool      `json:"available"`
-	SendToDelete     time.Time `json:"sendtodelete"`
+	ID               primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
+	Type             int                `json:"type"`
+	Number           string             `json:"number"`
+	ProviderName     string             `json:"providername"`
+	Email            string             `json:"email"`
+	Phone            string             `json:"phone"`
+	NameContact      string             `json:"namecontact"`
+	Address          string             `json:"address"`
+	ReferenceAddress string             `json:"referenceaddress"`
+	Description      string             `json:"description"`
+	Available        bool               `json:"available"`
+	SendToDelete     time.Time          `json:"sendtodelete"`
 }
 
 type Mo_StoreHouse struct {
@@ -55,11 +55,11 @@ type Mo_StoreHouse struct {
 }
 
 type Mo_StoreHouse_Response struct {
-	Name         string    `json:"name"`
-	IDBusiness   int       `json:"idbusiness"`
-	Description  string    `json:"description"`
-	Available    bool      `json:"available"`
-	SendToDelete time.Time `json:"sendtodelete"`
+	ID           primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
+	Name         string             `json:"name"`
+	Description  string             `json:"description"`
+	Available    bool               `json:"available"`
+	SendToDelete time.Time          `json:"sendtodelete"`
 }
 
 type Mo_Stock struct {
@@ -90,7 +90,6 @@ type Mo_Insumo struct {
 type Mo_Insumo_Response struct {
 	ID           primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
 	Name         string             `json:"name"`
-	IDBusiness   int                `json:"idbusiness"`
 	Measure      string             `json:"measure"`
 	StoreHouse   Mo_StoreHouse      `json:"storehouse"`
 	Description  string             `json:"description"`

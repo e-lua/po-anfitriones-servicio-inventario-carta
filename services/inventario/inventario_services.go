@@ -122,7 +122,7 @@ func UpdateInsumo_SendToDelete_Service(idinsumo string, timezone int, idbusiness
 		return 500, true, "Error en el servidor interno al intentar recuperar el insumo de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return 201, false, "", "Insumo recuperado de papelera"
+	return 201, false, "", "Insumo enviado a papelera"
 }
 
 func UpdateProvider_SendToDelete_Service(idprovider string, timezone int, idbusiness int) (int, bool, string, string) {
@@ -132,7 +132,7 @@ func UpdateProvider_SendToDelete_Service(idprovider string, timezone int, idbusi
 		return 500, true, "Error en el servidor interno al intentar recuperar el proveedor de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return 201, false, "", "Proveedor recuperado de papelera"
+	return 201, false, "", "Proveedor enviado a papelera"
 }
 
 func UpdateStoreHouse_SendToDelete_Service(idstorehouse string, timezone int, idbusiness int) (int, bool, string, string) {
@@ -142,7 +142,7 @@ func UpdateStoreHouse_SendToDelete_Service(idstorehouse string, timezone int, id
 		return 500, true, "Error en el servidor interno al intentar recuperar el almacén de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return 201, false, "", "Almacén recuperado de papelera"
+	return 201, false, "", "Almacén enviado a papelera"
 }
 
 /*----------------------UPDATE RECOVER----------------------*/
@@ -174,7 +174,7 @@ func UpdateStoreHouse_RecoverSendToDelete_Service(idstorehouse string, idbusines
 		return 500, true, "Error en el servidor interno al intentar recuperar el almacén de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return 201, false, "", "Almacenes eliminados de papelera"
+	return 201, false, "", "Almacen recuperado de papelera"
 }
 
 /*----------------------DELETE----------------------*/
@@ -206,7 +206,7 @@ func UpdateStoreHouse_Delete_Service() (string, string) {
 		return "Error en el servidor interno al intentar recuperar el almacén de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return "", "Almacén recuperado de papelera"
+	return "", "Almacenes  eliminados de papelera"
 }
 
 /*----------------------FIND DATA----------------------*/

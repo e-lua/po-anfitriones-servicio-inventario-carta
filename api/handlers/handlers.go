@@ -65,7 +65,7 @@ func Manejadores() {
 	router_storehouse.PUT("/status/:idstorehouse/:status", inventario.InventarioRouter_pg.UpdateStoreHouse_Availability)
 	router_storehouse.PUT("/sendtrash/:idstorehouse/:timezone", inventario.InventarioRouter_pg.UpdateStoreHouse_SendToDelete)
 	router_storehouse.PUT("/recover/:idstorehouse", inventario.InventarioRouter_pg.UpdateStoreHouse_RecoverSendToDelete)
-	router_storehouse.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindProvider_All)
+	router_storehouse.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindStorehouse_All)
 	router_storehouse.GET("/trash", inventario.InventarioRouter_pg.FindStorehouse_Papelera)
 	router_storehouse.GET("/search", inventario.InventarioRouter_pg.SearchNameStorehouse)
 

@@ -55,7 +55,7 @@ func Manejadores() {
 	router_provider.PUT("/sendtrash/:idprovider/:timezone", inventario.InventarioRouter_pg.UpdateProvider_SendToDelete)
 	router_provider.PUT("/recover/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_RecoverSendToDelete)
 	router_provider.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindProvider_All)
-	router_provider.GET("/trash", inventario.InventarioRouter_pg.FindProvider_Papelera)
+	router_provider.GET("/trash/:limit/:offset", inventario.InventarioRouter_pg.FindProvider_Papelera)
 	router_provider.GET("/search", inventario.InventarioRouter_pg.SearchNameProvider)
 
 	//V1 FROM V1 TO ...TO ENTITY STOREHOUSE
@@ -66,7 +66,7 @@ func Manejadores() {
 	router_storehouse.PUT("/sendtrash/:idstorehouse/:timezone", inventario.InventarioRouter_pg.UpdateStoreHouse_SendToDelete)
 	router_storehouse.PUT("/recover/:idstorehouse", inventario.InventarioRouter_pg.UpdateStoreHouse_RecoverSendToDelete)
 	router_storehouse.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindStorehouse_All)
-	router_storehouse.GET("/trash", inventario.InventarioRouter_pg.FindStorehouse_Papelera)
+	router_storehouse.GET("/trash/:limit/:offset", inventario.InventarioRouter_pg.FindStorehouse_Papelera)
 	router_storehouse.GET("/search", inventario.InventarioRouter_pg.SearchNameStorehouse)
 
 	//V1 FROM V1 TO ...TO ENTITY INSUMO
@@ -78,8 +78,8 @@ func Manejadores() {
 	router_insumo.PUT("/sendtrash/:idinsumo/:timezone", inventario.InventarioRouter_pg.UpdateInsumo_SendToDelete)
 	router_insumo.PUT("/recover/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_RecoverSendToDelete)
 	router_insumo.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindInsumo_All)
-	router_insumo.GET("/stock", inventario.InventarioRouter_pg.FindInsumo_Stock)
-	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
+	router_insumo.GET("/stock/:idinsumo", inventario.InventarioRouter_pg.FindInsumo_Stock)
+	router_insumo.GET("/trash/:limit/:offset", inventario.InventarioRouter_pg.FindInsumo_Papelera)
 	router_insumo.GET("/search", inventario.InventarioRouter_pg.SearchNameInsumo)
 
 	/*===========CARTA===========*/

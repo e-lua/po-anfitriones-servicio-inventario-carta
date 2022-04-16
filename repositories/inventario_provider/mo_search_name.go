@@ -6,7 +6,6 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Mo_Search_Name(idbusiness int, name string) ([]*models.Mo_Providers_Response, error) {
@@ -18,22 +17,21 @@ func Mo_Search_Name(idbusiness int, name string) ([]*models.Mo_Providers_Respons
 
 	var resultado []*models.Mo_Providers_Response
 
-	condicion := bson.M{
-		"idbusiness": idbusiness,
-		"isdeleted":  false,
-		"$match": bson.M{
-			"providername":   "/" + name + "/",
-			"$caseSensitive": true,
+	pipeline := []bson.M{
+		{"idbusiness": idbusiness},
+		{"isdeleted": false},
+		{
+			"$match": bson.M{
+				"providername":   "/" + name + "/",
+				"$caseSensitive": true,
+			},
 		},
+		{"$sort": bson.M{"tweet.fecha": -1}},
 	}
-
-	opciones := options.Find()
-	/*Indicar como ira ordenado*/
-	opciones.SetSort(bson.D{{Key: "name", Value: 1}})
 
 	/*Cursor es como una tabla de base de datos donde se van a grabar los resultados
 	y podre ir recorriendo 1 a la vez*/
-	cursor, err := col.Find(ctx, condicion, opciones)
+	cursor, err := col.Aggregate(ctx, pipeline)
 	if err != nil {
 		return resultado, err
 	}

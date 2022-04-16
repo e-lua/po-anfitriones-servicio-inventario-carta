@@ -244,77 +244,53 @@ func Consumer_StadisticOrder() {
 }
 
 func Notify_ByScheduleRange() {
-	noStop4 := make(chan bool)
-	go func() {
+	for {
 		carta.CartaRouter_pg.SearchToNotifySchedulerange()
 		time.Sleep(48 * time.Hour)
-
-	}()
-
-	<-noStop4
+	}
 }
 
 func Notify_ByCarta() {
-	noStop5 := make(chan bool)
-	go func() {
-
-		time.Sleep(24 * time.Hour)
+	for {
 		cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
-	}()
-
-	<-noStop5
+		time.Sleep(24 * time.Hour)
+	}
 }
 
 //CLEAN DATA
 
 func Clean_Categories() {
-	noStop6 := make(chan bool)
-	go func() {
-
-		time.Sleep(24 * time.Hour)
+	for {
 		carta.CartaRouter_pg.UpdateCategory_Delete()
-	}()
-
-	<-noStop6
+		time.Sleep(24 * time.Hour)
+	}
 }
 
 func Clean_Elements() {
-	noStop7 := make(chan bool)
-	go func() {
+	for {
 		log.Println("Testing deleting Elements")
 		carta.CartaRouter_pg.UpdateElement_Delete()
 		time.Sleep(24 * time.Hour)
-	}()
-
-	<-noStop7
+	}
 }
 
 func Clean_Providers() {
-	noStop8 := make(chan bool)
-	go func() {
+	for {
 		inventario.InventarioRouter_pg.UpdateProvider_Delete()
 		time.Sleep(24 * time.Hour)
-	}()
-
-	<-noStop8
+	}
 }
 
 func Clean_StoreHouses() {
-	noStop9 := make(chan bool)
-	go func() {
+	for {
 		inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
 		time.Sleep(24 * time.Hour)
-	}()
-
-	<-noStop9
+	}
 }
 
 func Clean_Insumos() {
-	noStop10 := make(chan bool)
-	go func() {
+	for {
 		inventario.InventarioRouter_pg.UpdateInsumo_Delete()
 		time.Sleep(24 * time.Hour)
-	}()
-
-	<-noStop10
+	}
 }

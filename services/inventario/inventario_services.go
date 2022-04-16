@@ -174,7 +174,7 @@ func UpdateStoreHouse_RecoverSendToDelete_Service(idstorehouse string, idbusines
 		return 500, true, "Error en el servidor interno al intentar recuperar el almacén de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return 201, false, "", "Almacén recuperado de papelera"
+	return 201, false, "", "Almacenes eliminados de papelera"
 }
 
 /*----------------------DELETE----------------------*/
@@ -186,7 +186,7 @@ func UpdateInsumo_Delete_Service() (string, string) {
 		return "Error en el servidor interno al intentar eliminar el insumo, detalles: " + error_update.Error(), ""
 	}
 
-	return "", "Insumo recuperado de papelera"
+	return "", "Insumos eliminados de papelera"
 }
 
 func UpdateProvider_Delete_Service() (string, string) {
@@ -196,7 +196,7 @@ func UpdateProvider_Delete_Service() (string, string) {
 		return "Error en el servidor interno al intentar recuperar el proveedor de la papelera, detalles: " + error_update.Error(), ""
 	}
 
-	return "", "Proveedor recuperado de papelera"
+	return "", "Proveedores eliminados de papelera"
 }
 
 func UpdateStoreHouse_Delete_Service() (string, string) {

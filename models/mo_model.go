@@ -72,19 +72,20 @@ type Mo_Stock struct {
 }
 
 type Mo_Insumo struct {
-	Name           string        `json:"name"`
-	IDBusiness     int           `json:"idbusiness"`
-	CreatedDate    time.Time     `json:"createdDate"`
-	Measure        string        `json:"measure"`
-	StoreHouse     Mo_StoreHouse `json:"storehouse"`
-	Description    string        `json:"description"`
-	Stock          []*Mo_Stock   `json:"stock"`
-	Available      bool          `json:"available"`
-	IsDeleted      bool          `json:"isdeleted"`
-	IsExported     bool          `json:"isexported"`
-	SendToDelete   time.Time     `json:"sendtodelete"`
-	DeletedDate    time.Time     `json:"deleteddate"`
-	IsSendToDelete bool          `json:"issendtodelete"`
+	Name           string      `json:"name"`
+	IDBusiness     int         `json:"idbusiness"`
+	CreatedDate    time.Time   `json:"createdDate"`
+	Measure        string      `json:"measure"`
+	IDStoreHouse   string      `json:"idstorehouse"`
+	NameStoreHouse string      `json:"namestorehouse"`
+	Description    string      `json:"description"`
+	Stock          []*Mo_Stock `json:"stock"`
+	Available      bool        `json:"available"`
+	IsDeleted      bool        `json:"isdeleted"`
+	IsExported     bool        `json:"isexported"`
+	SendToDelete   time.Time   `json:"sendtodelete"`
+	DeletedDate    time.Time   `json:"deleteddate"`
+	IsSendToDelete bool        `json:"issendtodelete"`
 }
 
 type Mo_Insumo_Response struct {

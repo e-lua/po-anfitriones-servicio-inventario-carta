@@ -22,10 +22,11 @@ func Mo_Update_MainData(idbusiness int, idinsumo string, input_insumo models.Mo_
 
 	updtString := bson.M{
 		"$set": bson.M{
-			"measure":     input_insumo.Measure,
-			"storehouse":  input_insumo.StoreHouse,
-			"description": input_insumo.Description,
-			"isexported":  false,
+			"measure":        input_insumo.Measure,
+			"idstorehouse":   input_insumo.IDStoreHouse,
+			"namestorehouse": input_insumo.NameStoreHouse,
+			"description":    input_insumo.Description,
+			"isexported":     false,
 		},
 	}
 

@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Find_ByName(idbusiness int, name string) ([]models.Pg_Element, error) {
+func Pg_Find_Papelera(idbusiness int, limit int, offset int) ([]models.Pg_Element_Tofind, error) {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -15,11 +15,11 @@ func Pg_Find_ByName(idbusiness int, name string) ([]models.Pg_Element, error) {
 	defer cancel()
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND LOWER(e.name) ~ $2 GROUP BY c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available"
-	rows, error_shown := db.Query(ctx, q, idbusiness, name)
+	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND e.isdeleted=false AND e.issendtodelete=true ORDER BY e.sendtodelete DESC LIMIT $2 OFFSET $3"
+	rows, error_shown := db.Query(ctx, q, idbusiness, limit, offset)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
-	var oListElement []models.Pg_Element
+	var oListElement []models.Pg_Element_Tofind
 
 	if error_shown != nil {
 
@@ -28,12 +28,11 @@ func Pg_Find_ByName(idbusiness int, name string) ([]models.Pg_Element, error) {
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
-		oElement := models.Pg_Element{}
+		oElement := models.Pg_Element_Tofind{}
 		rows.Scan(&oElement.Typefood, &oElement.IDCategory, &oElement.URLPhotoCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available)
 		oListElement = append(oListElement, oElement)
 	}
 
 	//Si todo esta bien
 	return oListElement, nil
-
 }

@@ -17,14 +17,13 @@ func Pg_Find_ByCategory(idbusiness int, idcategory int) ([]models.Pg_ElementsByC
 	defer cancel()
 
 	db := models.Conectar_Pg_DB()
-	q := "SELECT e.name,e.available FROM Element as e JOIN Category as c ON e.idcategory=e.idcategory WHERE c.idbusiness=$1 AND c.idcategory=$2"
+	q := "SELECT e.name,e.available FROM Element as e JOIN Category as c ON e.idcategory=e.idcategory WHERE c.idbusiness=$1 AND c.idcategory=$2 AND e.isdeleted=false  AND e.issendtodelete=false"
 	rows, error_shown := db.Query(ctx, q, idbusiness, idcategory)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListElementByCategory []models.Pg_ElementsByCategory
 
 	if error_shown != nil {
-
 		return oListElementByCategory, 0, error_shown
 	}
 

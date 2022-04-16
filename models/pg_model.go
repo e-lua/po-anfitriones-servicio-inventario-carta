@@ -1,12 +1,19 @@
 package models
 
+import "time"
+
 type Pg_Category struct {
-	IDCategory int         `json:"id"`
-	Name       string      `json:"name"`
-	Elements   int         `json:"elements"`
-	Available  bool        `json:"available"`
-	UrlPhoto   interface{} `json:"url"`
-	TypeFood   string      `json:"typefood"`
+	IDCategory     int         `json:"id"`
+	Name           string      `json:"name"`
+	Elements       int         `json:"elements"`
+	Available      bool        `json:"available"`
+	UrlPhoto       interface{} `json:"url"`
+	TypeFood       string      `json:"typefood"`
+	SendToDelete   time.Time   `json:"sendtodelete"`
+	IsDelete       bool        `json:"isdeleted"`
+	IsExported     bool        `json:"isexported"`
+	DeletedDate    time.Time   `json:"deleteddate"`
+	IsSendToDelete bool        `json:"issendtodelete"`
 }
 
 type Pg_Category_ToCreate struct {
@@ -26,8 +33,7 @@ type Pg_Element_for_search struct {
 	IDElement int     `json:"id"`
 	Name      string  `json:"name"`
 	Price     float32 `json:"price"`
-
-	TypeMoney int `json:"typeMoney"`
+	TypeMoney int     `json:"typeMoney"`
 }
 
 type Pg_Element struct {
@@ -42,6 +48,32 @@ type Pg_Element struct {
 	TypeMoney        int         `json:"typemoney"`
 	UrlPhoto         interface{} `json:"url"`
 	Available        bool        `json:"available"`
+	Insumos          []Pg_Insumo `json:"insumos"`
+	SendToDelete     time.Time   `json:"sendtodelete"`
+	IsDelete         bool        `json:"isdeleted"`
+	IsExported       bool        `json:"isexported"`
+	DeletedDate      time.Time   `json:"deleteddate"`
+	IsSendToDelete   bool        `json:"issendtodelete"`
+}
+
+type Pg_Insumo struct {
+	Insumo   []Mo_Insumo_Response `json:"insumo"`
+	Quantity int                  `json:"quantity"`
+}
+
+type Pg_Element_Tofind struct {
+	IDElement        int         `json:"id"`
+	IDCategory       int         `json:"idcategory"`
+	NameCategory     string      `json:"namecategory"`
+	URLPhotoCategory string      `json:"urlphotocategory"`
+	Typefood         string      `json:"typefood"`
+	Name             string      `json:"name"`
+	Price            float32     `json:"price"`
+	Description      string      `json:"description"`
+	TypeMoney        int         `json:"typemoney"`
+	UrlPhoto         interface{} `json:"url"`
+	Available        bool        `json:"available"`
+	Insumos          []Pg_Insumo `json:"insumos"`
 }
 
 type Pg_Element_WithRating struct {
@@ -57,6 +89,7 @@ type Pg_Element_WithRating struct {
 	UrlPhoto         interface{} `json:"url"`
 	Available        bool        `json:"available"`
 	Orders           int         `json:"orders"`
+	Insumos          []Pg_Insumo `json:"insumos"`
 }
 
 type Pg_ScheduleRange struct {

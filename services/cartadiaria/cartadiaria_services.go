@@ -1,4 +1,4 @@
-package carta
+package cartadiaria
 
 import (
 	//REPOSITORIES
@@ -9,13 +9,13 @@ import (
 	"time"
 
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta"
+	cartadiaria_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/cartadiaria"
 )
 
 func AddCarta_Service(input_carta Carta, idbusiness int) (int, bool, string, int) {
 
 	//Insertamos los datos en Mo
-	idcarta, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
+	idcarta, error_add_carta := cartadiaria_repository.Pg_Add(idbusiness, input_carta.Date)
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
@@ -62,7 +62,7 @@ func AddCarta_Service(input_carta Carta, idbusiness int) (int, bool, string, int
 func UpdateCartaStatus_Service(carta_status CartaStatus, idbusiness int) (int, bool, string, string) {
 
 	//Insertamos los datos en Mo
-	error_update := carta_repository.Pg_Update_Available_Visible(carta_status.Available, carta_status.Visible, carta_status.IDCarta, idbusiness)
+	error_update := cartadiaria_repository.Pg_Update_Available_Visible(carta_status.Available, carta_status.Visible, carta_status.IDCarta, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar la visibilidad y disponibilidad de la carta , detalles: " + error_update.Error(), ""
 	}
@@ -73,7 +73,7 @@ func UpdateCartaStatus_Service(carta_status CartaStatus, idbusiness int) (int, b
 func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusiness int) (int, bool, string, string) {
 
 	//Insertamos los datos en Mo
-	error_update := carta_repository.Pg_Update_One_Element(stock, idelement, idcarta, idbusiness)
+	error_update := cartadiaria_repository.Pg_Update_One_Element(stock, idelement, idcarta, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar el elemento, detalles: " + error_update.Error(), ""
 	}
@@ -83,7 +83,7 @@ func UpdateCartaOneElement_Service(stock int, idelement int, idcarta int, idbusi
 
 func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusiness int, latitude float64, longitude float64) (int, bool, string, string) {
 
-	error_update := carta_repository.Pg_Delete_Update_Element(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness, latitude, longitude)
+	error_update := cartadiaria_repository.Pg_Delete_Update_Element(carta_elements.ElementsWithAction, carta_elements.IDCarta, idbusiness, latitude, longitude)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los elementos, detalles: " + error_update.Error(), ""
 	}
@@ -93,7 +93,7 @@ func UpdateCartaElements_Service(carta_elements CartaElements_WithAction, idbusi
 
 func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness int) (int, bool, string, string) {
 
-	error_update := carta_repository.Pg_Delete_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
+	error_update := cartadiaria_repository.Pg_Delete_Update_ScheduleRange(carta_schedule.ScheduleRanges, carta_schedule.IDCarta, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los rangos horarios, detalles: " + error_update.Error(), ""
 	}
@@ -106,7 +106,7 @@ func UpdateCartaScheduleRanges_Service(carta_schedule CartaSchedule, idbusiness 
 func GetCartaBasicData_Service(date string, idbusiness int) (int, bool, string, models.Pg_Carta_External) {
 
 	//Insertamos los datos en Mo
-	carta_ini_values, error_show := carta_repository.Pg_Find_IniData(date, idbusiness)
+	carta_ini_values, error_show := cartadiaria_repository.Pg_Find_IniData(date, idbusiness)
 	if error_show != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar la informacion basica de la carta, detalles: " + error_show.Error(), carta_ini_values
 	}
@@ -117,7 +117,7 @@ func GetCartaBasicData_Service(date string, idbusiness int) (int, bool, string, 
 func GetCartaCategory_Service(idcarta_int int, idbusiness int) (int, bool, string, []models.Pg_Category_External) {
 
 	//Obtenemos las categorias
-	carta_category, error_update := carta_repository.Pg_Find_Category(idcarta_int, idbusiness)
+	carta_category, error_update := cartadiaria_repository.Pg_Find_Category(idcarta_int, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), carta_category
 	}
@@ -128,7 +128,7 @@ func GetCartaCategory_Service(idcarta_int int, idbusiness int) (int, bool, strin
 func GetCartaElementsByCarta_Service(idcarta_int int, idbusiness int, idcategory int) (int, bool, string, []models.Pg_Element_With_Stock_External) {
 
 	//Obtenemos las categorias
-	carta_category, error_update := carta_repository.Pg_Find_Elements_ByCategory(idcarta_int, idbusiness, idcategory)
+	carta_category, error_update := cartadiaria_repository.Pg_Find_Elements_ByCategory(idcarta_int, idbusiness, idcategory)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la categoria seleccionada, detalles: " + error_update.Error(), carta_category
 	}
@@ -139,7 +139,7 @@ func GetCartaElementsByCarta_Service(idcarta_int int, idbusiness int, idcategory
 func GetCartaElements_Service(idcarta_int int, idbusiness int) (int, bool, string, []models.Pg_Element_With_Stock_External) {
 
 	//Insertamos los datos en Mo
-	carta_elements, error_update := carta_repository.Pg_Find_Elements(idcarta_int, idbusiness)
+	carta_elements, error_update := cartadiaria_repository.Pg_Find_Elements(idcarta_int, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update.Error(), carta_elements
 	}
@@ -150,7 +150,7 @@ func GetCartaElements_Service(idcarta_int int, idbusiness int) (int, bool, strin
 func GetCartaScheduleRanges_Service(idcarta_int int, idbusiness int) (int, bool, string, []models.Pg_ScheduleRange_External) {
 
 	//Insertamos los datos en Mo
-	carta_scheduleranges, error_update := carta_repository.Pg_Find_ScheduleRanges(idcarta_int, idbusiness)
+	carta_scheduleranges, error_update := cartadiaria_repository.Pg_Find_ScheduleRanges(idcarta_int, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los rangos horarios de la carta, detalles: " + error_update.Error(), carta_scheduleranges
 	}
@@ -161,7 +161,7 @@ func GetCartaScheduleRanges_Service(idcarta_int int, idbusiness int) (int, bool,
 func GetCartas_Service(idbusiness int) (int, bool, string, []models.Pg_Carta_Found) {
 
 	//Insertamos los datos en Mo
-	carta_found, error_update := carta_repository.Pg_Find_Cartas(idbusiness)
+	carta_found, error_update := cartadiaria_repository.Pg_Find_Cartas(idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los rangos horarios de la carta, detalles: " + error_update.Error(), carta_found
 	}
@@ -174,29 +174,29 @@ func GetCartas_Service(idbusiness int) (int, bool, string, []models.Pg_Carta_Fou
 func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, string, int) {
 
 	//Buscamos la carta
-	idcarta_int, error_add_carta := carta_repository.Pg_Find_IniData(input_carta.FromCarta, idbusiness)
+	idcarta_int, error_add_carta := cartadiaria_repository.Pg_Find_IniData(input_carta.FromCarta, idbusiness)
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
 
-	carta_elements, error_update_element := carta_repository.Pg_Find_Elements(idcarta_int.IDCarta, idbusiness)
+	carta_elements, error_update_element := cartadiaria_repository.Pg_Find_Elements(idcarta_int.IDCarta, idbusiness)
 	if error_update_element != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update_element.Error(), 0
 	}
 
-	carta_scheduleranges, error_update_schedule := carta_repository.Pg_Find_ScheduleRanges(idcarta_int.IDCarta, idbusiness)
+	carta_scheduleranges, error_update_schedule := cartadiaria_repository.Pg_Find_ScheduleRanges(idcarta_int.IDCarta, idbusiness)
 	if error_update_schedule != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los rangos horarios de la carta, detalles: " + error_update_schedule.Error(), 0
 	}
 
 	//Creamos la carta
-	idcarta, error_add_carta := carta_repository.Pg_Add(idbusiness, input_carta.Date)
+	idcarta, error_add_carta := cartadiaria_repository.Pg_Add(idbusiness, input_carta.Date)
 	if error_add_carta != nil {
 		return 500, true, "Error en el servidor interno al intentar crear la carta, detalles: " + error_add_carta.Error(), 0
 	}
 
 	//Transaccion
-	id_carta, error_update_schedulelist := carta_repository.Pg_Copy_Carta(carta_scheduleranges, carta_elements, idbusiness, input_carta.Date, idcarta)
+	id_carta, error_update_schedulelist := cartadiaria_repository.Pg_Copy_Carta(carta_scheduleranges, carta_elements, idbusiness, input_carta.Date, idcarta)
 	if error_update_schedulelist != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar la lista de rangos horarios, detalles: " + error_update_schedulelist.Error(), 0
 	}
@@ -242,7 +242,7 @@ func AddCartaFromOther_Service(input_carta Carta, idbusiness int) (int, bool, st
 func DeleteCarta_Service(idbusiness int, idcarta int) (int, bool, string, string) {
 
 	//Insertamos los datos en Mo
-	error_delete := carta_repository.Pg_Delete(idbusiness, idcarta)
+	error_delete := cartadiaria_repository.Pg_Delete(idbusiness, idcarta)
 	if error_delete != nil {
 		return 500, true, "Error en el servidor interno al intentar eliminar la carta, detalles: " + error_delete.Error(), ""
 	}
@@ -269,7 +269,7 @@ func DeleteCarta_Service(idbusiness int, idcarta int) (int, bool, string, string
 func GetCategories_ToCreateOrder_Service(date string, idbusiness int) (int, bool, string, []models.Pg_Category_ToCreate) {
 
 	//Obtenemos las categorias
-	category_tocreate, error_update := carta_repository.Pg_Find_Category_ToCreate(date, idbusiness)
+	category_tocreate, error_update := cartadiaria_repository.Pg_Find_Category_ToCreate(date, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), category_tocreate
 	}
@@ -280,7 +280,7 @@ func GetCategories_ToCreateOrder_Service(date string, idbusiness int) (int, bool
 func GetElements_ToCreateOrder_Service(date string, idbusiness int, idcategory int) (int, bool, string, []models.Pg_Element_ToCreate) {
 
 	//Obtenemos las categorias
-	elements_tocreate, error_update := carta_repository.Pg_Find_Elements_ToCreate(date, idbusiness, idcategory)
+	elements_tocreate, error_update := cartadiaria_repository.Pg_Find_Elements_ToCreate(date, idbusiness, idcategory)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar los elementos de la carta, detalles: " + error_update.Error(), elements_tocreate
 	}
@@ -291,7 +291,7 @@ func GetElements_ToCreateOrder_Service(date string, idbusiness int, idcategory i
 func GetSchedule_ToCreateOrder_Service(date string, idbusiness int) (int, bool, string, []models.Pg_Schedule_ToCreate) {
 
 	//Obtenemos las categorias
-	schedule_tocreate, error_update := carta_repository.Pg_Find_ScheduleRange_ToCreate(date, idbusiness)
+	schedule_tocreate, error_update := cartadiaria_repository.Pg_Find_ScheduleRange_ToCreate(date, idbusiness)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar encontrar las categorias de la carta, detalles: " + error_update.Error(), schedule_tocreate
 	}
@@ -304,7 +304,7 @@ func GetSchedule_ToCreateOrder_Service(date string, idbusiness int) (int, bool, 
 func SearchToNotifyCarta_Service() (int, bool, string, []int) {
 
 	//Agregamos la categoria
-	all_business, quantity, error_add := carta_repository.Pg_SearchToNotify()
+	all_business, quantity, error_add := cartadiaria_repository.Pg_SearchToNotify()
 	if error_add != nil {
 		return 500, true, "Error en el servidor interno al ntentar listar los negocios con datos a no notificar, detalles: " + error_add.Error(), all_business
 	}

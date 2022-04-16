@@ -39,6 +39,30 @@ services:
       PGADMIN_DEFAULT_PASSWORD: asf435vcf235HEFGHg435fd3h2s
     depends_on:
       - postgres
+  mongo:
+    image: mongo
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodbinventorydata
+      MONGO_INITDB_ROOT_PASSWORD: mongo412ddb1r2
+  mongo-express:
+    image: "mongo-express:1.0.0-alpha.4"
+    restart: always
+    ports:
+      - "91:8081"
+    networks:
+      - backend
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongodbinventorydata
+      ME_CONFIG_MONGODB_ADMINPASSWORD: adgadsfg234GWe5Ggwf34G52fag3
+      ME_CONFIG_BASICAUTH_USERNAME: mongobasicauthfw26666
+      ME_CONFIG_BASICAUTH_PASSWORD: dasd23GG3321Fa435fuj6c
+      ME_CONFIG_OPTIONS_EDITORTHEME: "ambiance"
+      ME_CONFIG_MONGODB_URL: mongodb://mongodbinventorydata:mongo412ddb1r2@mongo:27017/
   traefik: # apache.app.test - nginx.app.test
     image: traefik:v2.3.6
     labels: 

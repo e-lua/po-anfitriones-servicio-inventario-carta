@@ -1,4 +1,4 @@
-package inventario
+package carta
 
 import (
 	"bytes"
@@ -7,11 +7,11 @@ import (
 	"net/http"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/category"
-	element_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/element"
-	general_carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/general"
-	ordersstadistic_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/orders-stadistic"
-	schedule_range_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/schedule_range"
+	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_category"
+	element_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_element"
+	general_carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_general"
+	ordersstadistic_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_orders-stadistic"
+	schedule_range_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_schedule_range"
 )
 
 /*----------------------CONSUMER----------------------*/
@@ -48,7 +48,7 @@ func Import_OrderStadistic_Service(orders_stadistic []models.Pg_Import_Stadistic
 	return nil
 }
 
-/*----------------------CREATE DATA OF INVENTARIO----------------------*/
+/*----------------------CREATE DATA OF CARTA----------------------*/
 
 func AddCategory_Service(idbusiness int, input_name_category string, input_typefood_category string) (int, bool, string, int) {
 
@@ -172,7 +172,7 @@ func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []model
 	return 201, false, "", lista_category
 }
 
-func FindAllElements_Service(input_idbusiness int, input_limit int, input_offset int) (int, bool, string, []models.Pg_Element) {
+func FindAllElements_Service(input_idbusiness int, input_limit int, input_offset int) (int, bool, string, []models.Pg_Element_Tofind) {
 
 	//Agregamos la categoria
 	lista_Elemento, error_add := element_repository.Pg_Find_All(input_idbusiness, input_limit, input_offset)
@@ -194,7 +194,7 @@ func FindElementsRatingByDay_Service(input_idbusiness int, input_dayint int, inp
 	return 201, false, "", lista_Elemento
 }
 
-func FindElementsRatingByName_Service(input_idbusiness int, name string) (int, bool, string, []models.Pg_Element) {
+func FindElementsRatingByName_Service(input_idbusiness int, name string) (int, bool, string, []models.Pg_Element_Tofind) {
 
 	//Agregamos la categoria
 	lista_Elemento, error_add := element_repository.Pg_Find_ByName(input_idbusiness, name)
@@ -254,4 +254,68 @@ func SearchToNotifySchedulerange_Service() (int, bool, string, []int) {
 	}
 
 	return 201, false, "", all_business
+}
+
+/*----------------------ELIMINAR DATOS----------------------*/
+
+func SendToDeleteCategory_Service(input_idbusiness int, timezone int, input_idcategory int) (int, bool, string, string) {
+
+	error_sendtodelete := category_repository.Pg_Update_SendToDelete(input_idcategory, timezone, input_idbusiness)
+	if error_sendtodelete != nil {
+		return 500, true, "Error en el servidor interno al intentar enviar la categoria a la papelera, detalles: " + error_sendtodelete.Error(), ""
+	}
+
+	return 201, false, "", "Categoria enviada a papelera correctamente"
+}
+
+func RecoverSendToDeleteCategory_Service(input_idbusiness int, input_idcategory int) (int, bool, string, string) {
+
+	error_recoversendtodelete := category_repository.Pg_Update_RecoverSendDelete(input_idcategory, input_idbusiness)
+	if error_recoversendtodelete != nil {
+		return 500, true, "Error en el servidor interno al intentar recuperar la categoria de la papelera, detalles: " + error_recoversendtodelete.Error(), ""
+	}
+
+	return 201, false, "", "Categoria recuperada correctamente"
+}
+
+func SendToDeleteElement_Service(input_idbusiness int, timezone int, input_idelement int) (int, bool, string, string) {
+
+	error_sendtodelete := element_repository.Pg_Update_SendToDelete(input_idelement, timezone)
+	if error_sendtodelete != nil {
+		return 500, true, "Error en el servidor interno al intentar enviar la categoria a la papelera, detalles: " + error_sendtodelete.Error(), ""
+	}
+
+	return 201, false, "", "Element enviado a papelera correctamente"
+}
+
+func RecoverSendToDeleteElement_Service(input_idbusiness int, input_idelement int) (int, bool, string, string) {
+
+	error_recoversendtodelete := element_repository.Pg_Update_RecoverSendDelete(input_idelement)
+	if error_recoversendtodelete != nil {
+		return 500, true, "Error en el servidor interno al intentar recuperar la categoria de la papelera, detalles: " + error_recoversendtodelete.Error(), ""
+	}
+
+	return 201, false, "", "Elemento recuperado correctamente"
+}
+
+/*----------------------DELETE----------------------*/
+
+func UpdateCategory_Delete_Service() (string, string) {
+
+	error_update := category_repository.Pg_Update_Delete()
+	if error_update != nil {
+		return "Error en el servidor interno al intentar eliminar la categoria, detalles: " + error_update.Error(), ""
+	}
+
+	return "", "Categoria eliminada correctamente"
+}
+
+func UpdateElement_Delete_Service() (string, string) {
+
+	error_update := element_repository.Pg_Update_Delete()
+	if error_update != nil {
+		return "Error en el servidor interno al intentar eliminar el elemento, detalles: " + error_update.Error(), ""
+	}
+
+	return "", "Elemento eliminado correctamente"
 }

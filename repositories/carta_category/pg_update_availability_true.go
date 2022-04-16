@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Update_Available(status bool, idelement int, idbusiness int) error {
+func Pg_Update_AvailableToTrue(idcategory int, idbusiness int) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -16,8 +16,8 @@ func Pg_Update_Available(status bool, idelement int, idbusiness int) error {
 
 	db := models.Conectar_Pg_DB()
 
-	q := "UPDATE Element SET available=$1,updateddate=$2 FROM Category WHERE idelement=$3 AND Category.idbusiness=$4"
-	if _, err_update := db.Exec(ctx, q, status, time.Now(), idelement, idbusiness); err_update != nil {
+	q := "UPDATE Category SET available=true,isexported=false,updateddate=$1 WHERE idcategory=$2 AND idbusiness=$3"
+	if _, err_update := db.Exec(ctx, q, time.Now(), idcategory, idbusiness); err_update != nil {
 		return err_update
 	}
 

@@ -89,12 +89,13 @@ type Mo_Insumo struct {
 }
 
 type Mo_Insumo_Response struct {
-	ID           primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
-	Name         string             `json:"name"`
-	Measure      string             `json:"measure"`
-	StoreHouse   Mo_StoreHouse      `json:"storehouse"`
-	Description  string             `json:"description"`
-	Stock        []*Mo_Stock        `json:"stock"`
-	Available    bool               `json:"available"`
-	SendToDelete time.Time          `json:"sendtodelete"`
+	ID             primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
+	Name           string             `json:"name"`
+	Measure        string             `json:"measure"`
+	IDStoreHouse   string             `json:"idstorehouse"`
+	NameStoreHouse string             `json:"namestorehouse"`
+	Description    string             `json:"description"`
+	Stock          []*Mo_Stock        `json:"stock"`
+	Available      bool               `json:"available"`
+	SendToDelete   time.Time          `json:"sendtodelete"`
 }

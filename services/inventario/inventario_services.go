@@ -41,9 +41,9 @@ func AddStorehouse_Service(input_storehouse models.Mo_StoreHouse) (int, bool, st
 
 /*----------------------UPDATE MAIN DATA----------------------*/
 
-func UpdateInsumo_MainData_Service(idbusiness int, input_insumo models.Mo_Insumo) (int, bool, string, string) {
+func UpdateInsumo_MainData_Service(idbusiness int, idinsumo string, input_insumo models.Mo_Insumo) (int, bool, string, string) {
 
-	error_update := insumo_repository.Mo_Update_MainData(idbusiness, input_insumo)
+	error_update := insumo_repository.Mo_Update_MainData(idbusiness, idinsumo, input_insumo)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los datos del insumo, detalles: " + error_update.Error(), ""
 	}
@@ -61,9 +61,9 @@ func UpdateInsumo_Stock_Service(idinsumo string, idbusiness int, input_insumo mo
 	return 201, false, "", "Stock de insumo actualizado correctamente"
 }
 
-func UpdateProvider_MainData_Service(idbusiness int, input_provider models.Mo_Providers) (int, bool, string, string) {
+func UpdateProvider_MainData_Service(idbusiness int, idprovider string, input_provider models.Mo_Providers) (int, bool, string, string) {
 
-	error_update := provider_repository.Mo_Update_MainData(idbusiness, input_provider)
+	error_update := provider_repository.Mo_Update_MainData(idbusiness, idprovider, input_provider)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los datos del proveedor, detalles: " + error_update.Error(), ""
 	}
@@ -71,9 +71,9 @@ func UpdateProvider_MainData_Service(idbusiness int, input_provider models.Mo_Pr
 	return 201, false, "", "Proveedor actualizado correctamente"
 }
 
-func UpdateStoreHouse_MainData_Service(idbusiness int, input_store models.Mo_StoreHouse) (int, bool, string, string) {
+func UpdateStoreHouse_MainData_Service(idbusiness int, idstorehouse string, input_store models.Mo_StoreHouse) (int, bool, string, string) {
 
-	error_update := store_repository.Mo_Update_MainData(idbusiness, input_store)
+	error_update := store_repository.Mo_Update_MainData(idbusiness, idstorehouse, input_store)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los datos del almacén, detalles: " + error_update.Error(), ""
 	}

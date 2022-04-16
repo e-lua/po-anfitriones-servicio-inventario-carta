@@ -177,6 +177,9 @@ func (ir *inventarioRouter_pg) UpdateProvider_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
+	//Recibimos el id de la proveedor
+	idprovider := c.Param("idprovider")
+
 	//Instanciamos una variable del modelo Proveedor
 	var provider models.Mo_Providers
 
@@ -188,7 +191,7 @@ func (ir *inventarioRouter_pg) UpdateProvider_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateProvider_MainData_Service(data_idbusiness, provider)
+	status, boolerror, dataerror, data := UpdateProvider_MainData_Service(data_idbusiness, idprovider, provider)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
@@ -206,6 +209,9 @@ func (ir *inventarioRouter_pg) UpdateStoreHouse_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
+	//Recibimos el id de la storehouse
+	idstorehouse := c.Param("idstorehouse")
+
 	//Instanciamos una variable del modelo Alamacen
 	var storehouse models.Mo_StoreHouse
 
@@ -217,7 +223,7 @@ func (ir *inventarioRouter_pg) UpdateStoreHouse_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateStoreHouse_MainData_Service(data_idbusiness, storehouse)
+	status, boolerror, dataerror, data := UpdateStoreHouse_MainData_Service(data_idbusiness, idstorehouse, storehouse)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
@@ -235,6 +241,9 @@ func (ir *inventarioRouter_pg) UpdateInsumo_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
+	//Recibimos el id de la insumo
+	idinsumo := c.Param("idinsumo")
+
 	//Instanciamos una variable del modelo Insumo
 	var insumo models.Mo_Insumo
 
@@ -246,7 +255,7 @@ func (ir *inventarioRouter_pg) UpdateInsumo_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateInsumo_MainData_Service(data_idbusiness, insumo)
+	status, boolerror, dataerror, data := UpdateInsumo_MainData_Service(data_idbusiness, idinsumo, insumo)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

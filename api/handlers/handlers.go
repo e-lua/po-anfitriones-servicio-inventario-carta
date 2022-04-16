@@ -50,7 +50,7 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY PROVIDER
 	router_provider := version_1.Group("/provider")
 	router_provider.POST("", inventario.InventarioRouter_pg.AddProvider)
-	router_provider.PUT("", inventario.InventarioRouter_pg.UpdateProvider_MainData)
+	router_provider.PUT("/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_MainData)
 	router_provider.PUT("/status/:idprovider/:status", inventario.InventarioRouter_pg.UpdateProvider_Availability)
 	router_provider.PUT("/sendtrash/:idprovider/:timezone", inventario.InventarioRouter_pg.UpdateProvider_SendToDelete)
 	router_provider.PUT("/recover/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_RecoverSendToDelete)
@@ -61,7 +61,7 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY STOREHOUSE
 	router_storehouse := version_1.Group("/storehouse")
 	router_storehouse.POST("", inventario.InventarioRouter_pg.AddStorehouse)
-	router_storehouse.PUT("", inventario.InventarioRouter_pg.UpdateStoreHouse_MainData)
+	router_storehouse.PUT("/:idstorehouse", inventario.InventarioRouter_pg.UpdateStoreHouse_MainData)
 	router_storehouse.PUT("/status/:idstorehouse/:status", inventario.InventarioRouter_pg.UpdateStoreHouse_Availability)
 	router_storehouse.PUT("/sendtrash/:idstorehouse/:timezone", inventario.InventarioRouter_pg.UpdateStoreHouse_SendToDelete)
 	router_storehouse.PUT("/recover/:idstorehouse", inventario.InventarioRouter_pg.UpdateStoreHouse_RecoverSendToDelete)
@@ -72,7 +72,7 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY INSUMO
 	router_insumo := version_1.Group("/insumo")
 	router_insumo.POST("", inventario.InventarioRouter_pg.AddInsumo)
-	router_insumo.PUT("", inventario.InventarioRouter_pg.UpdateInsumo_MainData)
+	router_insumo.PUT("/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_MainData)
 	router_insumo.PUT("/stock/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_Stock)
 	router_insumo.PUT("/status/:idinsumo/:status", inventario.InventarioRouter_pg.UpdateInsumo_Availability)
 	router_insumo.PUT("/sendtrash/:idinsumo/:timezone", inventario.InventarioRouter_pg.UpdateInsumo_SendToDelete)

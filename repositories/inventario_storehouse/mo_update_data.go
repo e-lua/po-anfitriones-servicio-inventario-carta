@@ -6,9 +6,10 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func Mo_Update_MainData(idbusiness int, input_storehouse models.Mo_StoreHouse) error {
+func Mo_Update_MainData(idbusiness int, idstorehouse string, input_storehouse models.Mo_StoreHouse) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -26,9 +27,11 @@ func Mo_Update_MainData(idbusiness int, input_storehouse models.Mo_StoreHouse) e
 		},
 	}
 
+	objID, _ := primitive.ObjectIDFromHex(idstorehouse)
+
 	filtro := bson.M{
 		"idbusiness": idbusiness,
-		"_id":        input_storehouse.ID,
+		"_id":        objID,
 	}
 
 	_, error_update := col.UpdateOne(ctx, filtro, updtString)

@@ -18,8 +18,8 @@ func Mo_Search_Name(idbusiness int, name string) ([]*models.Mo_StoreHouse_Respon
 	var resultado []*models.Mo_StoreHouse_Response
 
 	pipeline := []bson.M{
-		{"idbusiness": idbusiness},
-		{"isdeleted": false},
+		{"$match": bson.M{"idbusiness": idbusiness}},
+		{"$match": bson.M{"isdeleted": false}},
 		{"$match": bson.M{
 			"name":           "/" + name + "/",
 			"$caseSensitive": true,

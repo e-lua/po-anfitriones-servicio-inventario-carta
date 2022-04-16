@@ -54,6 +54,9 @@ func Manejadores() {
 	router_provider.PUT("/status/:idprovider/:status", inventario.InventarioRouter_pg.UpdateProvider_Availability)
 	router_provider.PUT("/sendtrash/:idprovider/:timezone", inventario.InventarioRouter_pg.UpdateProvider_SendToDelete)
 	router_provider.PUT("/recover/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_RecoverSendToDelete)
+	router_provider.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindProvider_All)
+	router_provider.GET("/trash", inventario.InventarioRouter_pg.FindProvider_Papelera)
+	router_provider.GET("/search", inventario.InventarioRouter_pg.SearchNameProvider)
 
 	//V1 FROM V1 TO ...TO ENTITY STOREHOUSE
 	router_storehouse := version_1.Group("/storehouse")
@@ -62,6 +65,9 @@ func Manejadores() {
 	router_storehouse.PUT("/status/:idstorehouse/:status", inventario.InventarioRouter_pg.UpdateStoreHouse_Availability)
 	router_storehouse.PUT("/sendtrash/:idstorehouse/:timezone", inventario.InventarioRouter_pg.UpdateStoreHouse_SendToDelete)
 	router_storehouse.PUT("/recover/:idstorehouse", inventario.InventarioRouter_pg.UpdateStoreHouse_RecoverSendToDelete)
+	router_storehouse.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindProvider_All)
+	router_storehouse.GET("/trash", inventario.InventarioRouter_pg.FindStorehouse_Papelera)
+	router_storehouse.GET("/search", inventario.InventarioRouter_pg.SearchNameStorehouse)
 
 	//V1 FROM V1 TO ...TO ENTITY INSUMO
 	router_insumo := version_1.Group("/insumo")
@@ -71,6 +77,10 @@ func Manejadores() {
 	router_insumo.PUT("/status/:idinsumo/:status", inventario.InventarioRouter_pg.UpdateInsumo_Availability)
 	router_insumo.PUT("/sendtrash/:idinsumo/:timezone", inventario.InventarioRouter_pg.UpdateInsumo_SendToDelete)
 	router_insumo.PUT("/recover/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_RecoverSendToDelete)
+	router_insumo.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindInsumo_All)
+	router_insumo.GET("/stock", inventario.InventarioRouter_pg.FindInsumo_Stock)
+	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
+	router_insumo.GET("/search", inventario.InventarioRouter_pg.SearchNameInsumo)
 
 	/*===========CARTA===========*/
 
@@ -236,9 +246,8 @@ func Consumer_StadisticOrder() {
 func Notify_ByScheduleRange() {
 	noStop4 := make(chan bool)
 	go func() {
-
-		time.Sleep(48 * time.Hour)
 		carta.CartaRouter_pg.SearchToNotifySchedulerange()
+		time.Sleep(48 * time.Hour)
 
 	}()
 
@@ -272,9 +281,9 @@ func Clean_Categories() {
 func Clean_Elements() {
 	noStop7 := make(chan bool)
 	go func() {
-		time.Sleep(24 * time.Hour)
 		log.Println("Testing deleting Elements")
 		carta.CartaRouter_pg.UpdateElement_Delete()
+		time.Sleep(24 * time.Hour)
 	}()
 
 	<-noStop7
@@ -283,9 +292,8 @@ func Clean_Elements() {
 func Clean_Providers() {
 	noStop8 := make(chan bool)
 	go func() {
-
-		time.Sleep(24 * time.Hour)
 		inventario.InventarioRouter_pg.UpdateProvider_Delete()
+		time.Sleep(24 * time.Hour)
 	}()
 
 	<-noStop8
@@ -294,8 +302,8 @@ func Clean_Providers() {
 func Clean_StoreHouses() {
 	noStop9 := make(chan bool)
 	go func() {
-		time.Sleep(24 * time.Hour)
 		inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
+		time.Sleep(24 * time.Hour)
 	}()
 
 	<-noStop9
@@ -304,8 +312,8 @@ func Clean_StoreHouses() {
 func Clean_Insumos() {
 	noStop10 := make(chan bool)
 	go func() {
-		time.Sleep(24 * time.Hour)
 		inventario.InventarioRouter_pg.UpdateInsumo_Delete()
+		time.Sleep(24 * time.Hour)
 	}()
 
 	<-noStop10

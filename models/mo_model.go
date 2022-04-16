@@ -8,7 +8,7 @@ import (
 
 type Mo_Providers struct {
 	ID               primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
-	Type             string             `json:"type"`
+	Type             int                `json:"type"`
 	IDBusiness       int                `json:"idbusiness"`
 	CreatedDate      time.Time          `json:"createdDate"`
 	Number           string             `json:"number"`
@@ -29,7 +29,7 @@ type Mo_Providers struct {
 
 type Mo_Providers_Response struct {
 	ID               primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
-	Type             string             `json:"type"`
+	Type             int                `json:"type"`
 	IDBusiness       int                `json:"idbusiness"`
 	Number           string             `json:"number"`
 	ProviderName     string             `json:"providername"`

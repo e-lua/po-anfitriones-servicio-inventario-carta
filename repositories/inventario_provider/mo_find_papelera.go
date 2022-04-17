@@ -20,9 +20,9 @@ func Mo_Find_Papelera(idbusiness int, limit int64, offset int64) ([]*models.Mo_P
 	var resultado []*models.Mo_Providers_Response
 
 	condicion := bson.M{
-		"idbusiness":   idbusiness,
-		"isdeleted":    false,
-		"sendtodelete": true,
+		"idbusiness":     idbusiness,
+		"isdeleted":      false,
+		"issendtodelete": true,
 	}
 
 	opciones := options.Find()

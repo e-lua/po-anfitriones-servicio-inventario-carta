@@ -22,7 +22,7 @@ func Mo_Search_Name(idbusiness int, name string) ([]*models.Mo_Insumo_Response, 
 		"idbusiness": idbusiness,
 		"isdeleted":  false,
 		"name": bson.M{
-			"$regex": "/$" + name + "$/",
+			"$regex": "/^" + name + "/i",
 		},
 	}
 

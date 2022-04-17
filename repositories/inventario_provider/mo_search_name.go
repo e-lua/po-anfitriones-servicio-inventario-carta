@@ -6,6 +6,7 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -21,8 +22,9 @@ func Mo_Search_Name(idbusiness int, name string) ([]*models.Mo_Providers_Respons
 	condicion := bson.M{
 		"idbusiness": idbusiness,
 		"isdeleted":  false,
-		"providername": bson.M{
-			"$regex": "/^" + name + "/i",
+		"providername": primitive.Regex{
+			Pattern: name,
+			Options: "i",
 		},
 	}
 

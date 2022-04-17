@@ -57,8 +57,8 @@ type Pg_Element struct {
 }
 
 type Pg_Insumo struct {
-	Insumo   []Mo_Insumo_Response `json:"insumo"`
-	Quantity int                  `json:"quantity"`
+	Insumo   Mo_Insumo_Response `json:"insumo"`
+	Quantity int                `json:"quantity"`
 }
 
 type Pg_Element_Tofind struct {

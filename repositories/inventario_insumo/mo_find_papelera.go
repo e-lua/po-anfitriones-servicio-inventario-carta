@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Mo_Find_Papelera(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo_Response, error) {
+func Mo_Find_Papelera(idbusiness int) ([]*models.Mo_Insumo_Response, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*8)
 	defer cancel()
 
@@ -28,7 +28,6 @@ func Mo_Find_Papelera(idbusiness int, limit int64, offset int64) ([]*models.Mo_I
 	opciones := options.Find()
 	/*Indicar como ira ordenado*/
 	opciones.SetSort(bson.D{{Key: "sendtodelete", Value: -1}})
-	opciones.SetSkip((offset - 1) * limit)
 
 	/*Cursor es como una tabla de base de datos donde se van a grabar los resultados
 	y podre ir recorriendo 1 a la vez*/

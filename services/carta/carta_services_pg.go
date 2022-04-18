@@ -161,7 +161,7 @@ func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int) (int, boo
 
 /*----------------------FIND ALL DATA OF INVENTARIO----------------------*/
 
-func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []models.Pg_Category) {
+func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []models.Pg_Category_Response) {
 
 	//Agregamos la categoria
 	lista_category, error_add := category_repository.Pg_Find_All(input_idbusiness)
@@ -318,4 +318,26 @@ func UpdateElement_Delete_Service() (string, string) {
 	}
 
 	return "", "Elemento eliminado correctamente"
+}
+
+/*----------------------FIND PAPELERA DATA----------------------*/
+
+func FindCategory_Papelera_Service(idbusiness int) (int, bool, string, []models.Pg_Category_Response) {
+
+	categorias, error_find := category_repository.Pg_Find_Papelera(idbusiness)
+	if error_find != nil {
+		return 500, true, "Error en el servidor interno al intentar listar las categorias, detalles: " + error_find.Error(), categorias
+	}
+
+	return 201, false, "", categorias
+}
+
+func FindElement_Papelera_Service(idbusiness int) (int, bool, string, []models.Pg_Element_Tofind) {
+
+	providers, error_find := element_repository.Pg_Find_Papelera(idbusiness)
+	if error_find != nil {
+		return 500, true, "Error en el servidor interno al intentar listar los elementos, detalles: " + error_find.Error(), providers
+	}
+
+	return 201, false, "", providers
 }

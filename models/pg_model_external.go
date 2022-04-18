@@ -3,9 +3,8 @@ package models
 import "time"
 
 type Pg_Carta_Found struct {
-	Date            time.Time `json:"date"`
-	AvailableOrders bool      `json:"availableorders"`
-	Elements        int       `json:"elements"`
+	Date     time.Time `json:"date"`
+	Elements int       `json:"elements"`
 }
 
 type Pg_Carta_External struct {
@@ -25,19 +24,22 @@ type Pg_Category_External struct {
 }
 
 type Pg_Element_With_Stock_External struct {
-	IDElement        int     `json:"id"`
-	IDCarta          int     `json:"idcarta"`
-	IDBusiness       int     `json:"idbusiness"`
-	IDCategory       int     `json:"idcategory"`
-	Typefood         string  `json:"typefood"`
-	NameCategory     string  `json:"namecategory"`
-	UrlPhotoCategory string  `json:"urlphotocategory"`
-	Name             string  `json:"name"`
-	Price            float32 `json:"price"`
-	Description      string  `json:"description"`
-	TypeMoney        int     `json:"typemoney"`
-	Stock            int     `json:"stock"`
-	UrlPhoto         string  `json:"url"`
+	IDElement        int         `json:"id"`
+	IDCarta          int         `json:"idcarta"`
+	IDBusiness       int         `json:"idbusiness"`
+	IDCategory       int         `json:"idcategory"`
+	Typefood         string      `json:"typefood"`
+	NameCategory     string      `json:"namecategory"`
+	UrlPhotoCategory string      `json:"urlphotocategory"`
+	Name             string      `json:"name"`
+	Price            float32     `json:"price"`
+	Description      string      `json:"description"`
+	TypeMoney        int         `json:"typemoney"`
+	Stock            int         `json:"stock"`
+	UrlPhoto         string      `json:"url"`
+	Insumos          []Pg_Insumo `json:"insumos"`
+	Date             string      `json:"date"`
+	AvailableOrders  bool        `json:"availableorders"`
 }
 
 type Pg_ScheduleRange_External struct {

@@ -628,3 +628,43 @@ func (cr *cartaRouter_pg) RecoverSendToDeleteElement(c echo.Context) error {
 	return c.JSON(status, results)
 
 }
+
+/*----------------------FIND PAPELERA DATA----------------------*/
+
+func (cr *cartaRouter_pg) FindCategory_Papelera(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: ""}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: true, DataError: "000" + "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindCategory_Papelera_Service(data_idbusiness)
+	results := ResponseListCategory{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}
+
+func (cr *cartaRouter_pg) FindElement_Papelera(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := Response{Error: boolerror, DataError: "000" + dataerror, Data: ""}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := Response{Error: true, DataError: "000" + "Token incorrecto", Data: ""}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindElement_Papelera_Service(data_idbusiness)
+	results := ResponseListElement{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+}

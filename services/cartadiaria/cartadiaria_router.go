@@ -451,3 +451,12 @@ func (cdr *cartaDiariaRouter_pg) SearchToNotifyCarta() {
 	status, _, dataerror, _ := SearchToNotifyCarta_Service()
 	log.Println(strconv.Itoa(status) + " " + dataerror)
 }
+
+/*----------------------DELETE----------------------*/
+
+func (cdr *cartaDiariaRouter_pg) Delete_Vencidas() {
+
+	error_delete, data := Delete_Vencidas_Service()
+	log.Fatal(error_delete, data)
+
+}

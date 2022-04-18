@@ -336,3 +336,15 @@ func SearchToNotifyCarta_Service() (int, bool, string, []int) {
 
 	return 201, false, "", all_business
 }
+
+/*----------------------DELETE----------------------*/
+
+func Delete_Vencidas_Service() (string, string) {
+
+	error_update := cartadiaria_repository.Pg_Delete_Vencidas()
+	if error_update != nil {
+		return "Error en el servidor interno al intentar eliminar las cartas vencidas, detalles: " + error_update.Error(), ""
+	}
+
+	return "", "Cartas vencidas eliminadas correctamente"
+}

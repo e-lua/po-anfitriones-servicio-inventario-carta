@@ -253,9 +253,9 @@ func FindStorehouse_All_Service(idbusiness int, limit int64, offset int64) (int,
 
 /*----------------------FIND PAPELERA DATA----------------------*/
 
-func FindInsumo_Papelera_Service(idbusiness int, limit int64, offset int64) (int, bool, string, []*models.Mo_Insumo_Response) {
+func FindInsumo_Papelera_Service(idbusiness int) (int, bool, string, []*models.Mo_Insumo_Response) {
 
-	insumos, error_find := insumo_repository.Mo_Find_Papelera(idbusiness, limit, offset)
+	insumos, error_find := insumo_repository.Mo_Find_Papelera(idbusiness)
 	if error_find != nil {
 		return 500, true, "Error en el servidor interno al intentar listar los insumos, detalles: " + error_find.Error(), insumos
 	}
@@ -263,9 +263,9 @@ func FindInsumo_Papelera_Service(idbusiness int, limit int64, offset int64) (int
 	return 201, false, "", insumos
 }
 
-func FindProvider_Papelera_Service(idbusiness int, limit int64, offset int64) (int, bool, string, []*models.Mo_Providers_Response) {
+func FindProvider_Papelera_Service(idbusiness int) (int, bool, string, []*models.Mo_Providers_Response) {
 
-	providers, error_find := provider_repository.Mo_Find_Papelera(idbusiness, limit, offset)
+	providers, error_find := provider_repository.Mo_Find_Papelera(idbusiness)
 	if error_find != nil {
 		return 500, true, "Error en el servidor interno al intentar listar los proveedores, detalles: " + error_find.Error(), providers
 	}
@@ -273,9 +273,9 @@ func FindProvider_Papelera_Service(idbusiness int, limit int64, offset int64) (i
 	return 201, false, "", providers
 }
 
-func FindStorehouse_Papelera_Service(idbusiness int, limit int64, offset int64) (int, bool, string, []*models.Mo_StoreHouse_Response) {
+func FindStorehouse_Papelera_Service(idbusiness int) (int, bool, string, []*models.Mo_StoreHouse_Response) {
 
-	storehouses, error_find := store_repository.Mo_Find_Papelera(idbusiness, limit, offset)
+	storehouses, error_find := store_repository.Mo_Find_Papelera(idbusiness)
 	if error_find != nil {
 		return 500, true, "Error en el servidor interno al intentar listar los almacenes, detalles: " + error_find.Error(), storehouses
 	}

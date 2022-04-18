@@ -32,9 +32,9 @@ type ResponseJWT struct {
 }
 
 type ResponseListCategory struct {
-	Error     bool                 `json:"error"`
-	DataError string               `json:"dataError"`
-	Data      []models.Pg_Category `json:"data"`
+	Error     bool                          `json:"error"`
+	DataError string                        `json:"dataError"`
+	Data      []models.Pg_Category_Response `json:"data"`
 }
 
 type ResponseListCategoryForSearch struct {
@@ -44,9 +44,9 @@ type ResponseListCategoryForSearch struct {
 }
 
 type ResponseCategory struct {
-	Error     bool               `json:"error"`
-	DataError string             `json:"dataError"`
-	Data      models.Pg_Category `json:"data"`
+	Error     bool                        `json:"error"`
+	DataError string                      `json:"dataError"`
+	Data      models.Pg_Category_Response `json:"data"`
 }
 
 type Category struct {

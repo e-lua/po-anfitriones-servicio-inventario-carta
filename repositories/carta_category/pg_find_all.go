@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
+func Pg_Find_All(idbusiness int) ([]models.Pg_Category_Response, error) {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -19,7 +19,7 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
 	rows, error_shown := db.Query(ctx, q, idbusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
-	var oListCategory []models.Pg_Category
+	var oListCategory []models.Pg_Category_Response
 
 	if error_shown != nil {
 
@@ -28,7 +28,7 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_Category, error) {
 
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
-		oCategory := models.Pg_Category{}
+		oCategory := models.Pg_Category_Response{}
 		rows.Scan(&oCategory.IDCategory, &oCategory.Elements, &oCategory.Name, &oCategory.UrlPhoto, &oCategory.Available, &oCategory.TypeFood)
 		oListCategory = append(oListCategory, oCategory)
 	}

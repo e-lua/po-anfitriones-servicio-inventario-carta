@@ -670,16 +670,8 @@ func (ir *inventarioRouter_pg) FindProvider_Papelera(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la proveedor
-	limit := c.Param("limit")
-	limit_int, _ := strconv.Atoi(limit)
-
-	//Recibimos el id de la proveedor
-	offset := c.Param("offset")
-	offset_int, _ := strconv.Atoi(offset)
-
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := FindProvider_Papelera_Service(data_idbusiness, int64(limit_int), int64(offset_int))
+	status, boolerror, dataerror, data := FindProvider_Papelera_Service(data_idbusiness)
 	results := Response_Providers{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
@@ -697,16 +689,8 @@ func (ir *inventarioRouter_pg) FindStorehouse_Papelera(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la proveedor
-	limit := c.Param("limit")
-	limit_int, _ := strconv.Atoi(limit)
-
-	//Recibimos el id de la proveedor
-	offset := c.Param("offset")
-	offset_int, _ := strconv.Atoi(offset)
-
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := FindStorehouse_Papelera_Service(data_idbusiness, int64(limit_int), int64(offset_int))
+	status, boolerror, dataerror, data := FindStorehouse_Papelera_Service(data_idbusiness)
 	results := Response_StoreHouse{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
@@ -724,16 +708,8 @@ func (ir *inventarioRouter_pg) FindInsumo_Papelera(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la proveedor
-	limit := c.Param("limit")
-	limit_int, _ := strconv.Atoi(limit)
-
-	//Recibimos el id de la proveedor
-	offset := c.Param("offset")
-	offset_int, _ := strconv.Atoi(offset)
-
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := FindInsumo_Papelera_Service(data_idbusiness, int64(limit_int), int64(offset_int))
+	status, boolerror, dataerror, data := FindInsumo_Papelera_Service(data_idbusiness)
 	results := Response_Insumo{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

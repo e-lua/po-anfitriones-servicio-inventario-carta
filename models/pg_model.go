@@ -80,6 +80,7 @@ type Pg_Element_Response struct {
 	Available        bool        `json:"available"`
 	Insumos          []Pg_Insumo `json:"insumos"`
 	SendToDelete     time.Time   `json:"sendtodelete"`
+	IsSendToDelete   bool        `json:"issendtodelete"`
 }
 
 type Pg_Insumo struct {
@@ -101,6 +102,7 @@ type Pg_Element_Tofind struct {
 	Available        bool        `json:"available"`
 	Insumos          []Pg_Insumo `json:"insumos"`
 	SendToDelete     time.Time   `json:"sendtodelete"`
+	IsSendToDelete   bool        `json:"issendtodelete"`
 }
 
 type Pg_Element_WithRating struct {

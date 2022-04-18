@@ -573,6 +573,10 @@ func (ir *inventarioRouter_pg) FindProvider_All(c echo.Context) error {
 	offset := c.Param("offset")
 	offset_int, _ := strconv.Atoi(offset)
 
+	if offset_int == 0 {
+		offset_int = 1
+	}
+
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindProvider_All_Service(data_idbusiness, int64(limit_int), int64(offset_int))
 	results := Response_Providers{Error: boolerror, DataError: dataerror, Data: data}
@@ -600,6 +604,10 @@ func (ir *inventarioRouter_pg) FindStorehouse_All(c echo.Context) error {
 	offset := c.Param("offset")
 	offset_int, _ := strconv.Atoi(offset)
 
+	if offset_int == 0 {
+		offset_int = 1
+	}
+
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindStorehouse_All_Service(data_idbusiness, int64(limit_int), int64(offset_int))
 	results := Response_StoreHouse{Error: boolerror, DataError: dataerror, Data: data}
@@ -626,6 +634,10 @@ func (ir *inventarioRouter_pg) FindInsumo_All(c echo.Context) error {
 	//Recibimos el id de la proveedor
 	offset := c.Param("offset")
 	offset_int, _ := strconv.Atoi(offset)
+
+	if offset_int == 0 {
+		offset_int = 1
+	}
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindInsumo_All_Service(data_idbusiness, int64(limit_int), int64(offset_int))

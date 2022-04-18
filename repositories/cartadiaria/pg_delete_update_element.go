@@ -19,7 +19,7 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 	defer cancel()
 
 	//Variables para el MQTT
-	var elements_mqtt []models.Mqtt_Element_With_Stock
+	var elements_mqtt []interface{}
 
 	//Variables a Insertar
 	idelement_pg_insert, idcarta_pg_insert, idcategory_pg_insert, namecategory_pg_insert, urlphotocategory_pg_insert, name_pg_insert, price_pg_insert, description_pg_insert, urlphot_pg_insert, typem_pg_insert, stock_pg_insert, idbusiness_pg_insert, typefood_pg_insert, latitude_pg_insert, longitude_pg_insert := []int{}, []int{}, []int{}, []string{}, []string{}, []string{}, []float32{}, []string{}, []string{}, []int{}, []int{}, []int{}, []string{}, []float64{}, []float64{}
@@ -47,7 +47,6 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 		one_element_mqtt.Typefood = e.Typefood
 		one_element_mqtt.UrlPhoto = e.UrlPhoto
 		one_element_mqtt.UrlPhotoCategory = e.UrlPhotoCategory
-
 		elements_mqtt = append(elements_mqtt, one_element_mqtt)
 
 		//Variables a insertar

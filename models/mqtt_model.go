@@ -23,6 +23,6 @@ type Mqtt_Element_With_Stock struct {
 }
 
 type Mqtt_Element_With_Stock_export struct {
-	IdCarta             int                       `json:"idcarta"`
-	Elements_with_stock []Mqtt_Element_With_Stock `json:"elementswithstock"`
+	IdCarta             int           `json:"idcarta"`
+	Elements_with_stock []interface{} `json:"elementswithstock"`
 }

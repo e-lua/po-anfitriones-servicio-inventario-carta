@@ -348,3 +348,16 @@ func Delete_Vencidas_Service() (string, string) {
 
 	return "", "Cartas vencidas eliminadas correctamente"
 }
+
+/*----------------------SEARCH TEXT----------------------*/
+
+func SearchByNameAndDescription_Service(date string, idbusiness int, text string, limit int, offset int) (int, bool, string, []models.Pg_Element_With_Stock_External) {
+
+	//Version PG
+	carta_elements, error_find := cartadiaria_repository.Pg_Find_Elements_SearchByText(date, idbusiness, text, limit, offset)
+	if error_find != nil {
+		return 500, true, "Error en el servidor interno al intentar encontrar los elementos, detalles: " + error_find.Error(), carta_elements
+	}
+
+	return 201, false, "", carta_elements
+}

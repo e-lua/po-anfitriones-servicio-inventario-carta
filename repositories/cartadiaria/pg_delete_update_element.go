@@ -114,7 +114,7 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 		log.Error(error_serializar)
 	}
 
-	error_publish := ch.Publish("", "test/cartadiaria_elements", false, false,
+	error_publish := ch.Publish("", "anfitrion/cartadiaria_elements", false, false,
 		amqp.Publishing{
 			DeliveryMode: amqp.Persistent,
 			ContentType:  "text/plain",

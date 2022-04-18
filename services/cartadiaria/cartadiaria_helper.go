@@ -143,3 +143,9 @@ type ResponseAllBusinesses struct {
 	DataError string `json:"dataError"`
 	Data      []int  `json:"data"`
 }
+
+type ResponseCartaElements_Searched struct {
+	Error     bool                                    `json:"error"`
+	DataError string                                  `json:"dataError"`
+	Data      []models.Pg_Element_With_Stock_External `json:"data"`
+}

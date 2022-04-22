@@ -206,11 +206,8 @@ func (ir *inventarioRouter_pg) UpdateStoreHouse_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la storehouse
-	idstorehouse := c.Param("idstorehouse")
-
 	//Instanciamos una variable del modelo Alamacen
-	var storehouse models.Mo_StoreHouse
+	var storehouse models.Mo_StoreHouse_Response
 
 	//Agregamos los valores enviados a la variable creada
 	err := c.Bind(&storehouse)
@@ -220,7 +217,7 @@ func (ir *inventarioRouter_pg) UpdateStoreHouse_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateStoreHouse_MainData_Service(data_idbusiness, idstorehouse, storehouse)
+	status, boolerror, dataerror, data := UpdateStoreHouse_MainData_Service(data_idbusiness, storehouse)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
@@ -238,11 +235,8 @@ func (ir *inventarioRouter_pg) UpdateInsumo_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la insumo
-	idinsumo := c.Param("idinsumo")
-
 	//Instanciamos una variable del modelo Insumo
-	var insumo models.Mo_Insumo
+	var insumo models.Mo_Insumo_Response
 
 	//Agregamos los valores enviados a la variable creada
 	err := c.Bind(&insumo)
@@ -252,7 +246,7 @@ func (ir *inventarioRouter_pg) UpdateInsumo_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateInsumo_MainData_Service(data_idbusiness, idinsumo, insumo)
+	status, boolerror, dataerror, data := UpdateInsumo_MainData_Service(data_idbusiness, insumo)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

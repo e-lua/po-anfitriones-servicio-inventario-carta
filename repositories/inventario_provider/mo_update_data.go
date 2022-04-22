@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"log"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -38,8 +37,6 @@ func Mo_Update_MainData(idbusiness int, input_provider models.Mo_Providers_Respo
 		"idbusiness": idbusiness,
 		"_id":        input_provider.ID,
 	}
-
-	log.Println(`===================>>>>>>`, input_provider.ID)
 
 	_, error_update := col.UpdateOne(ctx, filtro, updtString)
 

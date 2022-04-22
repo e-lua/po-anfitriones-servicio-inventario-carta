@@ -2,14 +2,14 @@ package provider
 
 import (
 	"context"
+	"log"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func Mo_Update_MainData(idbusiness int, idprovider string, input_provider models.Mo_Providers) error {
+func Mo_Update_MainData(idbusiness int, input_provider models.Mo_Providers_Response) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -22,22 +22,24 @@ func Mo_Update_MainData(idbusiness int, idprovider string, input_provider models
 
 	updtString := bson.M{
 		"$set": bson.M{
-			"type":        input_provider.Type,
-			"number":      input_provider.Number,
-			"email":       input_provider.Email,
-			"phone":       input_provider.Phone,
-			"namecontact": input_provider.NameContact,
-			"address":     input_provider.Address,
-			"isexported":  false,
+			"type":             input_provider.Type,
+			"number":           input_provider.Number,
+			"email":            input_provider.Email,
+			"phone":            input_provider.Phone,
+			"namecontact":      input_provider.NameContact,
+			"address":          input_provider.Address,
+			"referenceaddress": input_provider.ReferenceAddress,
+			"description":      input_provider.Description,
+			"isexported":       false,
 		},
 	}
 
-	objID, _ := primitive.ObjectIDFromHex(idprovider)
-
 	filtro := bson.M{
 		"idbusiness": idbusiness,
-		"_id":        objID,
+		"_id":        input_provider.ID,
 	}
+
+	log.Println(`===================>>>>>>`, input_provider.ID)
 
 	_, error_update := col.UpdateOne(ctx, filtro, updtString)
 

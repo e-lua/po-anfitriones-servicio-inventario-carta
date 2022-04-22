@@ -51,7 +51,7 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY PROVIDER
 	router_provider := version_1.Group("/provider")
 	router_provider.POST("", inventario.InventarioRouter_pg.AddProvider)
-	router_provider.PUT("/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_MainData)
+	router_provider.PUT("", inventario.InventarioRouter_pg.UpdateProvider_MainData)
 	router_provider.PUT("/status/:idprovider/:status", inventario.InventarioRouter_pg.UpdateProvider_Availability)
 	router_provider.PUT("/sendtrash/:idprovider/:timezone", inventario.InventarioRouter_pg.UpdateProvider_SendToDelete)
 	router_provider.PUT("/recover/:idprovider", inventario.InventarioRouter_pg.UpdateProvider_RecoverSendToDelete)

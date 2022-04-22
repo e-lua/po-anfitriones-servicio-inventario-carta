@@ -61,9 +61,9 @@ func UpdateInsumo_Stock_Service(idinsumo string, idbusiness int, input_insumo mo
 	return 201, false, "", "Stock de insumo actualizado correctamente"
 }
 
-func UpdateProvider_MainData_Service(idbusiness int, idprovider string, input_provider models.Mo_Providers) (int, bool, string, string) {
+func UpdateProvider_MainData_Service(idbusiness int, input_provider models.Mo_Providers_Response) (int, bool, string, string) {
 
-	error_update := provider_repository.Mo_Update_MainData(idbusiness, idprovider, input_provider)
+	error_update := provider_repository.Mo_Update_MainData(idbusiness, input_provider)
 	if error_update != nil {
 		return 500, true, "Error en el servidor interno al intentar actualizar los datos del proveedor, detalles: " + error_update.Error(), ""
 	}

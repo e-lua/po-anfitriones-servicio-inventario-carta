@@ -177,11 +177,8 @@ func (ir *inventarioRouter_pg) UpdateProvider_MainData(c echo.Context) error {
 		return c.JSON(400, results)
 	}
 
-	//Recibimos el id de la proveedor
-	idprovider := c.Param("idprovider")
-
 	//Instanciamos una variable del modelo Proveedor
-	var provider models.Mo_Providers
+	var provider models.Mo_Providers_Response
 
 	//Agregamos los valores enviados a la variable creada
 	err := c.Bind(&provider)
@@ -191,7 +188,7 @@ func (ir *inventarioRouter_pg) UpdateProvider_MainData(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateProvider_MainData_Service(data_idbusiness, idprovider, provider)
+	status, boolerror, dataerror, data := UpdateProvider_MainData_Service(data_idbusiness, provider)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

@@ -14,7 +14,7 @@ func Pg_Find_Elements_SearchByText(date string, idbusiness int, text string, lim
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB_External()
 
 	q := "SELECT e.idelement,e.idbusiness,e.idcategory,e.namecategory,e.urlphotcategory,e.name,e.price,e.description,e.urlphoto,e.typemoney,e.stock,e.typefood,e.insumos,e.availableorders FROM element e LEFT JOIN carta c ON e.idcarta=c.idcarta WHERE c.date=$1 AND e.idbusiness=$2 AND (lower(e.name) ~ $3 OR lower(e.description) ~ $3) ORDER BY e.name ASC LIMIT $4 OFFSET $5"
 	rows, error_shown := db.Query(ctx, q, date, idbusiness, text, limit, offset)

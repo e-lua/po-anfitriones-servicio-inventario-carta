@@ -98,4 +98,5 @@ type Mo_Insumo_Response struct {
 	Stock          []*Mo_Stock        `json:"stock"`
 	Available      bool               `json:"available"`
 	SendToDelete   time.Time          `json:"sendtodelete"`
+	Quantity       int                `json:"quantity"`
 }

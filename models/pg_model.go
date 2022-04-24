@@ -79,8 +79,6 @@ type Pg_Mo_Insumo_Elements struct {
 	NameStoreHouse string             `json:"namestorehouse"`
 	Description    string             `json:"description"`
 	Stock          []*Mo_Stock        `json:"stock"`
-	Available      bool               `json:"available"`
-	SendToDelete   time.Time          `json:"sendtodelete"`
 	Quantity       int                `json:"quantity"`
 }
 

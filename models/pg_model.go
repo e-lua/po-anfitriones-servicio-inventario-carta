@@ -85,58 +85,58 @@ type Pg_Mo_Insumo_Elements struct {
 }
 
 type Pg_Element_Response struct {
-	IDElement        int                  `json:"id"`
-	IDCategory       int                  `json:"idcategory"`
-	NameCategory     string               `json:"namecategory"`
-	URLPhotoCategory string               `json:"urlphotocategory"`
-	Typefood         string               `json:"typefood"`
-	Name             string               `json:"name"`
-	Price            float32              `json:"price"`
-	Description      string               `json:"description"`
-	TypeMoney        int                  `json:"typemoney"`
-	UrlPhoto         interface{}          `json:"url"`
-	Available        bool                 `json:"available"`
-	Insumos          []Mo_Insumo_Response `json:"insumos"`
-	SendToDelete     time.Time            `json:"sendtodelete"`
-	IsSendToDelete   bool                 `json:"issendtodelete"`
-	Costo            float64              `json:"costo"`
+	IDElement        int                     `json:"id"`
+	IDCategory       int                     `json:"idcategory"`
+	NameCategory     string                  `json:"namecategory"`
+	URLPhotoCategory string                  `json:"urlphotocategory"`
+	Typefood         string                  `json:"typefood"`
+	Name             string                  `json:"name"`
+	Price            float32                 `json:"price"`
+	Description      string                  `json:"description"`
+	TypeMoney        int                     `json:"typemoney"`
+	UrlPhoto         interface{}             `json:"url"`
+	Available        bool                    `json:"available"`
+	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	SendToDelete     time.Time               `json:"sendtodelete"`
+	IsSendToDelete   bool                    `json:"issendtodelete"`
+	Costo            float64                 `json:"costo"`
 }
 
 type Pg_Element_Tofind struct {
-	IDElement        int                  `json:"id"`
-	IDCategory       int                  `json:"idcategory"`
-	NameCategory     string               `json:"namecategory"`
-	URLPhotoCategory string               `json:"urlphotocategory"`
-	Typefood         string               `json:"typefood"`
-	Name             string               `json:"name"`
-	Price            float32              `json:"price"`
-	Description      string               `json:"description"`
-	TypeMoney        int                  `json:"typemoney"`
-	UrlPhoto         interface{}          `json:"url"`
-	Available        bool                 `json:"available"`
-	Insumos          []Mo_Insumo_Response `json:"insumos"`
-	SendToDelete     time.Time            `json:"sendtodelete"`
-	IsSendToDelete   bool                 `json:"issendtodelete"`
-	Costo            float64              `json:"costo"`
+	IDElement        int                     `json:"id"`
+	IDCategory       int                     `json:"idcategory"`
+	NameCategory     string                  `json:"namecategory"`
+	URLPhotoCategory string                  `json:"urlphotocategory"`
+	Typefood         string                  `json:"typefood"`
+	Name             string                  `json:"name"`
+	Price            float32                 `json:"price"`
+	Description      string                  `json:"description"`
+	TypeMoney        int                     `json:"typemoney"`
+	UrlPhoto         interface{}             `json:"url"`
+	Available        bool                    `json:"available"`
+	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	SendToDelete     time.Time               `json:"sendtodelete"`
+	IsSendToDelete   bool                    `json:"issendtodelete"`
+	Costo            float64                 `json:"costo"`
 }
 
 type Pg_Element_WithRating struct {
-	IDElement        int                  `json:"id"`
-	IDCategory       int                  `json:"idcategory"`
-	NameCategory     string               `json:"namecategory"`
-	URLPhotoCategory string               `json:"urlphotocategory"`
-	Typefood         string               `json:"typefood"`
-	Name             string               `json:"name"`
-	Price            float32              `json:"price"`
-	Description      string               `json:"description"`
-	TypeMoney        int                  `json:"typemoney"`
-	UrlPhoto         interface{}          `json:"url"`
-	Available        bool                 `json:"available"`
-	Orders           int                  `json:"orders"`
-	Insumos          []Mo_Insumo_Response `json:"insumos"`
-	SendToDelete     time.Time            `json:"sendtodelete"`
-	IsSendToDelete   bool                 `json:"issendtodelete"`
-	Costo            float64              `json:"costo"`
+	IDElement        int                     `json:"id"`
+	IDCategory       int                     `json:"idcategory"`
+	NameCategory     string                  `json:"namecategory"`
+	URLPhotoCategory string                  `json:"urlphotocategory"`
+	Typefood         string                  `json:"typefood"`
+	Name             string                  `json:"name"`
+	Price            float32                 `json:"price"`
+	Description      string                  `json:"description"`
+	TypeMoney        int                     `json:"typemoney"`
+	UrlPhoto         interface{}             `json:"url"`
+	Available        bool                    `json:"available"`
+	Orders           int                     `json:"orders"`
+	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	SendToDelete     time.Time               `json:"sendtodelete"`
+	IsSendToDelete   bool                    `json:"issendtodelete"`
+	Costo            float64                 `json:"costo"`
 }
 
 type Pg_ScheduleRange struct {
@@ -206,20 +206,20 @@ type Pg_ElementsByCategory struct {
 }
 
 type Pg_Element_ToCreate struct {
-	IDElement        int                  `json:"id"`
-	IDBusiness       int                  `json:"idbusiness"`
-	IDCategory       int                  `json:"idcategory"`
-	NameCategory     string               `json:"namecategory"`
-	TypeFood         string               `json:"typefood"`
-	UrlPhotoCategory string               `json:"urlphotocategory"`
-	Name             string               `json:"name"`
-	Price            float32              `json:"price"`
-	Description      string               `json:"description"`
-	TypeMoney        int                  `json:"typemoney"`
-	Stock            int                  `json:"stock"`
-	UrlPhoto         string               `json:"url"`
-	Insumos          []Mo_Insumo_Response `json:"insumos"`
-	Costo            float64              `json:"costo"`
+	IDElement        int                     `json:"id"`
+	IDBusiness       int                     `json:"idbusiness"`
+	IDCategory       int                     `json:"idcategory"`
+	NameCategory     string                  `json:"namecategory"`
+	TypeFood         string                  `json:"typefood"`
+	UrlPhotoCategory string                  `json:"urlphotocategory"`
+	Name             string                  `json:"name"`
+	Price            float32                 `json:"price"`
+	Description      string                  `json:"description"`
+	TypeMoney        int                     `json:"typemoney"`
+	Stock            int                     `json:"stock"`
+	UrlPhoto         string                  `json:"url"`
+	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Costo            float64                 `json:"costo"`
 }
 
 type Pg_Schedule_ToCreate struct {

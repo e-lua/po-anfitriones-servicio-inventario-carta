@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Pg_Category struct {
 	IDCategory     int         `json:"id"`
@@ -47,23 +51,37 @@ type Pg_Element_for_search struct {
 }
 
 type Pg_Element struct {
-	IDElement        int                  `json:"id"`
-	IDCategory       int                  `json:"idcategory"`
-	NameCategory     string               `json:"namecategory"`
-	URLPhotoCategory string               `json:"urlphotocategory"`
-	Typefood         string               `json:"typefood"`
-	Name             string               `json:"name"`
-	Price            float32              `json:"price"`
-	Description      string               `json:"description"`
-	TypeMoney        int                  `json:"typemoney"`
-	UrlPhoto         interface{}          `json:"url"`
-	Available        bool                 `json:"available"`
-	Insumos          []Mo_Insumo_Response `json:"insumos"`
-	SendToDelete     time.Time            `json:"sendtodelete"`
-	IsDelete         bool                 `json:"isdeleted"`
-	IsExported       bool                 `json:"isexported"`
-	DeletedDate      time.Time            `json:"deleteddate"`
-	IsSendToDelete   bool                 `json:"issendtodelete"`
+	IDElement        int                     `json:"id"`
+	IDCategory       int                     `json:"idcategory"`
+	NameCategory     string                  `json:"namecategory"`
+	URLPhotoCategory string                  `json:"urlphotocategory"`
+	Typefood         string                  `json:"typefood"`
+	Name             string                  `json:"name"`
+	Price            float32                 `json:"price"`
+	Description      string                  `json:"description"`
+	TypeMoney        int                     `json:"typemoney"`
+	UrlPhoto         interface{}             `json:"url"`
+	Available        bool                    `json:"available"`
+	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	SendToDelete     time.Time               `json:"sendtodelete"`
+	IsDelete         bool                    `json:"isdeleted"`
+	IsExported       bool                    `json:"isexported"`
+	DeletedDate      time.Time               `json:"deleteddate"`
+	IsSendToDelete   bool                    `json:"issendtodelete"`
+	Costo            float64                 `json:"costo"`
+}
+
+type Pg_Mo_Insumo_Elements struct {
+	ID             primitive.ObjectID `bson:"_id" json:"_id,omitempty"`
+	Name           string             `json:"name"`
+	Measure        string             `json:"measure"`
+	IDStoreHouse   string             `json:"idstorehouse"`
+	NameStoreHouse string             `json:"namestorehouse"`
+	Description    string             `json:"description"`
+	Stock          []*Mo_Stock        `json:"stock"`
+	Available      bool               `json:"available"`
+	SendToDelete   time.Time          `json:"sendtodelete"`
+	Quantity       int                `json:"quantity"`
 }
 
 type Pg_Element_Response struct {
@@ -81,6 +99,7 @@ type Pg_Element_Response struct {
 	Insumos          []Mo_Insumo_Response `json:"insumos"`
 	SendToDelete     time.Time            `json:"sendtodelete"`
 	IsSendToDelete   bool                 `json:"issendtodelete"`
+	Costo            float64              `json:"costo"`
 }
 
 type Pg_Element_Tofind struct {
@@ -98,6 +117,7 @@ type Pg_Element_Tofind struct {
 	Insumos          []Mo_Insumo_Response `json:"insumos"`
 	SendToDelete     time.Time            `json:"sendtodelete"`
 	IsSendToDelete   bool                 `json:"issendtodelete"`
+	Costo            float64              `json:"costo"`
 }
 
 type Pg_Element_WithRating struct {
@@ -114,6 +134,9 @@ type Pg_Element_WithRating struct {
 	Available        bool                 `json:"available"`
 	Orders           int                  `json:"orders"`
 	Insumos          []Mo_Insumo_Response `json:"insumos"`
+	SendToDelete     time.Time            `json:"sendtodelete"`
+	IsSendToDelete   bool                 `json:"issendtodelete"`
+	Costo            float64              `json:"costo"`
 }
 
 type Pg_ScheduleRange struct {
@@ -196,6 +219,7 @@ type Pg_Element_ToCreate struct {
 	Stock            int                  `json:"stock"`
 	UrlPhoto         string               `json:"url"`
 	Insumos          []Mo_Insumo_Response `json:"insumos"`
+	Costo            float64              `json:"costo"`
 }
 
 type Pg_Schedule_ToCreate struct {

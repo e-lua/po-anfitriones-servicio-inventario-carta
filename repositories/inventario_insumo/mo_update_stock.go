@@ -16,7 +16,7 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 	if input_insumo.IsAdjust {
 
 		monto := input_insumo.AmountToAdjust * -1
-		counter := 1
+		counter := 0
 
 		longitud := len(input_insumo.Stock)
 

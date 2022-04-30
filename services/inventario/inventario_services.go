@@ -51,7 +51,7 @@ func UpdateInsumo_MainData_Service(idbusiness int, input_insumo models.Mo_Insumo
 	return 201, false, "", "Insumo actualizado correctamente"
 }
 
-func UpdateInsumo_Stock_Service(idinsumo string, idbusiness int, input_insumo models.Mo_Insumo) (int, bool, string, string) {
+func UpdateInsumo_Stock_Service(idinsumo string, idbusiness int, input_insumo models.Mo_Insumo_Stock_Adjust_Requst) (int, bool, string, string) {
 
 	error_update := insumo_repository.Mo_Update_Stock(idinsumo, idbusiness, input_insumo)
 	if error_update != nil {

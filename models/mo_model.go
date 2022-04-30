@@ -100,3 +100,9 @@ type Mo_Insumo_Response struct {
 	Available      bool               `json:"available"`
 	SendToDelete   time.Time          `json:"sendtodelete"`
 }
+
+type Mo_Insumo_Stock_Adjust_Requst struct {
+	AmountToAdjust int         `json:"amountadjust"`
+	IsAdjust       bool        `json:"isadjust"`
+	Stock          []*Mo_Stock `json:"stock"`
+}

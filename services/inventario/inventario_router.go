@@ -268,17 +268,17 @@ func (ir *inventarioRouter_pg) UpdateInsumo_Stock(c echo.Context) error {
 	idinsumo := c.Param("idinsumo")
 
 	//Instanciamos una variable del modelo Insumo
-	var insumo models.Mo_Insumo
+	var insumo_stock models.Mo_Insumo_Stock_Adjust_Requst
 
 	//Agregamos los valores enviados a la variable creada
-	err := c.Bind(&insumo)
+	err := c.Bind(&insumo_stock)
 	if err != nil {
 		results := Response{Error: true, DataError: "Se debe enviar los datos corretamente del proveedor, revise la estructura o los valores", Data: ""}
 		return c.JSON(400, results)
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := UpdateInsumo_Stock_Service(idinsumo, data_idbusiness, insumo)
+	status, boolerror, dataerror, data := UpdateInsumo_Stock_Service(idinsumo, data_idbusiness, insumo_stock)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }

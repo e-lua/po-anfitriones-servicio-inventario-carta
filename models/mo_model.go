@@ -80,6 +80,7 @@ type Mo_Insumo struct {
 	NameStoreHouse string      `json:"namestorehouse"`
 	Description    string      `json:"description"`
 	Stock          []*Mo_Stock `json:"stock"`
+	OutputStock    int         `json:"outputstock"`
 	Available      bool        `json:"available"`
 	IsDeleted      bool        `json:"isdeleted"`
 	IsExported     bool        `json:"isexported"`

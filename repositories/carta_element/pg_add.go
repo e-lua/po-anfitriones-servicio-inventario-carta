@@ -9,6 +9,9 @@ import (
 
 func Pg_Add(element models.Pg_Element) (int, error) {
 
+	//Validar si hay datos de insumos
+	counter_check := 0
+
 	var quantity_insumos int
 	var costo_medio_insumos float64
 
@@ -21,8 +24,16 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 		}
 		quantity_insumos += 1
 		costo_medio_insumos += ((costo / float64(quantity_stock)) * float64(insumo.Quantity))
+
+		//Validar si hay insumos
+		counter_check = counter_check + 1
 	}
-	element.Costo = (costo_medio_insumos / float64(quantity_insumos))
+
+	if counter_check != 0 {
+		element.Costo = (costo_medio_insumos / float64(quantity_insumos))
+	} else {
+		element.Costo = 0
+	}
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)

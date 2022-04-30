@@ -15,6 +15,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/carta"
 	cartadiaria "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/cartadiaria"
+	imports "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/imports"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
 )
 
@@ -34,7 +35,7 @@ func Manejadores() {
 	go Consumer_Element()
 	go Consumer_StadisticOrder()
 	go Notify_ByScheduleRange()
-	go Notify_ByCarta()
+	//go Notify_ByCarta()
 
 	//CLEAN TRASH
 	go Clean_CartasDiariasVencidas()
@@ -78,6 +79,9 @@ func Manejadores() {
 	router_insumo.PUT("/status/:idinsumo/:status", inventario.InventarioRouter_pg.UpdateInsumo_Availability)
 	router_insumo.PUT("/sendtrash/:idinsumo/:timezone", inventario.InventarioRouter_pg.UpdateInsumo_SendToDelete)
 	router_insumo.PUT("/recover/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_RecoverSendToDelete)
+
+	router_insumo.PUT("/update_insumo", imports.ImportsRouter_pg.UpdateElementStock)
+
 	router_insumo.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindInsumo_All)
 	router_insumo.GET("/stock/:idinsumo", inventario.InventarioRouter_pg.FindInsumo_Stock)
 	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
@@ -119,25 +123,25 @@ func Manejadores() {
 	router_total_data.GET("", carta.CartaRouter_pg.FindAllCarta_MainData)
 
 	/*===========CARTA DIARIA===========*/
+	/*
+		router_menu := version_1.Group("/menu")
+		router_menu.POST("", cartadiaria.CartaDiariaRouter_pg.AddCarta)
+		router_menu.PUT("", cartadiaria.CartaDiariaRouter_pg.UpdateCartaStatus)
+		router_menu.GET("", cartadiaria.CartaDiariaRouter_pg.GetCartas)
+		router_menu.DELETE("", cartadiaria.CartaDiariaRouter_pg.DeleteCarta)
+		router_menu.GET("/:date", cartadiaria.CartaDiariaRouter_pg.GetCartaBasicData)
+		router_menu.GET("/:idcarta/category", cartadiaria.CartaDiariaRouter_pg.GetCartaCategory)
+		router_menu.GET("/:idcarta/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElementsByCarta)
+		router_menu.PUT("/elements", cartadiaria.CartaDiariaRouter_pg.UpdateCartaElements)
+		router_menu.GET("/:idcarta/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElements)
+		router_menu.PUT("/onelement", cartadiaria.CartaDiariaRouter_pg.UpdateCartaOneElement)
+		router_menu.PUT("/scheduleranges", cartadiaria.CartaDiariaRouter_pg.UpdateCartaScheduleRanges)
+		router_menu.GET("/:idcarta/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetCartaScheduleRanges)
 
-	router_menu := version_1.Group("/menu")
-	router_menu.POST("", cartadiaria.CartaDiariaRouter_pg.AddCarta)
-	router_menu.PUT("", cartadiaria.CartaDiariaRouter_pg.UpdateCartaStatus)
-	router_menu.GET("", cartadiaria.CartaDiariaRouter_pg.GetCartas)
-	router_menu.DELETE("", cartadiaria.CartaDiariaRouter_pg.DeleteCarta)
-	router_menu.GET("/:date", cartadiaria.CartaDiariaRouter_pg.GetCartaBasicData)
-	router_menu.GET("/:idcarta/category", cartadiaria.CartaDiariaRouter_pg.GetCartaCategory)
-	router_menu.GET("/:idcarta/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElementsByCarta)
-	router_menu.PUT("/elements", cartadiaria.CartaDiariaRouter_pg.UpdateCartaElements)
-	router_menu.GET("/:idcarta/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElements)
-	router_menu.PUT("/onelement", cartadiaria.CartaDiariaRouter_pg.UpdateCartaOneElement)
-	router_menu.PUT("/scheduleranges", cartadiaria.CartaDiariaRouter_pg.UpdateCartaScheduleRanges)
-	router_menu.GET("/:idcarta/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetCartaScheduleRanges)
-	/*to create an order*/
-	router_menu.GET("/createorder/:date/category", cartadiaria.CartaDiariaRouter_pg.GetCategories_ToCreateOrder)
-	router_menu.GET("/createorder/:date/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetElements_ToCreateOrder)
-	router_menu.GET("/createorder/:date/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetSchedule_ToCreateOrder)
-
+		router_menu.GET("/createorder/:date/category", cartadiaria.CartaDiariaRouter_pg.GetCategories_ToCreateOrder)
+		router_menu.GET("/createorder/:date/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetElements_ToCreateOrder)
+		router_menu.GET("/createorder/:date/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetSchedule_ToCreateOrder)
+	*/
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
 	//Si dice que existe PORT

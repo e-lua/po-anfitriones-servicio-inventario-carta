@@ -28,3 +28,8 @@ type Mqtt_Element_With_Stock_export struct {
 	IdCarta             int           `json:"idcarta"`
 	Elements_with_stock []interface{} `json:"elementswithstock"`
 }
+
+type Mqtt_Import_InsumoStock struct {
+	Quantity int                     `json:"quantity"`
+	Insumos  []Pg_Mo_Insumo_Elements `json:"insumos"`
+}

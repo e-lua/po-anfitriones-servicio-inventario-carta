@@ -11,7 +11,7 @@ import (
 
 func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Insumo_Stock_Adjust_Requst) error {
 
-	var stock_list []*models.Mo_Stock
+	var stock_list []models.Mo_Stock
 
 	if input_insumo.IsAdjust {
 
@@ -22,7 +22,7 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 
 		for _, stock := range input_insumo.Stock {
 
-			var stock_one *models.Mo_Stock
+			var stock_one models.Mo_Stock
 			//var resultado_monto int
 
 			stock_one.Price = stock.Price

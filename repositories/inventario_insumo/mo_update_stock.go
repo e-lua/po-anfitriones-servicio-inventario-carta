@@ -16,6 +16,9 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 	if input_insumo.IsAdjust {
 
 		monto := input_insumo.AmountToAdjust
+		counter := 1
+
+		longitud := len(input_insumo.Stock)
 
 		for _, stock := range input_insumo.Stock {
 
@@ -28,7 +31,13 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 			stock_one.CreatedDate = stock.CreatedDate
 
 			if monto > 0 {
-				monto = monto - stock.Quantity
+
+				if counter == longitud {
+					monto = monto - stock.Quantity
+				} else {
+					stock.Quantity = stock.Quantity - monto
+					break
+				}
 
 				if monto >= 0 {
 					stock_one.Quantity = 0
@@ -43,6 +52,8 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 			stock_one.ProviderName = stock.ProviderName
 
 			stock_list = append(stock_list, stock_one)
+
+			counter += 1
 		}
 	} else {
 		stock_list = input_insumo.Stock

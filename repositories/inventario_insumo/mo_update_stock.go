@@ -2,6 +2,7 @@ package insumo
 
 import (
 	"context"
+	"log"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -31,6 +32,9 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 			stock_one.CreatedDate = stock.CreatedDate
 
 			if monto > 0 {
+
+				log.Println("----->>>>> COUNTER: ", counter)
+				log.Println("----->>>>> LONGITUD: ", longitud)
 
 				if counter == longitud {
 					stock_one.Quantity = stock.Quantity - monto

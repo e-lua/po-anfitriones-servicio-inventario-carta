@@ -70,8 +70,9 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 
 	updtString := bson.M{
 		"$set": bson.M{
-			"stock":      stock_list,
-			"isexported": false,
+			"stock":       stock_list,
+			"outputstock": 0,
+			"isexported":  false,
 		},
 	}
 

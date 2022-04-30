@@ -35,6 +35,7 @@ func Manejadores() {
 	go Consumer_Element()
 	go Consumer_StadisticOrder()
 	go Notify_ByScheduleRange()
+	go Consumer_StockInsumos()
 	//go Notify_ByCarta()
 
 	//CLEAN TRASH
@@ -79,9 +80,6 @@ func Manejadores() {
 	router_insumo.PUT("/status/:idinsumo/:status", inventario.InventarioRouter_pg.UpdateInsumo_Availability)
 	router_insumo.PUT("/sendtrash/:idinsumo/:timezone", inventario.InventarioRouter_pg.UpdateInsumo_SendToDelete)
 	router_insumo.PUT("/recover/:idinsumo", inventario.InventarioRouter_pg.UpdateInsumo_RecoverSendToDelete)
-
-	router_insumo.PUT("/update_insumo", imports.ImportsRouter_pg.UpdateElementStock)
-
 	router_insumo.GET("/:limit/:offset", inventario.InventarioRouter_pg.FindInsumo_All)
 	router_insumo.GET("/stock/:idinsumo", inventario.InventarioRouter_pg.FindInsumo_Stock)
 	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
@@ -244,6 +242,36 @@ func Consumer_StadisticOrder() {
 				log.Fatal("Error decoding")
 			}
 			carta.CartaRouter_pg.Import_OrderStadistic(export_byelement)
+		}
+	}()
+
+	<-noStop3
+}
+
+func Consumer_StockInsumos() {
+
+	ch, error_conection := models.MqttCN.Channel()
+	if error_conection != nil {
+
+		log.Fatal("Error connection canal")
+	}
+
+	msgs, err_consume := ch.Consume("anfitrion/stock_insumo_add", "", true, false, false, false, nil)
+	if err_consume != nil {
+		log.Fatal("Error connection cola")
+	}
+
+	noStop3 := make(chan bool)
+	go func() {
+		for d := range msgs {
+			var import_elements []models.Mqtt_Import_InsumoStock
+			buf := bytes.NewBuffer(d.Body)
+			decoder := json.NewDecoder(buf)
+			err_consume := decoder.Decode(&import_elements)
+			if err_consume != nil {
+				log.Fatal("Error decoding")
+			}
+			imports.ImportsRouter_pg.UpdateElementStock(import_elements)
 		}
 	}()
 

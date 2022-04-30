@@ -155,6 +155,7 @@ func (ir *inventarioRouter_pg) AddInsumo(c echo.Context) error {
 	insumo.CreatedDate = time.Now()
 	insumo.IDBusiness = data_idbusiness
 	insumo.Available = true
+	insumo.OutputStock = 0
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := AddInsumo_Service(insumo)

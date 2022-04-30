@@ -22,7 +22,7 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 
 		for _, stock := range input_insumo.Stock {
 
-			var stock_one *models.Mo_Stock
+			var stock_one models.Mo_Stock
 			//var resultado_monto int
 
 			stock_one.Price = stock.Price
@@ -51,7 +51,7 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 
 			stock_one.ProviderName = stock.ProviderName
 
-			stock_list = append(stock_list, stock_one)
+			stock_list = append(stock_list, &stock_one)
 
 			counter += 1
 		}

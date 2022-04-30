@@ -2,7 +2,6 @@ package insumo
 
 import (
 	"context"
-	"log"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -17,7 +16,7 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 	if input_insumo.IsAdjust {
 
 		monto := input_insumo.AmountToAdjust * -1
-		counter := 0
+		counter := 1
 
 		longitud := len(input_insumo.Stock)
 
@@ -33,20 +32,17 @@ func Mo_Update_Stock(idinsumo string, idbusiness int, input_insumo models.Mo_Ins
 
 			if monto > 0 {
 
-				log.Println("----->>>>> COUNTER: ", counter)
-				log.Println("----->>>>> LONGITUD: ", longitud)
-
 				if counter == longitud {
 					stock_one.Quantity = stock.Quantity - monto
-					break
 				} else {
-					monto = monto - stock.Quantity
-				}
 
-				if monto >= 0 {
-					stock_one.Quantity = 0
-				} else {
-					stock_one.Quantity = monto
+					monto = monto - stock.Quantity
+
+					if monto >= 0 {
+						stock_one.Quantity = 0
+					} else {
+						stock_one.Quantity = monto
+					}
 				}
 
 			} else {

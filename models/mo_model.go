@@ -103,7 +103,7 @@ type Mo_Insumo_Response struct {
 }
 
 type Mo_Insumo_Stock_Adjust_Requst struct {
-	AmountToAdjust int        `json:"amountadjust"`
+	AmountToAdjust int        `json:"outputstock"`
 	IsAdjust       bool       `json:"isadjust"`
 	Stock          []Mo_Stock `json:"stock"`
 }

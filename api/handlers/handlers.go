@@ -15,6 +15,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/carta"
 	cartadiaria "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/cartadiaria"
+	exportfile "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/exportfile"
 	imports "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/imports"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
 )
@@ -84,6 +85,7 @@ func Manejadores() {
 	router_insumo.GET("/stock/:idinsumo", inventario.InventarioRouter_pg.FindInsumo_Stock)
 	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
 	router_insumo.GET("/search", inventario.InventarioRouter_pg.SearchNameInsumo)
+	router_insumo.GET("/sendtoemail", exportfile.ExportfileRouter_pg.ExportFile_Insumo)
 
 	/*===========CARTA===========*/
 
@@ -108,6 +110,7 @@ func Manejadores() {
 	router_element.GET("/rating/:day/:limit/:offset", carta.CartaRouter_pg.FindElementsRatingByDay)
 	router_element.GET("/search", carta.CartaRouter_pg.FindElementsRatingByName)
 	router_element.GET("/trash", carta.CartaRouter_pg.FindElement_Papelera)
+	router_element.GET("/sendtoemail", exportfile.ExportfileRouter_pg.ExportFile_Element)
 
 	//V1 FROM V1 TO ...TO ENTITY SCHEDULE RANGE
 	router_schedule_range := version_1.Group("/schedulerange")

@@ -13,7 +13,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Mo_Insumos_ToFile(idbusiness int) error {
+func Mo_Insumos_ToFile(insumo_data models.Mqtt_Request_Insumo) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*8)
 	defer cancel()
 
@@ -24,7 +24,7 @@ func Mo_Insumos_ToFile(idbusiness int) error {
 	var resultado []*models.Mo_Insumo_Response
 
 	condicion := bson.M{
-		"idbusiness": idbusiness,
+		"idbusiness": insumo_data.IDBusiness,
 		"isdeleted":  false,
 	}
 
@@ -57,6 +57,8 @@ func Mo_Insumos_ToFile(idbusiness int) error {
 		}
 	}
 
+	insumo_data.Insumos = resultado
+
 	if quantity > 0 {
 
 		/*----------------------------MQTT----------------------------*/
@@ -67,7 +69,7 @@ func Mo_Insumos_ToFile(idbusiness int) error {
 			log.Error(error_conection)
 		}
 
-		bytes_element, error_serializar_ele := serialize_insumos(resultado)
+		bytes_element, error_serializar_ele := serialize_insumos(insumo_data)
 		if error_serializar_ele != nil {
 			log.Error(error_serializar_ele)
 		}
@@ -88,10 +90,10 @@ func Mo_Insumos_ToFile(idbusiness int) error {
 }
 
 //SERIALIZADORA INSUMO
-func serialize_insumos(serialize_insumo []*models.Mo_Insumo_Response) ([]byte, error) {
+func serialize_insumos(insumo_data models.Mqtt_Request_Insumo) ([]byte, error) {
 	var b bytes.Buffer
 	encoder := json.NewEncoder(&b)
-	err := encoder.Encode(serialize_insumo)
+	err := encoder.Encode(insumo_data)
 	if err != nil {
 		return b.Bytes(), err
 	}

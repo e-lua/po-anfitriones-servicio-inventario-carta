@@ -11,7 +11,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
-func Pg_Elements_ToFile(idbusiness int) error {
+func Pg_Elements_ToFile(element_data models.Mqtt_Request_Element) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -20,7 +20,7 @@ func Pg_Elements_ToFile(idbusiness int) error {
 
 	db := models.Conectar_Pg_DB()
 	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos,e.costo FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND c.isdeleted=false AND c.issendtodelete=false ORDER BY e.name ASC"
-	rows, error_shown := db.Query(ctx, q, idbusiness)
+	rows, error_shown := db.Query(ctx, q, element_data.IDBusiness)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
 	var oListElement []models.Pg_Element_Tofind
@@ -43,6 +43,8 @@ func Pg_Elements_ToFile(idbusiness int) error {
 		}
 	}
 
+	element_data.Elements = oListElement
+
 	if quantity > 0 {
 
 		/*----------------------------MQTT----------------------------*/
@@ -53,7 +55,7 @@ func Pg_Elements_ToFile(idbusiness int) error {
 			log.Error(error_conection)
 		}
 
-		bytes_element, error_serializar_ele := serialize_elements(oListElement)
+		bytes_element, error_serializar_ele := serialize_elements(element_data)
 		if error_serializar_ele != nil {
 			log.Error(error_serializar_ele)
 		}
@@ -76,10 +78,10 @@ func Pg_Elements_ToFile(idbusiness int) error {
 }
 
 //SERIALIZADORA ELEMENT
-func serialize_elements(serialize_element []models.Pg_Element_Tofind) ([]byte, error) {
+func serialize_elements(element_data models.Mqtt_Request_Element) ([]byte, error) {
 	var b bytes.Buffer
 	encoder := json.NewEncoder(&b)
-	err := encoder.Encode(serialize_element)
+	err := encoder.Encode(element_data)
 	if err != nil {
 		return b.Bytes(), err
 	}

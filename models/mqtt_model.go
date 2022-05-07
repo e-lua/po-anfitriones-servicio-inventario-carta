@@ -66,3 +66,17 @@ type Mqtt_Element struct {
 	IsSendToDelete   bool                   `json:"issendtodelete"`
 	Costo            float64                `json:"costo"`
 }
+
+//MQTT REQUEST
+
+type Mqtt_Request_Insumo struct {
+	IDBusiness int                   `json:"idbusiness"`
+	Email      string                `json:"email"`
+	Insumos    []*Mo_Insumo_Response `json:"insumos"`
+}
+
+type Mqtt_Request_Element struct {
+	IDBusiness int                 `json:"idbusiness"`
+	Email      string              `json:"email"`
+	Elements   []Pg_Element_Tofind `json:"elements"`
+}

@@ -2,6 +2,7 @@ package exportfile
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -49,6 +50,8 @@ func (efr *exportfileRouter_pg) ExportFile_Insumo(c echo.Context) error {
 		results := Response{Error: boolerror, DataError: dataerror, Data: ""}
 		return c.JSON(status, results)
 	}
+
+	log.Println("emial---------------->", get_respuesta.Data)
 
 	var insumo_data models.Mqtt_Request_Insumo
 	insumo_data.IDBusiness = data_idbusiness

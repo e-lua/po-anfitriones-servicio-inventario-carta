@@ -43,7 +43,7 @@ func (efr *exportfileRouter_pg) ExportFile_Insumo(c echo.Context) error {
 
 	//Obtenemos los datos del auth
 	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:5000/v1/worker/email")
-	respuesta.Header.Add("Authorization", c.Request().Header.Get("Authorization"))
+	respuesta.Request.Header.Add("Authorization", c.Request().Header.Get("Authorization"))
 	var get_respuesta Response
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {

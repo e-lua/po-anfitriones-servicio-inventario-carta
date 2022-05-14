@@ -15,24 +15,27 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	var quantity_insumos int
 	var costo_medio_insumos float64
 
-	for _, insumo := range element.Insumos {
-		var quantity_stock int
-		var costo float64
-		for _, stock := range insumo.Stock {
-			quantity_stock += 1
-			costo += stock.Price
+	if len(element.Insumos) > 0 {
+
+		for _, insumo := range element.Insumos {
+			var quantity_stock int
+			var costo float64
+			for _, stock := range insumo.Stock {
+				quantity_stock += 1
+				costo += stock.Price
+			}
+			quantity_insumos += 1
+			costo_medio_insumos += ((costo / float64(quantity_stock)) * float64(insumo.Quantity))
+
+			//Validar si hay insumos
+			counter_check = counter_check + 1
 		}
-		quantity_insumos += 1
-		costo_medio_insumos += ((costo / float64(quantity_stock)) * float64(insumo.Quantity))
 
-		//Validar si hay insumos
-		counter_check = counter_check + 1
-	}
-
-	if counter_check != 0 {
-		element.Costo = (costo_medio_insumos / float64(quantity_insumos))
-	} else {
-		element.Costo = 0
+		if counter_check != 0 {
+			element.Costo = (costo_medio_insumos / float64(quantity_insumos))
+		} else {
+			element.Costo = 0
+		}
 	}
 
 	//Tiempo limite al contexto

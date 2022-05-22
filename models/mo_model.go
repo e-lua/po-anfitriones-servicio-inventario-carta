@@ -107,3 +107,8 @@ type Mo_Insumo_Stock_Adjust_Requst struct {
 	IsAdjust       bool       `json:"isadjust"`
 	Stock          []Mo_Stock `json:"stock"`
 }
+
+type Mo_Precharged_Element struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}

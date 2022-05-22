@@ -69,6 +69,7 @@ type Pg_Element struct {
 	DeletedDate      time.Time               `json:"deleteddate"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	Costo            float64                 `json:"costo"`
+	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 }
 
 type Pg_Mo_Insumo_Elements struct {
@@ -97,6 +98,7 @@ type Pg_Element_Response struct {
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
+	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
 }
 
@@ -115,6 +117,7 @@ type Pg_Element_Tofind struct {
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
+	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
 }
 
@@ -218,6 +221,7 @@ type Pg_Element_ToCreate struct {
 	UrlPhoto         string                  `json:"url"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	Costo            float64                 `json:"costo"`
+	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 }
 
 type Pg_Schedule_ToCreate struct {

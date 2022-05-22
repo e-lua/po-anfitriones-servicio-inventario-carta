@@ -14,6 +14,15 @@ services:
       - "7500:6500"
     links:
       - postgres
+      - redis
+  redis:
+    container_name: redis_db
+    restart: always
+    image: "redis:6.0.16"
+    networks:
+      - backend
+    ports: 
+      - "6000:6379"
   postgres:
     container_name: postgres_db
     restart: always

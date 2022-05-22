@@ -15,7 +15,7 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	var quantity_insumos int
 	var costo_medio_insumos float64
 
-	if len(element.Insumos) > 0 {
+	if len(element.Insumos) > 0 && element.IsAutomaticCost {
 
 		for _, insumo := range element.Insumos {
 			var quantity_stock int

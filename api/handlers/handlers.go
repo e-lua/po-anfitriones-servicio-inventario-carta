@@ -18,6 +18,7 @@ import (
 	exportfile "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/exportfile"
 	imports "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/imports"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
+	pre_charged "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/pre_charged"
 )
 
 func Manejadores() {
@@ -109,6 +110,7 @@ func Manejadores() {
 	router_element.GET("/:limit/:offset", carta.CartaRouter_pg.FindAllElements)
 	router_element.GET("/rating/:day/:limit/:offset", carta.CartaRouter_pg.FindElementsRatingByDay)
 	router_element.GET("/search", carta.CartaRouter_pg.FindElementsRatingByName)
+	router_element.GET("/precharged", pre_charged.ImportsRouter_pg.FindPreCharged)
 	router_element.GET("/trash", carta.CartaRouter_pg.FindElement_Papelera)
 	router_element.GET("/sendtoemail", exportfile.ExportfileRouter_pg.ExportFile_Element)
 
@@ -118,6 +120,10 @@ func Manejadores() {
 	router_schedule_range.PUT("", carta.CartaRouter_pg.UpdateScheduleRange)
 	router_schedule_range.DELETE("/:idschedulerange", carta.CartaRouter_pg.UpdateScheduleRangeStatus)
 	router_schedule_range.GET("", carta.CartaRouter_pg.FindAllRangoHorario)
+
+	//V1 FROM V1 TO ...TO ENTITY PRECHARGED
+	router_precharged := version_1.Group("/pre-charged-element")
+	router_precharged.POST("", pre_charged.ImportsRouter_pg.AddPreCharged)
 
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")

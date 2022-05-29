@@ -70,6 +70,7 @@ type Pg_Element struct {
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	Costo            float64                 `json:"costo"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
+	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }
 
 type Pg_Mo_Insumo_Elements struct {
@@ -100,6 +101,7 @@ type Pg_Element_Response struct {
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
+	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }
 
 type Pg_Element_Tofind struct {
@@ -119,6 +121,7 @@ type Pg_Element_Tofind struct {
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
+	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }
 
 type Pg_Element_WithRating struct {
@@ -138,6 +141,7 @@ type Pg_Element_WithRating struct {
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	Costo            float64                 `json:"costo"`
+	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }
 
 type Pg_ScheduleRange struct {
@@ -222,6 +226,7 @@ type Pg_Element_ToCreate struct {
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	Costo            float64                 `json:"costo"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
+	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }
 
 type Pg_Schedule_ToCreate struct {

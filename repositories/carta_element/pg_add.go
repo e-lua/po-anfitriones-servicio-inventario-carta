@@ -38,6 +38,14 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 		}
 	}
 
+	if len(element.Insumos) == 0 && element.IsAutomaticCost {
+		element.Costo = 0
+	}
+
+	if !element.IsURLPrecharged {
+		element.UrlPhoto = ""
+	}
+
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
@@ -47,8 +55,8 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 
 	var idelement int
 
-	query := `INSERT INTO Element(idcategory,name,price,description,typemoney,updateddate,available,insumos,costo) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING idelement`
-	err := db.QueryRow(ctx, query, element.IDCategory, element.Name, element.Price, element.Description, element.TypeMoney, time.Now(), true, element.Insumos, element.Costo).Scan(&idelement)
+	query := `INSERT INTO Element(idcategory,name,price,description,typemoney,updateddate,available,insumos,costo,urlphoto) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING idelement`
+	err := db.QueryRow(ctx, query, element.IDCategory, element.Name, element.Price, element.Description, element.TypeMoney, time.Now(), true, element.Insumos, element.Costo, element.UrlPhoto).Scan(&idelement)
 
 	if err != nil {
 		return idelement, err

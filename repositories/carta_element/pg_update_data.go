@@ -48,9 +48,19 @@ func Pg_Update_Data(element models.Pg_Element, idbusiness int) error {
 	defer cancel()
 
 	db := models.Conectar_Pg_DB()
-	q := "UPDATE Element SET isexported=false,price=$1,description=$2,typemoney=$3, updateddate=$4,idcategory=$5,insumos=$6,costo=$7,isautomaticcost=$8 FROM Category WHERE idelement=$8 AND Category.idbusiness=$9"
-	if _, err_update := db.Exec(ctx, q, element.Price, element.Description, element.TypeMoney, time.Now(), element.IDCategory, element.Insumos, element.Costo, element.IDElement, idbusiness, element.IsAutomaticCost); err_update != nil {
-		return err_update
+
+	if !element.IsURLPrecharged {
+		q := "UPDATE Element SET isexported=false,price=$1,description=$2,typemoney=$3, updateddate=$4,idcategory=$5,insumos=$6,costo=$7,isautomaticcost=$8 FROM Category WHERE idelement=$9 AND Category.idbusiness=$10"
+		if _, err_update := db.Exec(ctx, q, element.Price, element.Description, element.TypeMoney, time.Now(), element.IDCategory, element.Insumos, element.Costo, element.IsAutomaticCost, element.IDElement, idbusiness); err_update != nil {
+			return err_update
+		}
+	} else {
+		if element.UrlPhoto != "" {
+			q := "UPDATE Element SET isexported=false,price=$1,description=$2,typemoney=$3, updateddate=$4,idcategory=$5,insumos=$6,costo=$7,isautomaticcost=$8,urlphoto=$9 FROM Category WHERE idelement=$10 AND Category.idbusiness=$11"
+			if _, err_update := db.Exec(ctx, q, element.Price, element.Description, element.TypeMoney, time.Now(), element.IDCategory, element.Insumos, element.Costo, element.IsAutomaticCost, element.UrlPhoto, element.IDElement, idbusiness); err_update != nil {
+				return err_update
+			}
+		}
 	}
 
 	return nil

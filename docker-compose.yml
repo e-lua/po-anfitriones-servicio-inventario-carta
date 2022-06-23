@@ -1,17 +1,13 @@
 version: "3.3"
 
 services: 
-  app:
-    container_name: restoneranfitrion_app_servicio_inventario
+  a-informacion:
     restart: always 
     build: .
     labels: 
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`localhost`)"
+      - "traefik.http.routers.a-informacion.rule=Host(`a-informacion.restoner-api.fun`)"
     networks:
       - backend
-    ports:
-      - "7500:6500"
     links:
       - postgres
       - redis
@@ -74,12 +70,11 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://mongodbinventorydata:mongo412ddb1r2@mongo:27017/
   traefik: # apache.app.test - nginx.app.test
     image: traefik:v2.3.6
-    labels: 
-      - "traefik.http.routers.api.rule=Host(`localhost`)"
     ports: 
-      - 100:80
-      - 9004:8080
+      - 80:80
       - 443:443
+    networks:
+      - backend
     volumes: 
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yml:/traefik.yml

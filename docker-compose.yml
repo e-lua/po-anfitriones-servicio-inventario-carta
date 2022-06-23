@@ -33,6 +33,7 @@ services:
       - "5432"
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
+      - DATABASE_HOST=127.0.0.1
       - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123
       - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123
       - POSTGRESQL_USERNAME=postgresxd2

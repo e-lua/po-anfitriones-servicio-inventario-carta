@@ -23,7 +23,7 @@ func Conectar_Pg_DB_External() *pgxpool.Pool {
 	defer cancel()
 
 	once_pg_external.Do(func() {
-		urlString_external := "postgres://postgresx4y:asd34Fg2DDFfd3saF3Fgge65sGGS45@c-carta.restoner-api.fun:7000/postgresx4y?pool_max_conns=50"
+		urlString_external := "postgres://postgresx4y:asd34Fg2DDFfd3saF3Fgge65sGGS45@c-carta.restoner-api.fun:5432/postgresx4y?pool_max_conns=80"
 		config_external, _ := pgxpool.ParseConfig(urlString_external)
 		p_pg_external, _ = pgxpool.ConnectConfig(ctx, config_external)
 	})

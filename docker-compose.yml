@@ -9,7 +9,7 @@ services:
     networks:
       - backend
     links:
-      - postgres
+      - postgres-master
       - redis
   redis:
     container_name: redis_db
@@ -17,21 +17,42 @@ services:
     image: "redis:6.0.16"
     networks:
       - backend
+    volumes: 
+      - cache:/data
     ports: 
       - "6000:6379"
-  postgres:
+  postgres-master:
     container_name: postgres_db
     restart: always
-    image: "postgres:13"
+    image: "bitnami/postgresql:14.4.0"
     networks:
       - backend
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     ports:
-      - "7000:5432"
+      - "5432"
     environment:
-      - DATABASE_HOST=127.0.0.1
-      - POSTGRES_USER=postgresxd2
-      - POSTGRES_PASSWORD=asf45vcf235sfds435GFHg435fd3h2s
-      - POSTGRES_DB=postgresxd2
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123
+      - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123
+      - POSTGRESQL_USERNAME=postgresxd2
+      - POSTGRESQL_PASSWORD=asf45vcf235sfds435GFHg435fd3h2s
+      - POSTGRESQL_DATABASE=postgresxd2
+  postgresql-slave:
+    image: 'bitnami/postgresql:14.4.0'
+    ports:
+      - "5432"
+    networks:
+      - backend
+    depends_on:
+      - postgres-master
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=replicacion_usuario_123
+      - POSTGRESQL_REPLICATION_PASSWORD=replicacion_contrasenia_123
+      - POSTGRESQL_MASTER_HOST=postgres-master
+      - POSTGRESQL_PASSWORD=asf45vcf235sfds435GFHg435fd3h2s
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
   pgadmin:
     restart: always
     image: "dpage/pgadmin4"
@@ -43,7 +64,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: adminxd2@adminxd2.com
       PGADMIN_DEFAULT_PASSWORD: asf435vcf235HEFGHg435fd3h2s
     depends_on:
-      - postgres
+      - postgres-master
   mongo:
     image: mongo
     restart: always
@@ -51,6 +72,8 @@ services:
       - backend
     ports:
       - "27017:27017"
+    volumes: 
+      - shared_database:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongodbinventorydata
       MONGO_INITDB_ROOT_PASSWORD: mongo412ddb1r2
@@ -85,11 +108,11 @@ networks:
     driver: bridge
     ipam: 
       driver: default 
-
-
-
-
-
+volumes:
+  postgresql_master_data:
+  shared_database: 
+  cache:
+    driver: local
 
 
 

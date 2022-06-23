@@ -1,11 +1,11 @@
 version: "3.3"
 
 services: 
-  a-informacion:
+  a-inventario-carta:
     restart: always 
     build: .
     labels: 
-      - "traefik.http.routers.a-informacion.rule=Host(`a-informacion.restoner-api.fun`)"
+      - "traefik.http.routers.a-inventario-carta.rule=Host(`a-inventario-carta.restoner-api.fun`)"
     networks:
       - backend
     links:

@@ -18,12 +18,17 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	if len(element.Insumos) > 0 && element.IsAutomaticCost {
 
 		for _, insumo := range element.Insumos {
-			var quantity_stock int
+
+			quantity_stock := 0
 			var costo float64
+			validate_if_have_stock := 0
+
 			for _, stock := range insumo.Stock {
 				quantity_stock += 1
 				costo += stock.Price
+				validate_if_have_stock += 1
 			}
+
 			quantity_insumos += 1
 			costo_medio_insumos += ((costo / float64(quantity_stock)) * float64(insumo.Quantity))
 

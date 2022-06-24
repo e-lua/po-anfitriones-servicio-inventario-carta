@@ -26,7 +26,7 @@ func Mo_Find_All(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo
 
 	opciones := options.Find()
 	/*Indicar como ira ordenado*/
-	opciones.SetSort(bson.D{{Key: "name", Value: 1}})
+	opciones.SetSort(bson.D{{Key: "outputstock", Value: 1}})
 	opciones.SetSkip((offset - 1) * limit)
 
 	/*Cursor es como una tabla de base de datos donde se van a grabar los resultados

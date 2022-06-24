@@ -78,45 +78,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongodbinventorydata
       MONGO_INITDB_ROOT_PASSWORD: mongo412ddb1r2
-  mongo1:
-    hostname: mongo1
-    container_name: localmongo1
-    image: mongo:latest
-    volumes:
-      - mongodb1-data:/data/db
-      - mongodb1-config:/data/configdb
-    expose:
-    - 27017
-    ports:
-      - 27011:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  mongo2:
-    hostname: mongo2
-    container_name: localmongo2
-    image: mongo:latest
-    volumes:
-      - mongodb2-data:/data/db
-      - mongodb2-config:/data/configdb
-    expose:
-    - 27017
-    ports:
-    - 27012:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  mongo3:
-    hostname: mongo3
-    container_name: localmongo3
-    image: mongo:latest
-    volumes:
-      - mongodb3-data:/data/db
-      - mongodb3-config:/data/configdb
-    expose:
-    - 27017
-    ports:
-    - 27013:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
   mongo-express:
     image: "mongo-express:1.0.0-alpha.4"
     restart: always
@@ -142,6 +103,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik.yml:/traefik.yml
       - ./acme.json:/acme.json
+
 networks:
   backend:
     driver: bridge
@@ -150,12 +112,6 @@ networks:
 volumes:
   postgresql_master_data:
   shared_database: 
-  mongodb1-data:
-  mongodb1-config:
-  mongodb2-data:
-  mongodb2-config:
-  mongodb3-data:
-  mongodb3-config:
   cache:
     driver: local
 

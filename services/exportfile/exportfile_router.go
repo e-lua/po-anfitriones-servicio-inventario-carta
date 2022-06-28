@@ -18,7 +18,7 @@ type exportfileRouter_pg struct {
 
 func GetJWT(jwt string) (int, bool, string, int) {
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:5000/v1/trylogin?jwt=" + jwt)
+	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:80/v1/trylogin?jwt=" + jwt)
 	var get_respuesta ResponseJWT
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {
@@ -42,7 +42,7 @@ func (efr *exportfileRouter_pg) ExportFile_Insumo(c echo.Context) error {
 	}
 
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:5000/v1/worker/email?Authorization=" + c.Request().Header.Get("Authorization"))
+	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:80/v1/worker/email?Authorization=" + c.Request().Header.Get("Authorization"))
 	var get_respuesta Response
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {
@@ -77,7 +77,7 @@ func (efr *exportfileRouter_pg) ExportFile_Element(c echo.Context) error {
 	}
 
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:5000/v1/worker/email")
+	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:80/v1/worker/email")
 	respuesta.Header.Set("Authorization", c.Request().Header.Get("Authorization"))
 	var get_respuesta Response
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)

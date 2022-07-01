@@ -1,14 +1,10 @@
 package repositories
 
 import (
-	"bytes"
 	"context"
-	"encoding/json"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	"github.com/labstack/gommon/log"
-	"github.com/streadway/amqp"
 )
 
 func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element_With_Stock_External, idcarta int, idbusiness int, latitude float64, longitude float64) error {
@@ -106,7 +102,7 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 	serilize_elements_withstock.Elements_with_stock = elements_mqtt
 
 	//Comienza el proceso de MQTT
-	ch, error_conection := models.MqttCN.Channel()
+	/*ch, error_conection := models.MqttCN.Channel()
 	if error_conection != nil {
 		log.Error(error_conection)
 	}
@@ -124,13 +120,13 @@ func Pg_Delete_Update_Element(pg_element_withaction_external []models.Pg_Element
 		})
 	if error_publish != nil {
 		log.Error(error_publish)
-	}
+	}*/
 
 	return nil
 }
 
 //SERIALIZADORA
-func serialize(serialize_elements_mqtt models.Mqtt_Element_With_Stock_export) ([]byte, error) {
+/*func serialize(serialize_elements_mqtt models.Mqtt_Element_With_Stock_export) ([]byte, error) {
 	var b bytes.Buffer
 	encoder := json.NewEncoder(&b)
 	err := encoder.Encode(serialize_elements_mqtt)
@@ -138,4 +134,4 @@ func serialize(serialize_elements_mqtt models.Mqtt_Element_With_Stock_export) ([
 		return b.Bytes(), err
 	}
 	return b.Bytes(), nil
-}
+}*/

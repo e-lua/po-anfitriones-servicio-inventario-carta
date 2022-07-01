@@ -123,7 +123,7 @@ func Manejadores() {
 
 	//V1 FROM V1 TO ...TO ENTITY PRECHARGED
 	router_precharged := version_1.Group("/pre-charged-element")
-	router_precharged.POST("", pre_charged.ImportsRouter_pg.AddPreCharged)
+	router_precharged.POST("", pre_charged.ImportsRouter_pg.AddPreCharged_Multiple)
 
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")

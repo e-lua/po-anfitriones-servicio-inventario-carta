@@ -92,7 +92,7 @@ services:
       ME_CONFIG_BASICAUTH_PASSWORD: dasd23GG3321Fa435fuj6c
       ME_CONFIG_OPTIONS_EDITORTHEME: "ambiance"
       ME_CONFIG_MONGODB_URL: mongodb://mongodbinventorydata:mongo412ddb1r2@mongo:27017/
-  traefik: # apache.app.test - nginx.app.test
+  traefik:
     image: traefik:v2.3.6
     ports: 
       - 80:80

@@ -17,6 +17,16 @@ func AddPreCharged_Service(input_precharged models.Mo_Precharged_Element) (int, 
 	return 201, false, "", "Elemento registrado para su precarga"
 }
 
+func AddPreCharged_Multiple_Service(input_precharged_multiple []models.Mo_Precharged_Element) (int, bool, string, string) {
+
+	error_add_mo := pre_charged_repository.Mo_Add_Multiple(input_precharged_multiple)
+	if error_add_mo != nil {
+		return 500, true, "Error en el servidor interno al intentar agregar la lista de elemento a precargar, detalles: " + error_add_mo.Error(), ""
+	}
+
+	return 201, false, "", "Elementos registrados para su precarga"
+}
+
 func FindPreCharged_Service(name string) (int, bool, string, []*models.Mo_Precharged_Element) {
 
 	elements, error_add_mo := pre_charged_repository.Mo_Search_Name(name)

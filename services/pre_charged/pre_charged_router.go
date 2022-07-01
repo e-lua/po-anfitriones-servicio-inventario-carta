@@ -30,6 +30,17 @@ func (ir *importsRouter_pg) AddPreCharged(c echo.Context) error {
 
 }
 
+func (ir *importsRouter_pg) AddPreCharged_Multiple(c echo.Context) error {
+
+	var pre_charged_multiple []models.Mo_Precharged_Element
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := AddPreCharged_Multiple_Service(pre_charged_multiple)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (ir *importsRouter_pg) FindPreCharged(c echo.Context) error {
 
 	//Recibimos el nombre

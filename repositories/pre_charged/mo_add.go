@@ -32,7 +32,10 @@ func Mo_Add_Multiple(input_element_precargado []models.Mo_Precharged_Element) er
 	var elements_precargados []interface{}
 
 	for _, element_precargado := range input_element_precargado {
-		elements_precargados = append(elements_precargados, element_precargado)
+		var precharged models.Mo_Precharged_Element
+		precharged.Name = element_precargado.Name
+		precharged.URL = element_precargado.URL
+		elements_precargados = append(elements_precargados, precharged)
 	}
 
 	_, err := col.InsertMany(ctx, elements_precargados)

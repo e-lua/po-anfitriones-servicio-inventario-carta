@@ -77,14 +77,15 @@ func (efr *exportfileRouter_pg) ExportFile_Element(c echo.Context) error {
 	}
 
 	//Obtenemos los datos del auth
-	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:80/v1/worker/email")
-	respuesta.Header.Set("Authorization", c.Request().Header.Get("Authorization"))
+	respuesta, _ := http.Get("http://a-registro-authenticacion.restoner-api.fun:80/v1/worker/email?Authorization=" + c.Request().Header.Get("Authorization"))
 	var get_respuesta Response
 	error_decode_respuesta := json.NewDecoder(respuesta.Body).Decode(&get_respuesta)
 	if error_decode_respuesta != nil {
 		results := Response{Error: boolerror, DataError: dataerror, Data: ""}
 		return c.JSON(status, results)
 	}
+
+	log.Println("email---------------->", get_respuesta.Data)
 
 	var element_data models.Mqtt_Request_Element
 	element_data.IDBusiness = data_idbusiness

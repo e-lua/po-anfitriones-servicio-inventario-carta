@@ -32,7 +32,7 @@ func (ir *importsRouter_pg) AddPreCharged(c echo.Context) error {
 
 func (ir *importsRouter_pg) AddPreCharged_Multiple(c echo.Context) error {
 
-	var pre_charged_multiple Request_Precarga
+	var pre_charged_multiple []models.Mo_Precharged_Element
 
 	err := c.Bind(&pre_charged_multiple)
 	if err != nil {
@@ -41,7 +41,7 @@ func (ir *importsRouter_pg) AddPreCharged_Multiple(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := AddPreCharged_Multiple_Service(pre_charged_multiple.AllPrecharged)
+	status, boolerror, dataerror, data := AddPreCharged_Multiple_Service(pre_charged_multiple)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 

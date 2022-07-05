@@ -56,7 +56,7 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(2)
+	db := models.Conectar_Pg_DB()
 
 	var idelement int
 

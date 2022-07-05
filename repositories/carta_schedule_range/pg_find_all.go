@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -15,7 +14,7 @@ func Pg_Find_All(idbusiness int) ([]models.Pg_ScheduleRange, error) {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(rand.Intn(4))
+	db := models.Conectar_Pg_DB()
 
 	q := "SELECT idScheduleRange,name,description,minutePerFraction,numberfractions,startTime,endTime,maxOrders,available,timezone FROM ScheduleRange WHERE idbusiness=$1 AND available=true"
 	rows, error_shown := db.Query(ctx, q, idbusiness)

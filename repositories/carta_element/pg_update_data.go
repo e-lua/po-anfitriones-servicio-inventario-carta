@@ -47,7 +47,7 @@ func Pg_Update_Data(element models.Pg_Element, idbusiness int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(2)
+	db := models.Conectar_Pg_DB()
 
 	if !element.IsURLPrecharged {
 		q := "UPDATE Element SET isexported=false,price=$1,description=$2,typemoney=$3, updateddate=$4,idcategory=$5,insumos=$6,costo=$7,isautomaticcost=$8 FROM Category WHERE idelement=$9 AND Category.idbusiness=$10"

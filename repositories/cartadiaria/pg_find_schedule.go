@@ -14,7 +14,7 @@ func Pg_Find_ScheduleRanges(idcarta int, idbusiness int) ([]models.Pg_ScheduleRa
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(1)
+	db := models.Conectar_Pg_DB()
 	q := "SELECT idschedulerange,name,description,minuteperfraction,numberfractions,starttime,endtime,maxorders,timezone FROM schedulerange WHERE idcarta=$1 AND idbusiness=$2"
 	rows, error_shown := db.Query(ctx, q, idcarta, idbusiness)
 

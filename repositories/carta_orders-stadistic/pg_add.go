@@ -28,7 +28,7 @@ func Pg_Insert_OrderStadistic(orderstadistic []models.Pg_Import_StadisticOrders)
 	}
 
 	//Enviado los datos a la base de datos
-	db := models.Conectar_Pg_DB(2)
+	db := models.Conectar_Pg_DB()
 	query := `INSERT INTO orders(id,idelement,quantity,datetime) (select * from unnest($1::bigint[], $2::int[],$3::int[],$4::varchar(30)[]))`
 	if _, err := db.Exec(ctx, query, id_pg, idelement_pg, quantity_pg, datetime_pg); err != nil {
 		return err

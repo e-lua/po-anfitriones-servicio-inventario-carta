@@ -13,7 +13,7 @@ func Pg_Update_UrlPhoto(idelement int, urlphoto string, idbusiness int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(2)
+	db := models.Conectar_Pg_DB()
 
 	//Actualizamos la foto de la categoría
 	q := "UPDATE Element SET isexported=false,urlphoto=$1,updateddate=$2 FROM Category WHERE idelement=$3 AND Category.idbusiness=$4"

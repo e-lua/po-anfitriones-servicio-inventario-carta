@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -17,7 +16,7 @@ func Pg_Find_ByCategory(idbusiness int, idcategory int) ([]models.Pg_ElementsByC
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(rand.Intn(4))
+	db := models.Conectar_Pg_DB()
 
 	q := "SELECT e.name,e.available FROM Element as e JOIN Category as c ON e.idcategory=e.idcategory WHERE c.idbusiness=$1 AND c.idcategory=$2 AND e.isdeleted=false  AND e.issendtodelete=false"
 	rows, error_shown := db.Query(ctx, q, idbusiness, idcategory)

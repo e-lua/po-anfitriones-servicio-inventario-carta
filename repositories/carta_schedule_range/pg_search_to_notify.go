@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -15,7 +14,7 @@ func Pg_SearchToNotify() ([]int, int, error) {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(rand.Intn(4))
+	db := models.Conectar_Pg_DB()
 
 	q := "SELECT idbusiness FROM schedulerange GROUP BY idbusiness"
 	rows, error_shown := db.Query(ctx, q)

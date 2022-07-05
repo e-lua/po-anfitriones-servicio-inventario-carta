@@ -2,11 +2,9 @@ package repositories
 
 import (
 	"context"
-	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func Pg_SearchToNotify() ([]int, int, error) {
@@ -15,14 +13,8 @@ func Pg_SearchToNotify() ([]int, int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
-	var db *pgxpool.Pool
 
-	random := rand.Intn(4)
-	if random%2 == 0 {
-		db = models.Conectar_Pg_DB()
-	} else {
-		db = models.Conectar_Pg_DB_Slave()
-	}
+	db := models.Conectar_Pg_DB(1)
 
 	q := "SELECT idbusiness FROM schedulerange GROUP BY idbusiness"
 	rows, error_shown := db.Query(ctx, q)

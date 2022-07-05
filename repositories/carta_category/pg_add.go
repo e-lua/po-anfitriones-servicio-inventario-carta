@@ -14,7 +14,7 @@ func Pg_Add(idbusiness int, name_category string, typefood string) (int, error) 
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB(2)
 
 	var idcategory int
 

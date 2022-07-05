@@ -14,7 +14,7 @@ func Pg_Update_SendToDelete(idcategory int, timezone int, idbusiness int) error 
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB(2)
 
 	//Actualizamos la foto de la categoría
 	q := "UPDATE Category SET isexported=false,issendtodelete=true,sendtodelete=$1,deleteddate=$2 WHERE idcategory=$3 AND idbusiness=$4"

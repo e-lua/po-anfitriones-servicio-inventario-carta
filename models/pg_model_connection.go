@@ -8,14 +8,14 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-var PostgresCN = Conectar_Pg_DB()
+//var PostgresCN = Conectar_Pg_DB()
 
 var (
 	once_pg sync.Once
 	p_pg    *pgxpool.Pool
 )
 
-func Conectar_Pg_DB() *pgxpool.Pool {
+func Conectar_Pg_DB(type_conn int) *pgxpool.Pool {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -23,7 +23,15 @@ func Conectar_Pg_DB() *pgxpool.Pool {
 	defer cancel()
 
 	once_pg.Do(func() {
-		urlString := "postgres://postgresxd2:asf45vcf235sfds435GFHg435fd3h2s@postgres-master:5432/postgresxd2?pool_max_conns=120"
+
+		var urlString string
+
+		if type_conn%2 == 0 {
+			urlString = "postgres://postgresxd2:asf45vcf235sfds435GFHg435fd3h2s@postgres-master:5432/postgresxd2?pool_max_conns=120"
+		} else {
+			urlString = "postgres://postgresxd2:asf45vcf235sfds435GFHg435fd3h2s@postgresql-slave:5432/postgresxd2?pool_max_conns=120"
+		}
+
 		config, _ := pgxpool.ParseConfig(urlString)
 		p_pg, _ = pgxpool.ConnectConfig(ctx, config)
 	})

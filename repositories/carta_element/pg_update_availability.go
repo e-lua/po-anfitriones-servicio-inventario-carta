@@ -14,7 +14,7 @@ func Pg_Update_Available(status bool, idelement int, idbusiness int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB(2)
 
 	q := "UPDATE Element SET isexported=false,available=$1,updateddate=$2 FROM Category WHERE idelement=$3 AND Category.idbusiness=$4"
 	if _, err_update := db.Exec(ctx, q, status, time.Now(), idelement, idbusiness); err_update != nil {

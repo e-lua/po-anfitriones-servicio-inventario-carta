@@ -14,7 +14,7 @@ func Pg_Delete(idschedulerange int, idbusiness int) error {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB()
+	db := models.Conectar_Pg_DB(2)
 
 	q := "DELETE FROM ScheduleRange WHERE idschedulerange=$1 AND idbusiness=$2"
 	if _, err_update := db.Exec(ctx, q, idschedulerange, idbusiness); err_update != nil {

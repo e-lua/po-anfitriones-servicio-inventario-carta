@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -14,7 +15,7 @@ func Pg_Find_Papelera(idbusiness int) ([]models.Pg_Category_Response, error) {
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(1)
+	db := models.Conectar_Pg_DB(rand.Intn(4))
 	q := "SELECT c.idcategory, COUNT(e.idelement) as elements ,c.name,c.urlphoto,c.available,c.typefood,c.sendtodelete FROM Category c LEFT OUTER JOIN Element e on c.idcategory=e.idcategory WHERE c.idbusiness=$1 AND c.isdeleted=false AND c.issendtodelete=true GROUP BY c.idcategory ORDER BY c.sendtodelete DESC"
 	rows, error_shown := db.Query(ctx, q, idbusiness)
 

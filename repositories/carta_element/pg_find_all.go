@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
@@ -14,7 +15,7 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element_Tof
 	//defer cancelara el contexto
 	defer cancel()
 
-	db := models.Conectar_Pg_DB(1)
+	db := models.Conectar_Pg_DB(rand.Intn(4))
 
 	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos,e.costo,e.isautomaticcost FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND e.issendtodelete=false ORDER BY e.name ASC LIMIT $2 OFFSET $3"
 	rows, error_shown := db.Query(ctx, q, idbusiness, limit, offset)

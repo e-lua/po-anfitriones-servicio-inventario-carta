@@ -11,6 +11,7 @@ services:
     links:
       - postgres-master
       - redis
+      - postgresql-slave
   redis:
     container_name: redis_db
     restart: always

@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func Pg_Find_ByDayWeek(idbusiness int, dayofweek int, limit int, offset int) ([]models.Pg_Element_WithRating, error) {
@@ -13,8 +15,15 @@ func Pg_Find_ByDayWeek(idbusiness int, dayofweek int, limit int, offset int) ([]
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
+	var db *pgxpool.Pool
 
-	db := models.Conectar_Pg_DB()
+	random := rand.Intn(4)
+	if random%2 == 0 {
+		db = models.Conectar_Pg_DB()
+	} else {
+		db = models.Conectar_Pg_DB_Slave()
+	}
+
 	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,SUM(ord.quantity),e.insumos,e.costo FROM element e JOIN category c on e.idcategory=c.idcategory JOIN orders AS ord ON e.idelement=ord.idelement WHERE c.idbusiness=$1 AND e.isdeleted=false   AND e.issendtodelete=false AND extract(isodow from ord.datetime::timestamp)=$2 GROUP BY c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos ORDER BY SUM(ord.quantity) DESC LIMIT $3 OFFSET $4"
 	rows, error_shown := db.Query(ctx, q, idbusiness, dayofweek, limit, offset)
 

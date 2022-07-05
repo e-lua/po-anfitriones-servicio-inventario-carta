@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/labstack/gommon/log"
 	"github.com/streadway/amqp"
 )
@@ -17,8 +19,14 @@ func Pg_Elements_ToFile(element_data models.Mqtt_Request_Element) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
+	var db *pgxpool.Pool
+	random := rand.Intn(4)
+	if random%2 == 0 {
+		db = models.Conectar_Pg_DB()
+	} else {
+		db = models.Conectar_Pg_DB_Slave()
+	}
 
-	db := models.Conectar_Pg_DB()
 	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos,e.costo FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND c.isdeleted=false AND c.issendtodelete=false ORDER BY e.name ASC"
 	rows, error_shown := db.Query(ctx, q, element_data.IDBusiness)
 

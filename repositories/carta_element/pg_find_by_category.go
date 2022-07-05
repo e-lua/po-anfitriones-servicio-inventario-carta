@@ -2,9 +2,11 @@ package repositories
 
 import (
 	"context"
+	"math/rand"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func Pg_Find_ByCategory(idbusiness int, idcategory int) ([]models.Pg_ElementsByCategory, int, error) {
@@ -15,8 +17,15 @@ func Pg_Find_ByCategory(idbusiness int, idcategory int) ([]models.Pg_ElementsByC
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto
 	defer cancel()
+	var db *pgxpool.Pool
 
-	db := models.Conectar_Pg_DB()
+	random := rand.Intn(4)
+	if random%2 == 0 {
+		db = models.Conectar_Pg_DB()
+	} else {
+		db = models.Conectar_Pg_DB_Slave()
+	}
+
 	q := "SELECT e.name,e.available FROM Element as e JOIN Category as c ON e.idcategory=e.idcategory WHERE c.idbusiness=$1 AND c.idcategory=$2 AND e.isdeleted=false  AND e.issendtodelete=false"
 	rows, error_shown := db.Query(ctx, q, idbusiness, idcategory)
 

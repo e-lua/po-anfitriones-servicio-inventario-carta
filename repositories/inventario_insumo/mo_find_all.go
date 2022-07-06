@@ -20,8 +20,8 @@ func Mo_Find_All(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo
 	var resultado []*models.Mo_Insumo_Response
 
 	condicion := bson.M{
-		"idbusiness": idbusiness,
-		"isdeleted":  false,
+		"idbusiness":     idbusiness,
+		"issendtodelete": false,
 	}
 
 	opciones := options.Find()

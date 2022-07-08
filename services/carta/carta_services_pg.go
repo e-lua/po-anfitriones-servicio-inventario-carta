@@ -235,7 +235,7 @@ func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, mod
 			return 500, true, "Error en el servidor interno al intentar agregar los datos de la carta a la memoria cache, detalles: " + error_add_re.Error(), all_main_Data
 		}
 
-		return 201, false, "", carta_data_re.CartaData
+		return 201, false, "", all_main_Data
 
 	}
 

@@ -220,13 +220,26 @@ func FindAllRangoHorario_Service(input_idbusiness int) (int, bool, string, []mod
 
 func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, models.Pg_Category_Element_ScheduleRange) {
 
-	//Agregamos la categoria
-	all_main_Data, error_add := general_carta_repository.Pg_Find_Main_Data(input_idbusiness)
-	if error_add != nil {
-		return 500, true, "Error en el servidor interno al ntentar listar los elementos de este negocio, detalles: " + error_add.Error(), all_main_Data
+	//Primero en la memoria cache
+	carta_data_re, error_find_re := general_carta_repository.Re_Get_DataCard_Business(input_idbusiness)
+	if error_find_re != nil || carta_data_re.CartaData.Category <= 0 {
+
+		//Agregamos la categoria
+		all_main_Data, error_add := general_carta_repository.Pg_Find_Main_Data(input_idbusiness)
+		if error_add != nil {
+			return 500, true, "Error en el servidor interno al intentar buscar losd atos de la carta, detalles: " + error_add.Error(), all_main_Data
+		}
+
+		error_add_re := general_carta_repository.Re_Set_DataCard_Business(input_idbusiness, all_main_Data)
+		if error_add_re != nil {
+			return 500, true, "Error en el servidor interno al intentar agregar los datos de la carta a la memoria cache, detalles: " + error_add_re.Error(), all_main_Data
+		}
+
+		return 201, false, "", carta_data_re.CartaData
+
 	}
 
-	return 201, false, "", all_main_Data
+	return 201, false, "", carta_data_re.CartaData
 }
 
 /*----------------------OBTENER TODOS LOS DATOS NEGOCIOS PARA NOTIFICARLOS----------------------*/

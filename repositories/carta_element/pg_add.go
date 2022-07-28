@@ -12,15 +12,15 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 	//Validar si hay datos de insumos
 	counter_check := 0
 
-	var quantity_insumos int
-	var costo_medio_insumos float64
+	quantity_insumos := 0
+	costo_medio_insumos := 0.0
 
 	if len(element.Insumos) > 0 && element.IsAutomaticCost {
 
 		for _, insumo := range element.Insumos {
 
-			quantity_stock := 0
-			var costo float64
+			quantity_stock := 0.0
+			costo := 0.0
 			validate_if_have_stock := 0
 
 			for _, stock := range insumo.Stock {
@@ -30,14 +30,14 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 			}
 
 			quantity_insumos += 1
-			costo_medio_insumos += ((costo / float64(quantity_stock)) * float64(insumo.Quantity))
+			costo_medio_insumos += ((costo / quantity_stock) * float64(insumo.Quantity))
 
 			//Validar si hay insumos
-			counter_check = counter_check + 1
+			counter_check += 1
 		}
 
 		if counter_check != 0 {
-			element.Costo = (costo_medio_insumos / float64(quantity_insumos))
+			element.Costo = costo_medio_insumos
 		} else {
 			element.Costo = 0
 		}

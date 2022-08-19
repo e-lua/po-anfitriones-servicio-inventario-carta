@@ -22,7 +22,7 @@ func Mo_Find_All(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo
 	condiciones = append(condiciones, bson.M{"$match": bson.M{"idbusiness": idbusiness}})
 	condiciones = append(condiciones, bson.M{"$match": bson.M{"issendtodelete": false}})
 	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sumstock": bson.M{"$sum": bson.A{"$stock.quantity"}}}})
-	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sum": bson.M{"$add": bson.A{"$outputstock", "sumstock"}}}})
+	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sum": bson.M{"$add": bson.A{"$outputstock", "$sumstock"}}}})
 	condiciones = append(condiciones, bson.M{"$sort": bson.M{"sum": -1}})
 	condiciones = append(condiciones, bson.M{"$skip": offset - 1})
 	condiciones = append(condiciones, bson.M{"$limit": limit})

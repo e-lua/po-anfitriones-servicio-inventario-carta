@@ -288,60 +288,103 @@ func Consumer_StockInsumos() {
 }
 
 func Notify_ByScheduleRange() {
-	for {
-		time.Sleep(48 * time.Hour)
-		carta.CartaRouter_pg.SearchToNotifySchedulerange()
-	}
+
+	noStop_NotifySchedule := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(48 * time.Hour)
+			carta.CartaRouter_pg.SearchToNotifySchedulerange()
+		}
+	}()
+
+	<-noStop_NotifySchedule
 }
 
 func Notify_ByCarta() {
-	for {
-		time.Sleep(24 * time.Hour)
-		cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
-	}
+
+	noStop_NotifyByCarta := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
+		}
+	}()
+
+	<-noStop_NotifyByCarta
 }
 
 //CLEAN DATA
 
 func Clean_CartasDiariasVencidas() {
-	for {
-		time.Sleep(24 * time.Hour)
-		cartadiaria.CartaDiariaRouter_pg.Delete_Vencidas()
-	}
+
+	noStop_CartasDiariasVencidas := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			cartadiaria.CartaDiariaRouter_pg.Delete_Vencidas()
+		}
+	}()
+
+	<-noStop_CartasDiariasVencidas
 }
 
 func Clean_Categories() {
-	for {
-		time.Sleep(24 * time.Hour)
-		carta.CartaRouter_pg.UpdateCategory_Delete()
-	}
+
+	noStop_Clean_Categories := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			carta.CartaRouter_pg.UpdateCategory_Delete()
+		}
+	}()
+	<-noStop_Clean_Categories
 }
 
 func Clean_Elements() {
-	for {
-		time.Sleep(24 * time.Hour)
-		log.Println("==========Testing deleting Elements===================")
-		carta.CartaRouter_pg.UpdateElement_Delete()
-	}
+
+	noStop_Clean_Elements := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			log.Println("==========Testing deleting Elements===================")
+			carta.CartaRouter_pg.UpdateElement_Delete()
+		}
+	}()
+	<-noStop_Clean_Elements
 }
 
 func Clean_Providers() {
-	for {
-		time.Sleep(24 * time.Hour)
-		inventario.InventarioRouter_pg.UpdateProvider_Delete()
-	}
+
+	noStop_Clean_Providers := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			inventario.InventarioRouter_pg.UpdateProvider_Delete()
+		}
+	}()
+	<-noStop_Clean_Providers
 }
 
 func Clean_StoreHouses() {
-	for {
-		time.Sleep(24 * time.Hour)
-		inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
-	}
+
+	noStop_Clean_StoreHouses := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
+		}
+	}()
+	<-noStop_Clean_StoreHouses
 }
 
 func Clean_Insumos() {
-	for {
-		time.Sleep(24 * time.Hour)
-		inventario.InventarioRouter_pg.UpdateInsumo_Delete()
-	}
+
+	noStop_Clean_Insumos := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(24 * time.Hour)
+			inventario.InventarioRouter_pg.UpdateInsumo_Delete()
+		}
+	}()
+	<-noStop_Clean_Insumos
 }

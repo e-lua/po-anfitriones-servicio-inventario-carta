@@ -140,6 +140,7 @@ type Pg_Element_WithRating struct {
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
+	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
 	IsURLPrecharged  bool                    `json:"isurlprecharged"`
 }

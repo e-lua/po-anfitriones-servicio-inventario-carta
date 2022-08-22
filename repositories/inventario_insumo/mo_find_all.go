@@ -6,6 +6,7 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Mo_Find_All(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo_Response, error) {
@@ -18,18 +19,19 @@ func Mo_Find_All(idbusiness int, limit int64, offset int64) ([]*models.Mo_Insumo
 	/*Aca pude haber hecho un make, es decir, resultado:=make([]...)*/
 	var resultado []*models.Mo_Insumo_Response
 
-	condiciones := make([]bson.M, 0)
-	condiciones = append(condiciones, bson.M{"$match": bson.M{"idbusiness": idbusiness}})
-	condiciones = append(condiciones, bson.M{"$match": bson.M{"issendtodelete": false}})
-	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sumstock": bson.M{"$sum": bson.A{"$stock.quantity"}}}})
-	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sum": bson.M{"$add": bson.A{"$outputstock", "$sumstock"}}}})
-	condiciones = append(condiciones, bson.M{"$sort": bson.M{"sum": -1}})
-	condiciones = append(condiciones, bson.M{"$skip": offset - 1})
-	condiciones = append(condiciones, bson.M{"$limit": limit})
+	condicion := bson.M{
+		"idbusiness":     idbusiness,
+		"issendtodelete": false,
+	}
+
+	opciones := options.Find()
+	/*Indicar como ira ordenado*/
+	opciones.SetSort(bson.D{{Key: "outputstock", Value: 1}})
+	opciones.SetSkip((offset - 1) * limit)
 
 	/*Cursor es como una tabla de base de datos donde se van a grabar los resultados
 	y podre ir recorriendo 1 a la vez*/
-	cursor, err := col.Aggregate(ctx, condiciones)
+	cursor, err := col.Find(ctx, condicion, opciones)
 	if err != nil {
 		return resultado, err
 	}

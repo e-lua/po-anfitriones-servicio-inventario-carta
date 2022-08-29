@@ -191,9 +191,11 @@ type Pg_ToCarta_Mqtt struct {
 }
 
 type Pg_Import_StadisticOrders struct {
-	IdElement int    `json:"idelement"`
-	Quantity  int    `json:"quantity"`
-	Datetime  string `json:"datetime"`
+	IdElement   int     `json:"idelement"`
+	Quantity    int     `json:"quantity"`
+	TotalAmount float32 `json:"totalamount"`
+	TotalCost   float32 `json:"totalcost"`
+	Datetime    string  `json:"datetime"`
 }
 
 type Pg_StadisticByElement struct {

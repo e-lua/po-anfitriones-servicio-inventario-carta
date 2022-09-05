@@ -21,7 +21,7 @@ func UpdateCategory_Consumer_Service(idcategory int, urlphoto string, idbusiness
 	error_add_business := category_repository.Pg_Update_UrlPhoto(idcategory, urlphoto, idbusiness)
 
 	if error_add_business != nil {
-		log.Fatal(error_add_business)
+		log.Println(error_add_business)
 	}
 
 	return nil
@@ -32,7 +32,7 @@ func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness i
 	error_add_business := element_repository.Pg_Update_UrlPhoto(idelement, urlphoto, idbusiness)
 
 	if error_add_business != nil {
-		log.Fatal(error_add_business)
+		log.Println(error_add_business)
 	}
 
 	return nil
@@ -42,7 +42,7 @@ func Import_OrderStadistic_Service(orders_stadistic []models.Pg_Import_Stadistic
 
 	err_add_ordersstadistic := ordersstadistic_repository.Pg_Insert_OrderStadistic(orders_stadistic)
 	if err_add_ordersstadistic != nil {
-		log.Fatal(err_add_ordersstadistic)
+		log.Println(err_add_ordersstadistic)
 	}
 
 	return nil

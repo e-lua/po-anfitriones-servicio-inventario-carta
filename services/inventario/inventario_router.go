@@ -21,20 +21,20 @@ type inventarioRouter_pg struct {
 func (ir *inventarioRouter_pg) UpdateInsumo_Delete() {
 
 	error_update, data := UpdateInsumo_Delete_Service()
-	log.Fatal(error_update, data)
+	log.Println(error_update, data)
 
 }
 
 func (ir *inventarioRouter_pg) UpdateProvider_Delete() {
 
 	error_update, data := UpdateProvider_Delete_Service()
-	log.Fatal(error_update, data)
+	log.Println(error_update, data)
 }
 
 func (ir *inventarioRouter_pg) UpdateStoreHouse_Delete() {
 
 	error_update, data := UpdateStoreHouse_Delete_Service()
-	log.Fatal(error_update, data)
+	log.Println(error_update, data)
 }
 
 /*----------------------TRAEMOS LOS DATOS DEL AUTENTICADOR----------------------*/

@@ -457,7 +457,7 @@ func (cdr *cartaDiariaRouter_pg) SearchToNotifyCarta() {
 func (cdr *cartaDiariaRouter_pg) Delete_Vencidas() {
 
 	error_delete, data := Delete_Vencidas_Service()
-	log.Fatal(error_delete, data)
+	log.Println(error_delete, data)
 
 }
 

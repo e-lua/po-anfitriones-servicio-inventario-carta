@@ -21,40 +21,34 @@ func (cr *cartaRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto strin
 
 	//Enviamos los datos al servicio
 	error_update_category := UpdateCategory_Consumer_Service(idcategory, urlphoto, idbusiness)
-	if error_update_category != nil {
-		log.Fatal(error_update_category)
-	}
+	log.Println(error_update_category)
 }
 
 func (cr *cartaRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
 
 	//Enviamos los datos al servicio
 	error_update_element := UpdateElement_Consumer_Service(idelement, urlphoto, idbusiness)
-	if error_update_element != nil {
-		log.Fatal(error_update_element)
-	}
+	log.Println(error_update_element)
 }
 
 func (cr *cartaRouter_pg) Import_OrderStadistic(order_stadistic []models.Pg_Import_StadisticOrders) {
 
 	//Enviamos los datos importados a registrar
 	error_order_details := Import_OrderStadistic_Service(order_stadistic)
-	if error_order_details != nil {
-		log.Fatal(error_order_details)
-	}
+	log.Println(error_order_details)
 }
 
 func (cr *cartaRouter_pg) UpdateCategory_Delete() {
 
 	error_update, data := UpdateCategory_Delete_Service()
-	log.Fatal(error_update, data)
+	log.Println(error_update, data)
 
 }
 
 func (cr *cartaRouter_pg) UpdateElement_Delete() {
 
 	error_update, data := UpdateElement_Delete_Service()
-	log.Fatal(error_update, data)
+	log.Println(error_update, data)
 }
 
 /*----------------------TRAEMOS LOS DATOS DEL AUTENTICADOR----------------------*/

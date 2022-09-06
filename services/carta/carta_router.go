@@ -17,18 +17,38 @@ type cartaRouter_pg struct {
 
 /*----------------------CONSUMER----------------------*/
 
-func (cr *cartaRouter_pg) UpdateCategory_Consumer(idcategory int, urlphoto string, idbusiness int) {
+func (cr *cartaRouter_pg) UpdateCategory_Consumer(c echo.Context) error {
+
+	var toCarta models.Pg_ToCarta_Mqtt
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&toCarta)
+	if err != nil {
+		results := ResponseInt{Error: true, DataError: "Se debe enviar el nombre de la categoria, revise la estructura o los valores", Data: 0}
+		return c.JSON(400, results)
+	}
 
 	//Enviamos los datos al servicio
-	error_update_category := UpdateCategory_Consumer_Service(idcategory, urlphoto, idbusiness)
-	log.Println(error_update_category)
+	status, boolerror, dataerror, data := UpdateCategory_Consumer_Service(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
 }
 
-func (cr *cartaRouter_pg) UpdateElement_Consumer(idelement int, urlphoto string, idbusiness int) {
+func (cr *cartaRouter_pg) UpdateElement_Consumer(c echo.Context) error {
+
+	var toCarta models.Pg_ToCarta_Mqtt
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&toCarta)
+	if err != nil {
+		results := ResponseInt{Error: true, DataError: "Se debe enviar el nombre de la categoria, revise la estructura o los valores", Data: 0}
+		return c.JSON(400, results)
+	}
 
 	//Enviamos los datos al servicio
-	error_update_element := UpdateElement_Consumer_Service(idelement, urlphoto, idbusiness)
-	log.Println(error_update_element)
+	status, boolerror, dataerror, data := UpdateElement_Consumer_Service(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
 }
 
 func (cr *cartaRouter_pg) Import_OrderStadistic(order_stadistic []models.Pg_Import_StadisticOrders) {
@@ -96,7 +116,7 @@ func (cr *cartaRouter_pg) AddCategory(c echo.Context) error {
 	}
 
 	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := AddCategory_Service(data_idbusiness, category.Name, category.TypeFood)
+	status, boolerror, dataerror, data := AddCategory_Service(data_idbusiness, category.Name, category.TypeFood, category.UrlPhoto)
 	results := ResponseInt{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 

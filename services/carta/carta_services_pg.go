@@ -16,26 +16,26 @@ import (
 
 /*----------------------CONSUMER----------------------*/
 
-func UpdateCategory_Consumer_Service(idcategory int, urlphoto string, idbusiness int) error {
+func UpdateCategory_Consumer_Service(idcategory int, urlphoto string, idbusiness int) (int, bool, string, string) {
 
 	error_add_business := category_repository.Pg_Update_UrlPhoto(idcategory, urlphoto, idbusiness)
 
 	if error_add_business != nil {
-		log.Println(error_add_business)
+		return 500, true, "Error en el servidor interno al intentar actualizar la imagen de la categoria, detalles: " + error_add_business.Error(), ""
 	}
 
-	return nil
+	return 201, false, "", "Imagen actualizada correctamente"
 }
 
-func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness int) error {
+func UpdateElement_Consumer_Service(idelement int, urlphoto string, idbusiness int) (int, bool, string, string) {
 
 	error_add_business := element_repository.Pg_Update_UrlPhoto(idelement, urlphoto, idbusiness)
 
 	if error_add_business != nil {
-		log.Println(error_add_business)
+		return 500, true, "Error en el servidor interno al intentar actualizar la imagen del elemento, detalles: " + error_add_business.Error(), ""
 	}
 
-	return nil
+	return 201, false, "", "Imagen actualizada correctamente"
 }
 
 func Import_OrderStadistic_Service(orders_stadistic []models.Pg_Import_StadisticOrders) error {
@@ -50,10 +50,10 @@ func Import_OrderStadistic_Service(orders_stadistic []models.Pg_Import_Stadistic
 
 /*----------------------CREATE DATA OF CARTA----------------------*/
 
-func AddCategory_Service(idbusiness int, input_name_category string, input_typefood_category string) (int, bool, string, int) {
+func AddCategory_Service(idbusiness int, input_name_category string, input_typefood_category string, urlphoto string) (int, bool, string, int) {
 
 	//Agregamos la categoria
-	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category, input_typefood_category)
+	idcategory, error_add := category_repository.Pg_Add(idbusiness, input_name_category, input_typefood_category, urlphoto)
 	if error_add != nil {
 		return 500, true, "Error en el servidor interno al intentar agregar la categoria, detalles: " + error_add.Error(), 0
 	}

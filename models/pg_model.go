@@ -7,17 +7,17 @@ import (
 )
 
 type Pg_Category struct {
-	IDCategory     int         `json:"id"`
-	Name           string      `json:"name"`
-	Elements       int         `json:"elements"`
-	Available      bool        `json:"available"`
-	UrlPhoto       interface{} `json:"url"`
-	TypeFood       string      `json:"typefood"`
-	SendToDelete   time.Time   `json:"sendtodelete"`
-	IsDelete       bool        `json:"isdeleted"`
-	IsExported     bool        `json:"isexported"`
-	DeletedDate    time.Time   `json:"deleteddate"`
-	IsSendToDelete bool        `json:"issendtodelete"`
+	IDCategory     int       `json:"id"`
+	Name           string    `json:"name"`
+	Elements       int       `json:"elements"`
+	Available      bool      `json:"available"`
+	UrlPhoto       string    `json:"url"`
+	TypeFood       string    `json:"typefood"`
+	SendToDelete   time.Time `json:"sendtodelete"`
+	IsDelete       bool      `json:"isdeleted"`
+	IsExported     bool      `json:"isexported"`
+	DeletedDate    time.Time `json:"deleteddate"`
+	IsSendToDelete bool      `json:"issendtodelete"`
 }
 
 type Pg_Category_Response struct {

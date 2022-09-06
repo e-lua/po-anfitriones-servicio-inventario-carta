@@ -33,12 +33,9 @@ func Manejadores() {
 	//VERSION
 	version_1 := e.Group("/v1")
 
-	go Consumer_Category()
-	go Consumer_Element()
 	go Consumer_StadisticOrder()
-	go Notify_ByScheduleRange()
 	go Consumer_StockInsumos()
-	//go Notify_ByCarta()
+	go Notify_ByScheduleRange()
 
 	//CLEAN TRASH
 	go Clean_CartasDiariasVencidas()
@@ -97,6 +94,7 @@ func Manejadores() {
 	router_category.PUT("/status/:idcategory/:status", carta.CartaRouter_pg.UpdateCategoryStatus)
 	router_category.PUT("/sendtrash/:idcategory/:timezone", carta.CartaRouter_pg.SendToDeleteCategory)
 	router_category.PUT("/recover/:idcategory", carta.CartaRouter_pg.RecoverSendToDeleteCategory)
+	router_category.PUT("/image", carta.CartaRouter_pg.UpdateCategory_Consumer)
 	router_category.GET("/all", carta.CartaRouter_pg.FindAllCategories)
 	router_category.GET("/trash", carta.CartaRouter_pg.FindCategory_Papelera)
 
@@ -107,6 +105,7 @@ func Manejadores() {
 	router_element.PUT("/status/:idelement/:status", carta.CartaRouter_pg.UpdateElementStatus)
 	router_element.PUT("/sendtrash/:idelement/:timezone", carta.CartaRouter_pg.SendToDeleteElement)
 	router_element.PUT("/recover/:idelement", carta.CartaRouter_pg.RecoverSendToDeleteElement)
+	router_element.PUT("/image", carta.CartaRouter_pg.UpdateElement_Consumer)
 	router_element.GET("/:limit/:offset", carta.CartaRouter_pg.FindAllElements)
 	router_element.GET("/rating/:day/:limit/:offset", carta.CartaRouter_pg.FindElementsRatingByDay)
 	router_element.GET("/search", carta.CartaRouter_pg.FindElementsRatingByName)
@@ -129,26 +128,6 @@ func Manejadores() {
 	router_total_data := version_1.Group("/totalinventario")
 	router_total_data.GET("", carta.CartaRouter_pg.FindAllCarta_MainData)
 
-	/*===========CARTA DIARIA===========*/
-	/*
-		router_menu := version_1.Group("/menu")
-		router_menu.POST("", cartadiaria.CartaDiariaRouter_pg.AddCarta)
-		router_menu.PUT("", cartadiaria.CartaDiariaRouter_pg.UpdateCartaStatus)
-		router_menu.GET("", cartadiaria.CartaDiariaRouter_pg.GetCartas)
-		router_menu.DELETE("", cartadiaria.CartaDiariaRouter_pg.DeleteCarta)
-		router_menu.GET("/:date", cartadiaria.CartaDiariaRouter_pg.GetCartaBasicData)
-		router_menu.GET("/:idcarta/category", cartadiaria.CartaDiariaRouter_pg.GetCartaCategory)
-		router_menu.GET("/:idcarta/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElementsByCarta)
-		router_menu.PUT("/elements", cartadiaria.CartaDiariaRouter_pg.UpdateCartaElements)
-		router_menu.GET("/:idcarta/elements", cartadiaria.CartaDiariaRouter_pg.GetCartaElements)
-		router_menu.PUT("/onelement", cartadiaria.CartaDiariaRouter_pg.UpdateCartaOneElement)
-		router_menu.PUT("/scheduleranges", cartadiaria.CartaDiariaRouter_pg.UpdateCartaScheduleRanges)
-		router_menu.GET("/:idcarta/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetCartaScheduleRanges)
-
-		router_menu.GET("/createorder/:date/category", cartadiaria.CartaDiariaRouter_pg.GetCategories_ToCreateOrder)
-		router_menu.GET("/createorder/:date/category/:idcategory/elements", cartadiaria.CartaDiariaRouter_pg.GetElements_ToCreateOrder)
-		router_menu.GET("/createorder/:date/scheduleranges", cartadiaria.CartaDiariaRouter_pg.GetSchedule_ToCreateOrder)
-	*/
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
 	//Si dice que existe PORT
@@ -165,66 +144,6 @@ func Manejadores() {
 
 func index(c echo.Context) error {
 	return c.JSON(401, "Acceso no autorizado")
-}
-
-func Consumer_Category() {
-
-	ch, error_conection := models.MqttCN.Channel()
-	if error_conection != nil {
-
-		log.Fatal("Error connection canal")
-	}
-
-	msgs, err_consume := ch.Consume("anfitrion/category", "", true, false, false, false, nil)
-	if err_consume != nil {
-		log.Fatal("Error connection cola")
-	}
-
-	noStop := make(chan bool)
-	go func() {
-		for d := range msgs {
-			var toCarta models.Pg_ToCarta_Mqtt
-			buf := bytes.NewBuffer(d.Body)
-			decoder := json.NewDecoder(buf)
-			err_consume := decoder.Decode(&toCarta)
-			if err_consume != nil {
-				log.Fatal("Error decoding")
-			}
-			carta.CartaRouter_pg.UpdateCategory_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
-		}
-	}()
-
-	<-noStop
-}
-
-func Consumer_Element() {
-
-	ch, error_conection := models.MqttCN.Channel()
-	if error_conection != nil {
-
-		log.Fatal("Error connection canal")
-	}
-
-	msgs, err_consume := ch.Consume("anfitrion/element", "", true, false, false, false, nil)
-	if err_consume != nil {
-		log.Fatal("Error connection cola")
-	}
-
-	noStop2 := make(chan bool)
-	go func() {
-		for d := range msgs {
-			var toCarta models.Pg_ToCarta_Mqtt
-			buf := bytes.NewBuffer(d.Body)
-			decoder := json.NewDecoder(buf)
-			err_consume := decoder.Decode(&toCarta)
-			if err_consume != nil {
-				log.Fatal("Error decoding")
-			}
-			carta.CartaRouter_pg.UpdateElement_Consumer(toCarta.IdBanner_Category_Element, toCarta.Url, toCarta.IdBusiness)
-		}
-	}()
-
-	<-noStop2
 }
 
 func Consumer_StadisticOrder() {
@@ -298,19 +217,6 @@ func Notify_ByScheduleRange() {
 	}()
 
 	<-noStop_NotifySchedule
-}
-
-func Notify_ByCarta() {
-
-	noStop_NotifyByCarta := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(24 * time.Hour)
-			cartadiaria.CartaDiariaRouter_pg.SearchToNotifyCarta()
-		}
-	}()
-
-	<-noStop_NotifyByCarta
 }
 
 //CLEAN DATA

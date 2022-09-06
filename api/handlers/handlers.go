@@ -94,7 +94,7 @@ func Manejadores() {
 	router_category.PUT("/status/:idcategory/:status", carta.CartaRouter_pg.UpdateCategoryStatus)
 	router_category.PUT("/sendtrash/:idcategory/:timezone", carta.CartaRouter_pg.SendToDeleteCategory)
 	router_category.PUT("/recover/:idcategory", carta.CartaRouter_pg.RecoverSendToDeleteCategory)
-	router_category.PUT("/image", carta.CartaRouter_pg.UpdateCategory_Consumer)
+	router_category.POST("/image", carta.CartaRouter_pg.UpdateCategory_Consumer)
 	router_category.GET("/all", carta.CartaRouter_pg.FindAllCategories)
 	router_category.GET("/trash", carta.CartaRouter_pg.FindCategory_Papelera)
 
@@ -105,7 +105,7 @@ func Manejadores() {
 	router_element.PUT("/status/:idelement/:status", carta.CartaRouter_pg.UpdateElementStatus)
 	router_element.PUT("/sendtrash/:idelement/:timezone", carta.CartaRouter_pg.SendToDeleteElement)
 	router_element.PUT("/recover/:idelement", carta.CartaRouter_pg.RecoverSendToDeleteElement)
-	router_element.PUT("/image", carta.CartaRouter_pg.UpdateElement_Consumer)
+	router_element.POST("/image", carta.CartaRouter_pg.UpdateElement_Consumer)
 	router_element.GET("/:limit/:offset", carta.CartaRouter_pg.FindAllElements)
 	router_element.GET("/rating/:day/:limit/:offset", carta.CartaRouter_pg.FindElementsRatingByDay)
 	router_element.GET("/search", carta.CartaRouter_pg.FindElementsRatingByName)

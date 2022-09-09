@@ -1,6 +1,9 @@
 package inventario
 
 import (
+	"log"
+	"strconv"
+
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	insumo_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_insumo"
 	provider_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_provider"
@@ -9,11 +12,36 @@ import (
 
 /*----------------------------NOTIFICATION-----------------------------*/
 
-func Notify_Ended_Service() (int, bool, string, []*models.Mo_Insumo_NotifyData) {
+func Notify_Ended_Service() (int, bool, string, [][]interface{}) {
 
 	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
 	if error_add != nil {
 		return 500, true, "Error en el servidor interno al intentar listar los insumos a notificar, detalles: " + error_add.Error(), data_insumos
+	}
+	log.Println("----------DATA INSUMOS---------")
+	log.Println(data_insumos)
+	log.Println("--------------------------------")
+	for _, block_of_data := range data_insumos {
+
+		var idbusiness interface{}
+		var quantity interface{}
+		counter := 0
+
+		for _, inside_block_data := range block_of_data {
+
+			if counter == 0 {
+				idbusiness = inside_block_data
+			}
+			if counter == 1 {
+				quantity = inside_block_data
+			}
+
+			counter = counter + 1
+		}
+
+		log.Println("El negocio ", idbusiness.(int), " tiene "+strconv.Itoa(quantity.(int))+" insumos terminados")
+
+		counter = 0
 	}
 
 	return 201, false, "", data_insumos

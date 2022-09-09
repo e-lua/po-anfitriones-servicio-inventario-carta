@@ -35,7 +35,7 @@ func Mo_Find_Notify_ToEnded() ([]interface{}, error) {
 		if err != nil {
 			return resultado, err
 		}
-		resultado = append(resultado, &registro)
+		resultado = append(resultado, registro)
 	}
 
 	return resultado, nil

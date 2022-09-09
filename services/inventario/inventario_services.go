@@ -52,6 +52,10 @@ func Notify_Ended_Service() (int, bool, string, []interface{}) {
 		var quantity interface{}
 		counter := 0
 
+		log.Println("----------DATA INSUMOS---------")
+		log.Println(data_insumos)
+		log.Println("--------------------------------")
+
 		for _, inside_block_data := range block_of_data.([]interface{}) {
 
 			if counter == 0 {

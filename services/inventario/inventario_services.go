@@ -12,7 +12,7 @@ import (
 
 /*----------------------------NOTIFICATION-----------------------------*/
 
-func Notify_Ended_Service() (int, bool, string, [][]interface{}) {
+func Notify_Ended_Service() (int, bool, string, []interface{}) {
 
 	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
 	if error_add != nil {
@@ -21,13 +21,38 @@ func Notify_Ended_Service() (int, bool, string, [][]interface{}) {
 	log.Println("----------DATA INSUMOS---------")
 	log.Println(data_insumos)
 	log.Println("--------------------------------")
+
+	/*
+		for _, block_of_data := range data_insumos {
+
+			var idbusiness interface{}
+			var quantity interface{}
+			counter := 0
+
+			for _, inside_block_data := range block_of_data {
+
+				if counter == 0 {
+					idbusiness = inside_block_data
+				}
+				if counter == 1 {
+					quantity = inside_block_data
+				}
+
+				counter = counter + 1
+			}
+
+			log.Println("El negocio ", idbusiness.(int), " tiene "+strconv.Itoa(quantity.(int))+" insumos terminados")
+
+			counter = 0
+		}*/
+
 	for _, block_of_data := range data_insumos {
 
 		var idbusiness interface{}
 		var quantity interface{}
 		counter := 0
 
-		for _, inside_block_data := range block_of_data {
+		for _, inside_block_data := range block_of_data.([]interface{}) {
 
 			if counter == 0 {
 				idbusiness = inside_block_data

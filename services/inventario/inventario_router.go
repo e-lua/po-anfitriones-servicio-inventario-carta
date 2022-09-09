@@ -22,7 +22,7 @@ func (ir *inventarioRouter_pg) Notify_Ended(c echo.Context) error {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := Notify_Ended_Service()
-	results := Response_Notify{Error: boolerror, DataError: dataerror, Data: data}
+	results := Response_Notify_test{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 }
 

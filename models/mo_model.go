@@ -119,6 +119,5 @@ type Mo_In_2_NotifyData struct {
 }
 
 type Mo_Insumo_NotifyData struct {
-	Name string `bson:"_id"  json:"name"`
-	URL  string `bson:"_id" json:"url"`
+	NotifyData []Mo_In_2_NotifyData
 }

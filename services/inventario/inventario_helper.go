@@ -14,6 +14,12 @@ type Response_Notify struct {
 	Data      []interface{} `json:"data"`
 }
 
+type Response_Notify_test struct {
+	Error     bool                           `json:"error"`
+	DataError string                         `json:"dataError"`
+	Data      []*models.Mo_Insumo_NotifyData `json:"data"`
+}
+
 type JWT struct {
 	IdBusiness int `json:"idBusiness"`
 	IdWorker   int `json:"idWorker"`

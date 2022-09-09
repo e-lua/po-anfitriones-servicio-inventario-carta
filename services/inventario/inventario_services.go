@@ -9,7 +9,7 @@ import (
 
 /*----------------------------NOTIFICATION-----------------------------*/
 
-func Notify_Ended_Service() (int, bool, string, []interface{}) {
+func Notify_Ended_Service() (int, bool, string, []*models.Mo_Insumo_NotifyData) {
 
 	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
 	if error_add != nil {

@@ -32,6 +32,7 @@ func Mo_Find_Notify_Ended() ([]interface{}, error) {
 	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sumstocktotal": bson.M{"$add": bson.A{"$outputstock", "$sumstock"}}}})
 	condiciones = append(condiciones, bson.M{"$match": bson.M{"sumstocktotal": bson.M{"$lte": 0}}})
 	condiciones = append(condiciones, bson.M{"$group": bson.M{"_id": "$idbusiness", "count": bson.M{"$sum": 1}}})
+	condiciones = append(condiciones, bson.M{"$project": bson.M{"idbusiness": "$_id", "count": 1}})
 	//condiciones = append(condiciones, bson.M{"$sort": bson.M{"sum": bson.M{"$lte": 0}}})
 
 	opciones := options.Find()

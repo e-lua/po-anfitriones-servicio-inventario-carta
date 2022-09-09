@@ -54,7 +54,7 @@ func Mo_Find_Notify_Ended() ([]interface{}, error) {
 			return resultado, err
 		}
 		/*Recordar que Append sirve para añadir un elemento a un slice*/
-		resultado = append(resultado, &registro)
+		resultado = append(resultado, registro)
 	}
 
 	return resultado, nil

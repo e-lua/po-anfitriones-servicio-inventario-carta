@@ -8,6 +8,12 @@ type Response struct {
 	Data      string `json:"data"`
 }
 
+type Response_Notify struct {
+	Error     bool          `json:"error"`
+	DataError string        `json:"dataError"`
+	Data      []interface{} `json:"data"`
+}
+
 type JWT struct {
 	IdBusiness int `json:"idBusiness"`
 	IdWorker   int `json:"idWorker"`

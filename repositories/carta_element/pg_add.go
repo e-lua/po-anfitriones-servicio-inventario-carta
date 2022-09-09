@@ -47,10 +47,6 @@ func Pg_Add(element models.Pg_Element) (int, error) {
 		element.Costo = 0
 	}
 
-	if !element.IsURLPrecharged {
-		element.UrlPhoto = ""
-	}
-
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
 	//defer cancelara el contexto

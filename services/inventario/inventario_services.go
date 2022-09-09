@@ -7,6 +7,30 @@ import (
 	store_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_storehouse"
 )
 
+/*----------------------------NOTIFICATION-----------------------------*/
+
+func Notify_Ended_Service() (int, bool, string, []interface{}) {
+
+	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar listar los insumos a notificar, detalles: " + error_add.Error(), data_insumos
+	}
+
+	return 201, false, "", data_insumos
+}
+
+func Notify_ToEnd_Service() (int, bool, string, []interface{}) {
+
+	data_insumos, error_add := insumo_repository.Mo_Find_Notify_ToEnded()
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar listar los insumos a notificar, detalles: " + error_add.Error(), data_insumos
+	}
+
+	return 201, false, "", data_insumos
+}
+
+/*---------------------------------------------------------------------*/
+
 /*----------------------CREATE DATA OF INVENTARIO----------------------*/
 
 func AddInsumo_Service(input_insumo models.Mo_Insumo) (int, bool, string, string) {

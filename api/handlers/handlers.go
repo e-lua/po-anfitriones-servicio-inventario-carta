@@ -14,7 +14,6 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	carta "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/carta"
-	cartadiaria "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/cartadiaria"
 	exportfile "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/exportfile"
 	imports "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/imports"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
@@ -38,7 +37,6 @@ func Manejadores() {
 	go Notify_ByScheduleRange()
 
 	//CLEAN TRASH
-	go Clean_CartasDiariasVencidas()
 	go Clean_Categories()
 	go Clean_Elements()
 	go Clean_Providers()
@@ -84,6 +82,8 @@ func Manejadores() {
 	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
 	router_insumo.GET("/search", inventario.InventarioRouter_pg.SearchNameInsumo)
 	router_insumo.GET("/sendtoemail", exportfile.ExportfileRouter_pg.ExportFile_Insumo)
+	router_insumo.GET("/notifytoend", inventario.InventarioRouter_pg.Notify_ToEnd)
+	router_insumo.GET("/notifyended", inventario.InventarioRouter_pg.Notify_Ended)
 
 	/*===========CARTA===========*/
 
@@ -220,19 +220,6 @@ func Notify_ByScheduleRange() {
 }
 
 //CLEAN DATA
-
-func Clean_CartasDiariasVencidas() {
-
-	noStop_CartasDiariasVencidas := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(10 * time.Hour)
-			cartadiaria.CartaDiariaRouter_pg.Delete_Vencidas()
-		}
-	}()
-
-	<-noStop_CartasDiariasVencidas
-}
 
 func Clean_Categories() {
 

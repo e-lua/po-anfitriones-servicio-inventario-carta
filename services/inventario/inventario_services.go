@@ -1,6 +1,7 @@
 package inventario
 
 import (
+	"encoding/json"
 	"log"
 	"strconv"
 
@@ -56,13 +57,22 @@ func Notify_Ended_Service() (int, bool, string, []interface{}) {
 		log.Println(data_insumos)
 		log.Println("--------------------------------")
 
-		for _, inside_block_data := range block_of_data.([]interface{}) {
+		var data_to_notify []models.Mo_NotifyData
+
+		//Convertimos a bytes los numeros para asignarlo a data_to_notify
+		src_json := []byte(block_of_data.(string))
+		err := json.Unmarshal(src_json, &data_to_notify)
+		if err != nil {
+			log.Println("ERROR EN EL UNMARSHAL")
+		}
+
+		for _, inside_block_data := range data_to_notify {
 
 			if counter == 0 {
-				idbusiness = inside_block_data
+				idbusiness = inside_block_data.Value
 			}
 			if counter == 1 {
-				quantity = inside_block_data
+				quantity = inside_block_data.Value
 			}
 
 			counter = counter + 1

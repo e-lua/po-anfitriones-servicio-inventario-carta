@@ -1,14 +1,15 @@
 package inventario
 
 import (
-	"encoding/json"
 	"log"
+	"reflect"
 	"strconv"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	insumo_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_insumo"
 	provider_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_provider"
 	store_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_storehouse"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 /*----------------------------NOTIFICATION-----------------------------*/
@@ -57,16 +58,41 @@ func Notify_Ended_Service() (int, bool, string, []interface{}) {
 		log.Println(data_insumos)
 		log.Println("--------------------------------")
 
-		var data_to_notify []models.Mo_NotifyData
+		rValue := reflect.ValueOf(block_of_data)
+		log.Println(rValue)
+		log.Println("--------------------------------")
+
+		/*var data_to_notify []models.Mo_NotifyData
 
 		//Convertimos a bytes los numeros para asignarlo a data_to_notify
-		src_json := []byte(block_of_data.(string))
+		/*src_json := []byte(block_of_data.(primi))
 		err := json.Unmarshal(src_json, &data_to_notify)
 		if err != nil {
 			log.Println("ERROR EN EL UNMARSHAL")
 		}
 
-		for _, inside_block_data := range data_to_notify {
+		log.Println(data_to_notify)*/
+
+		if data, ok := block_of_data.(primitive.A); ok {
+			data_to_notify := []interface{}(data)
+
+			log.Println(data_to_notify)
+			log.Println("--------------------------------")
+
+			for _, inside_block_data := range data_to_notify {
+
+				if counter == 0 {
+					idbusiness = inside_block_data.(int)
+				}
+				if counter == 1 {
+					quantity = inside_block_data.(int)
+				}
+
+				counter = counter + 1
+			}
+		}
+
+		/*for _, inside_block_data := range data_to_notify {
 
 			if counter == 0 {
 				idbusiness = inside_block_data.Value
@@ -76,7 +102,7 @@ func Notify_Ended_Service() (int, bool, string, []interface{}) {
 			}
 
 			counter = counter + 1
-		}
+		}*/
 
 		log.Println("El negocio ", idbusiness.(int), " tiene "+strconv.Itoa(quantity.(int))+" insumos terminados")
 

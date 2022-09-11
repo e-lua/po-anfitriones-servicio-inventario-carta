@@ -18,20 +18,20 @@ type inventarioRouter_pg struct {
 
 /*----------------------------NOTIFICATION-----------------------------*/
 
-func (ir *inventarioRouter_pg) Notify_Ended(c echo.Context) error {
+func (ir *inventarioRouter_pg) Notify_Ended() {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := Notify_Ended_Service()
-	results := Response_Notify_test{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	log.Println(status, results)
 }
 
-func (ir *inventarioRouter_pg) Notify_ToEnd(c echo.Context) error {
+func (ir *inventarioRouter_pg) Notify_ToEnd() {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := Notify_ToEnd_Service()
-	results := Response_Notify{Error: boolerror, DataError: dataerror, Data: data}
-	return c.JSON(status, results)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	log.Println(status, results)
 }
 
 /*---------------------------------------------------------------------*/

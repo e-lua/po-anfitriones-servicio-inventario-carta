@@ -34,7 +34,11 @@ func Manejadores() {
 
 	go Consumer_StadisticOrder()
 	go Consumer_StockInsumos()
+
+	//NOTIFICATIONS
 	go Notify_ByScheduleRange()
+	go Notify_InsumoToEnd()
+	go Notify_InsumoEnded()
 
 	//CLEAN TRASH
 	go Clean_Categories()
@@ -82,8 +86,6 @@ func Manejadores() {
 	router_insumo.GET("/trash", inventario.InventarioRouter_pg.FindInsumo_Papelera)
 	router_insumo.GET("/search", inventario.InventarioRouter_pg.SearchNameInsumo)
 	router_insumo.GET("/sendtoemail", exportfile.ExportfileRouter_pg.ExportFile_Insumo)
-	router_insumo.GET("/notifytoend", inventario.InventarioRouter_pg.Notify_ToEnd)
-	router_insumo.GET("/notifyended", inventario.InventarioRouter_pg.Notify_Ended)
 
 	/*===========CARTA===========*/
 
@@ -206,6 +208,8 @@ func Consumer_StockInsumos() {
 	<-noStop3
 }
 
+//NOTIFICATION
+
 func Notify_ByScheduleRange() {
 
 	noStop_NotifySchedule := make(chan bool)
@@ -213,6 +217,32 @@ func Notify_ByScheduleRange() {
 		for {
 			time.Sleep(48 * time.Hour)
 			carta.CartaRouter_pg.SearchToNotifySchedulerange()
+		}
+	}()
+
+	<-noStop_NotifySchedule
+}
+
+func Notify_InsumoToEnd() {
+
+	noStop_NotifySchedule := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(1 * time.Hour)
+			inventario.InventarioRouter_pg.Notify_ToEnd()
+		}
+	}()
+
+	<-noStop_NotifySchedule
+}
+
+func Notify_InsumoEnded() {
+
+	noStop_NotifySchedule := make(chan bool)
+	go func() {
+		for {
+			time.Sleep(1 * time.Hour)
+			inventario.InventarioRouter_pg.Notify_Ended()
 		}
 	}()
 

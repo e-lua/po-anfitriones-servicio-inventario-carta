@@ -18,17 +18,7 @@ func Mo_Find_Notify_Ended() ([]models.Mo_NotifyData, error) {
 	db := models.MongoCN.Database("restoner_inventory")
 	col := db.Collection("insumo")
 
-	/*Aca pude haber hecho un make, es decir, resultado:=make([]...)*/
-	//var resultado []interface{}
-
 	var results []bson.M
-
-	/*condicion := bson.M{
-		"issendtodelete": false,
-		"idcombyanf": bson.M{
-			"$gt": 0,
-		},
-	}*/
 
 	condiciones := make([]bson.D, 0)
 	condiciones = append(condiciones, bson.D{{Key: "$match", Value: bson.D{{Key: "issendtodelete", Value: false}}}})
@@ -43,15 +33,6 @@ func Mo_Find_Notify_Ended() ([]models.Mo_NotifyData, error) {
 	if err != nil {
 		return array_notifydata, err
 	}
-
-	/*for cursor.Next(context.TODO()) {
-		var registro []bson.D
-		err := cursor.Decode(&registro)
-		if err != nil {
-			return resultado, err
-		}
-		resultado = append(resultado, registro)
-	}*/
 
 	if err = cursor.All(context.TODO(), &results); err != nil {
 		log.Println("ERROR CURSOR", err.Error())

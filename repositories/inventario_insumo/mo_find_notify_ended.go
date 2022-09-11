@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Mo_Find_Notify_Ended() ([]interface{}, error) {
+func Mo_Find_Notify_Ended() ([][]models.Mo_NotifyData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*8)
 	defer cancel()
 
@@ -17,7 +17,9 @@ func Mo_Find_Notify_Ended() ([]interface{}, error) {
 	col := db.Collection("insumo")
 
 	/*Aca pude haber hecho un make, es decir, resultado:=make([]...)*/
-	var resultado []interface{}
+	//var resultado []interface{}
+
+	var resultado [][]models.Mo_NotifyData
 
 	/*condicion := bson.M{
 		"issendtodelete": false,
@@ -48,7 +50,7 @@ func Mo_Find_Notify_Ended() ([]interface{}, error) {
 	//contexto, en este caso, me crea un contexto vacio
 	for cursor.Next(context.TODO()) {
 		/*Aca trabajare con cada Tweet. El resultado lo grabará en registro*/
-		var registro interface{}
+		var registro []models.Mo_NotifyData
 		err := cursor.Decode(&registro)
 		if err != nil {
 			return resultado, err

@@ -114,6 +114,6 @@ type Mo_Precharged_Element struct {
 }
 
 type Mo_NotifyData struct {
-	Key   string `bson:"Key" json:"Key"`
-	Value int    `bson:"Value" json:"Value"`
+	Key   string
+	Value int
 }

@@ -12,7 +12,7 @@ import (
 
 /*----------------------------NOTIFICATION-----------------------------*/
 
-func Notify_Ended_Service() (int, bool, string, [][]models.Mo_NotifyData) {
+func Notify_Ended_Service() (int, bool, string, []models.Mo_NotifyData) {
 
 	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
 	if error_add != nil {
@@ -20,26 +20,7 @@ func Notify_Ended_Service() (int, bool, string, [][]models.Mo_NotifyData) {
 	}
 
 	for _, block_of_data := range data_insumos {
-
-		var idbusiness int
-		var quantity int
-		counter := 0
-
-		for _, inside_block_data := range block_of_data {
-
-			if counter == 0 {
-				idbusiness = inside_block_data.Value
-			}
-			if counter == 1 {
-				quantity = inside_block_data.Value
-			}
-
-			counter = counter + 1
-		}
-
-		log.Println("El negocio ", strconv.Itoa(idbusiness), " tiene "+strconv.Itoa(quantity)+" insumos terminados")
-
-		counter = 0
+		log.Println("El negocio ", strconv.Itoa(block_of_data.Idbusiness), " tiene "+strconv.Itoa(block_of_data.Quantity)+" insumos terminados")
 	}
 
 	return 201, false, "", data_insumos

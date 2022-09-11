@@ -1,15 +1,17 @@
 package insumo
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
+	"log"
 	"time"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Mo_Find_Notify_Ended() ([][]models.Mo_NotifyData, error) {
+func Mo_Find_Notify_Ended() ([]models.Mo_NotifyData, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*8)
 	defer cancel()
 
@@ -19,7 +21,7 @@ func Mo_Find_Notify_Ended() ([][]models.Mo_NotifyData, error) {
 	/*Aca pude haber hecho un make, es decir, resultado:=make([]...)*/
 	//var resultado []interface{}
 
-	var resultado [][]models.Mo_NotifyData
+	var results []bson.M
 
 	/*condicion := bson.M{
 		"issendtodelete": false,
@@ -28,36 +30,52 @@ func Mo_Find_Notify_Ended() ([][]models.Mo_NotifyData, error) {
 		},
 	}*/
 
-	condiciones := make([]bson.M, 0)
-	condiciones = append(condiciones, bson.M{"$match": bson.M{"issendtodelete": false}})
-	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sumstock": bson.M{"$sum": bson.A{"$stock.quantity"}}}})
-	condiciones = append(condiciones, bson.M{"$addFields": bson.M{"sumstocktotal": bson.M{"$add": bson.A{"$outputstock", "$sumstock"}}}})
-	condiciones = append(condiciones, bson.M{"$match": bson.M{"sumstocktotal": bson.M{"$lte": 0}}})
-	condiciones = append(condiciones, bson.M{"$group": bson.M{"_id": "$idbusiness", "count": bson.M{"$sum": 1}}})
-	//condiciones = append(condiciones, bson.M{"$sort": bson.M{"sum": bson.M{"$lte": 0}}})
+	condiciones := make([]bson.D, 0)
+	condiciones = append(condiciones, bson.D{{Key: "$match", Value: bson.D{{Key: "issendtodelete", Value: false}}}})
+	condiciones = append(condiciones, bson.D{{Key: "$addFields", Value: bson.D{{Key: "sumstock", Value: bson.M{"$sum": bson.A{"$stock.quantity"}}}}}})
+	condiciones = append(condiciones, bson.D{{Key: "$addFields", Value: bson.D{{Key: "sumstocktotal", Value: bson.M{"$add": bson.A{"$outputstock", "$sumstock"}}}}}})
+	condiciones = append(condiciones, bson.D{{Key: "$match", Value: bson.D{{Key: "sumstocktotal", Value: bson.M{"$lte": 0}}}}})
+	condiciones = append(condiciones, bson.D{{Key: "$group", Value: bson.D{{Key: "_id", Value: "$idbusiness"}, {Key: "count", Value: bson.M{"$sum": 1}}}}})
 
-	opciones := options.Find()
-	/*Indicar como ira ordenado*/
-	opciones.SetSort(bson.D{{Key: "outputstock", Value: 1}})
+	var array_notifydata []models.Mo_NotifyData
 
-	/*Cursor es como una tabla de base de datos donde se van a grabar los resultados
-	y podre ir recorriendo 1 a la vez*/
 	cursor, err := col.Aggregate(ctx, condiciones)
 	if err != nil {
-		return resultado, err
+		return array_notifydata, err
 	}
 
-	//contexto, en este caso, me crea un contexto vacio
-	for cursor.Next(context.TODO()) {
-		/*Aca trabajare con cada Tweet. El resultado lo grabará en registro*/
-		var registro []models.Mo_NotifyData
+	/*for cursor.Next(context.TODO()) {
+		var registro []bson.D
 		err := cursor.Decode(&registro)
 		if err != nil {
 			return resultado, err
 		}
-		/*Recordar que Append sirve para añadir un elemento a un slice*/
 		resultado = append(resultado, registro)
+	}*/
+
+	if err = cursor.All(context.TODO(), &results); err != nil {
+		log.Println("ERROR CURSOR", err.Error())
+		return array_notifydata, err
 	}
 
-	return resultado, nil
+	for _, result := range results {
+
+		var notifydata models.Mo_NotifyData
+
+		notification := map[string]interface{}{
+			"idbusiness": result["_id"],
+			"quantity":   result["count"],
+		}
+		json_data, _ := json.Marshal(notification)
+
+		error_decode_respuesta := json.NewDecoder(bytes.NewReader(json_data)).Decode(&notifydata)
+		if error_decode_respuesta != nil {
+			log.Println("ERROR DECODING: >>>", error_decode_respuesta.Error())
+			return array_notifydata, error_decode_respuesta
+		}
+
+		array_notifydata = append(array_notifydata, notifydata)
+	}
+
+	return array_notifydata, nil
 }

@@ -256,7 +256,7 @@ func Clean_Categories() {
 	noStop_Clean_Categories := make(chan bool)
 	go func() {
 		for {
-			time.Sleep(2 * time.Minute)
+			time.Sleep(2 * time.Hour)
 			carta.CartaRouter_pg.UpdateCategory_Delete()
 		}
 	}()

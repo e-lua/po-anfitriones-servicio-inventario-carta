@@ -39,6 +39,7 @@ type Mo_Providers_Response struct {
 	Description      string             `json:"description"`
 	Available        bool               `json:"available"`
 	SendToDelete     time.Time          `json:"sendtodelete"`
+	DeletedDate      time.Time          `json:"deleteddate"`
 }
 
 type Mo_StoreHouse struct {
@@ -60,6 +61,7 @@ type Mo_StoreHouse_Response struct {
 	Description  string             `json:"description"`
 	Available    bool               `json:"available"`
 	SendToDelete time.Time          `json:"sendtodelete"`
+	DeletedDate  time.Time          `json:"deleteddate"`
 }
 
 type Mo_Stock struct {
@@ -100,6 +102,7 @@ type Mo_Insumo_Response struct {
 	OutputStock    int                `json:"outputstock"`
 	Available      bool               `json:"available"`
 	SendToDelete   time.Time          `json:"sendtodelete"`
+	DeletedDate    time.Time          `json:"deleteddate"`
 }
 
 type Mo_Insumo_Stock_Adjust_Requst struct {

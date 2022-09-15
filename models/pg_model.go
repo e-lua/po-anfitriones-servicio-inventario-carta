@@ -28,6 +28,7 @@ type Pg_Category_Response struct {
 	UrlPhoto     interface{} `json:"url"`
 	TypeFood     string      `json:"typefood"`
 	SendToDelete time.Time   `json:"sendtodelete"`
+	DeletedDate  time.Time   `json:"deleteddate"`
 }
 
 type Pg_Category_ToCreate struct {
@@ -118,6 +119,7 @@ type Pg_Element_Tofind struct {
 	Available        bool                    `json:"available"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
+	DeletedDate      time.Time               `json:"deleteddate"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`

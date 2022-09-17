@@ -35,7 +35,7 @@ func Notify_Ended_Service() (int, bool, string, string) {
 		/*--SENT NOTIFICATION--*/
 		notification := map[string]interface{}{
 			"message":  "Se ha acabado el stock de " + strconv.Itoa(block_of_data.Quantity) + " insumos",
-			"iduser":   strconv.Itoa(block_of_data.Idbusiness),
+			"iduser":   block_of_data.Idbusiness,
 			"typeuser": 1,
 			"priority": 1,
 			"title":    "⚠️ Alerta de Insumos 📦",

@@ -3,7 +3,6 @@ package inventario
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -18,31 +17,30 @@ import (
 
 func Notify_Ended_Service() (int, bool, string, string) {
 
-	//ahora := time.Now()
+	ahora := time.Now()
 
-	//if ahora.Hour() == 14 {
+	if ahora.Hour() == 14 {
 
-	data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
-	if error_add != nil {
-		return 500, true, "Error en el servidor interno al intentar listar los insumos a notificar, detalles: " + error_add.Error(), ""
-	}
-
-	for _, block_of_data := range data_insumos {
-
-		log.Println("PRIMER VALOR block_of_data.Idbusiness----->", block_of_data.Idbusiness)
-		log.Println("PRIMER VALOR block_of_data.Quantity----->", block_of_data.Quantity)
-
-		/*--SENT NOTIFICATION--*/
-		notification := map[string]interface{}{
-			"message":  "Se ha acabado el stock de " + strconv.Itoa(block_of_data.Quantity) + " insumos",
-			"iduser":   block_of_data.Idbusiness,
-			"typeuser": 1,
-			"priority": 1,
-			"title":    "⚠️ Alerta de Insumos 📦",
+		data_insumos, error_add := insumo_repository.Mo_Find_Notify_Ended()
+		if error_add != nil {
+			return 500, true, "Error en el servidor interno al intentar listar los insumos a notificar, detalles: " + error_add.Error(), ""
 		}
-		json_data, _ := json.Marshal(notification)
-		http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
-		/*---------------------*/
+
+		for _, block_of_data := range data_insumos {
+
+			/*--SENT NOTIFICATION--*/
+			notification := map[string]interface{}{
+				"message":  "Se ha acabado el stock de " + strconv.Itoa(block_of_data.Quantity) + " insumos",
+				"iduser":   block_of_data.Idbusiness,
+				"typeuser": 1,
+				"priority": 1,
+				"title":    "⚠️ Alerta de Insumos 📦",
+			}
+			json_data, _ := json.Marshal(notification)
+			http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+			/*---------------------*/
+		}
+
 	}
 
 	return 201, false, "", "Enviado correctamente"

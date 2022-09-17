@@ -222,7 +222,7 @@ func Notify_InsumoStatus() {
 	noStop_NotifySchedule := make(chan bool)
 	go func() {
 		for {
-			time.Sleep(1 * time.Minute)
+			time.Sleep(1 * time.Hour)
 			inventario.InventarioRouter_pg.Notify_Ended()
 			time.Sleep(10 * time.Minute)
 			inventario.InventarioRouter_pg.Notify_ToEnd()

@@ -37,16 +37,10 @@ func Manejadores() {
 
 	//NOTIFICATIONS
 	go Notify_ByScheduleRange()
-	go Notify_InsumoToEnd()
-	go Notify_InsumoEnded()
+	go Notify_InsumoStatus()
 
 	//CLEAN TRASH
-	go Clean_Categories()
-	go Clean_Elements()
-	go Clean_Providers()
-	go Clean_StoreHouses()
-	go Clean_Insumos()
-
+	go Clean_Data()
 	/*====================FLUJO DE INFORMACIÓN====================*/
 
 	/*===========INVENTARIO===========*/
@@ -191,7 +185,7 @@ func Consumer_StockInsumos() {
 		log.Fatal("Error connection cola")
 	}
 
-	noStop3 := make(chan bool)
+	noStopInsumoStatus := make(chan bool)
 	go func() {
 		for d := range msgs {
 			var import_elements []models.Mqtt_Import_InsumoStock
@@ -205,7 +199,7 @@ func Consumer_StockInsumos() {
 		}
 	}()
 
-	<-noStop3
+	<-noStopInsumoStatus
 }
 
 //NOTIFICATION
@@ -223,25 +217,14 @@ func Notify_ByScheduleRange() {
 	<-noStop_NotifySchedule
 }
 
-func Notify_InsumoToEnd() {
+func Notify_InsumoStatus() {
 
 	noStop_NotifySchedule := make(chan bool)
 	go func() {
 		for {
-			time.Sleep(1 * time.Hour)
+			time.Sleep(1 * time.Minute)
 			inventario.InventarioRouter_pg.Notify_ToEnd()
-		}
-	}()
-
-	<-noStop_NotifySchedule
-}
-
-func Notify_InsumoEnded() {
-
-	noStop_NotifySchedule := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(1 * time.Hour)
+			time.Sleep(10 * time.Minute)
 			inventario.InventarioRouter_pg.Notify_Ended()
 		}
 	}()
@@ -251,63 +234,27 @@ func Notify_InsumoEnded() {
 
 //CLEAN DATA
 
-func Clean_Categories() {
+func Clean_Data() {
 
-	noStop_Clean_Categories := make(chan bool)
+	noStop_Clean_Data := make(chan bool)
 	go func() {
 		for {
 			time.Sleep(2 * time.Hour)
+			//Limpiar categorias
 			carta.CartaRouter_pg.UpdateCategory_Delete()
-		}
-	}()
-	<-noStop_Clean_Categories
-}
-
-func Clean_Elements() {
-
-	noStop_Clean_Elements := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(2 * time.Hour)
-			log.Println("==========Testing deleting Elements===================")
+			time.Sleep(5 * time.Minute)
+			//Limpiar elementos
 			carta.CartaRouter_pg.UpdateElement_Delete()
-		}
-	}()
-	<-noStop_Clean_Elements
-}
-
-func Clean_Providers() {
-
-	noStop_Clean_Providers := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(2 * time.Hour)
+			time.Sleep(10 * time.Hour)
+			//Limpiar proveedores
 			inventario.InventarioRouter_pg.UpdateProvider_Delete()
-		}
-	}()
-	<-noStop_Clean_Providers
-}
-
-func Clean_StoreHouses() {
-
-	noStop_Clean_StoreHouses := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(2 * time.Hour)
+			time.Sleep(15 * time.Hour)
+			//Limpiar almacenes
 			inventario.InventarioRouter_pg.UpdateStoreHouse_Delete()
-		}
-	}()
-	<-noStop_Clean_StoreHouses
-}
-
-func Clean_Insumos() {
-
-	noStop_Clean_Insumos := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(2 * time.Hour)
+			time.Sleep(20 * time.Hour)
+			//Limpiar insumos
 			inventario.InventarioRouter_pg.UpdateInsumo_Delete()
 		}
 	}()
-	<-noStop_Clean_Insumos
+	<-noStop_Clean_Data
 }

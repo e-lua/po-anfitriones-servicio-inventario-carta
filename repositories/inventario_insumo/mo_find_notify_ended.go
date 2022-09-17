@@ -55,8 +55,12 @@ func Mo_Find_Notify_Ended() ([]models.Mo_NotifyData, error) {
 			return array_notifydata, error_decode_respuesta
 		}
 
+		log.Println("PRIMER VALOR DE NOTIFY DATA----->", notifydata)
+
 		array_notifydata = append(array_notifydata, notifydata)
 	}
+
+	log.Println("PRIMER VALOR DE NOTIFY DATA----->", array_notifydata)
 
 	return array_notifydata, nil
 }

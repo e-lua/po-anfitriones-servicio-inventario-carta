@@ -223,9 +223,9 @@ func Notify_InsumoStatus() {
 	go func() {
 		for {
 			time.Sleep(1 * time.Minute)
-			inventario.InventarioRouter_pg.Notify_ToEnd()
-			time.Sleep(10 * time.Minute)
 			inventario.InventarioRouter_pg.Notify_Ended()
+			time.Sleep(10 * time.Minute)
+			inventario.InventarioRouter_pg.Notify_ToEnd()
 		}
 	}()
 

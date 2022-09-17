@@ -62,7 +62,7 @@ func Notify_ToEnd_Service() (int, bool, string, string) {
 			/*--SENT NOTIFICATION--*/
 			notification := map[string]interface{}{
 				"message":  "Cuenta con " + strconv.Itoa(block_of_data.Quantity) + " insumos con muy poco stock",
-				"iduser":   strconv.Itoa(block_of_data.Idbusiness),
+				"iduser":   block_of_data.Idbusiness,
 				"typeuser": 1,
 				"priority": 1,
 				"title":    "Restoner anfitriones",

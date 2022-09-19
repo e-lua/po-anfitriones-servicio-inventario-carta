@@ -11,6 +11,7 @@ import (
 	insumo_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_insumo"
 	provider_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_provider"
 	store_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/inventario_storehouse"
+	notified_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/notified"
 )
 
 /*----------------------------NOTIFICATION-----------------------------*/
@@ -28,17 +29,28 @@ func Notify_Ended_Service() (int, bool, string, string) {
 
 		for _, block_of_data := range data_insumos {
 
-			/*--SENT NOTIFICATION--*/
-			notification := map[string]interface{}{
-				"message":  "Se ha acabado el stock de " + strconv.Itoa(block_of_data.Quantity) + " insumos",
-				"iduser":   block_of_data.Idbusiness,
-				"typeuser": 1,
-				"priority": 1,
-				"title":    "⚠️ Alerta de Insumos 📦",
+			idbusiness, _ := notified_repository.Re_Get_Notified(block_of_data.Idbusiness, "ENDED")
+
+			if idbusiness < 1 {
+
+				/*--SENT NOTIFICATION--*/
+				notification := map[string]interface{}{
+					"message":  "Se ha acabado el stock de " + strconv.Itoa(block_of_data.Quantity) + " insumos",
+					"iduser":   block_of_data.Idbusiness,
+					"typeuser": 1,
+					"priority": 1,
+					"title":    "⚠️ Alerta de Insumos 📦",
+				}
+				json_data, _ := json.Marshal(notification)
+				http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+				/*---------------------*/
+
+				error_re := notified_repository.Re_Set_Notified(block_of_data.Idbusiness, "ENDED")
+				if error_re != nil {
+					return 500, true, error_re.Error(), ""
+				}
 			}
-			json_data, _ := json.Marshal(notification)
-			http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
-			/*---------------------*/
+
 		}
 
 	}
@@ -59,17 +71,27 @@ func Notify_ToEnd_Service() (int, bool, string, string) {
 
 		for _, block_of_data := range data_insumos {
 
-			/*--SENT NOTIFICATION--*/
-			notification := map[string]interface{}{
-				"message":  "Cuenta con " + strconv.Itoa(block_of_data.Quantity) + " insumos con muy poco stock",
-				"iduser":   block_of_data.Idbusiness,
-				"typeuser": 1,
-				"priority": 1,
-				"title":    "Restoner anfitriones",
+			idbusiness, _ := notified_repository.Re_Get_Notified(block_of_data.Idbusiness, "toENDED")
+
+			if idbusiness < 1 {
+				/*--SENT NOTIFICATION--*/
+				notification := map[string]interface{}{
+					"message":  "Cuenta con " + strconv.Itoa(block_of_data.Quantity) + " insumos con muy poco stock",
+					"iduser":   block_of_data.Idbusiness,
+					"typeuser": 1,
+					"priority": 1,
+					"title":    "Restoner anfitriones",
+				}
+				json_data, _ := json.Marshal(notification)
+				http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
+				/*---------------------*/
+
+				error_re := notified_repository.Re_Set_Notified(block_of_data.Idbusiness, "toENDED")
+				if error_re != nil {
+					return 500, true, error_re.Error(), ""
+				}
 			}
-			json_data, _ := json.Marshal(notification)
-			http.Post("http://c-a-notificacion-tip.restoner-api.fun:5800/v1/notification", "application/json", bytes.NewBuffer(json_data))
-			/*---------------------*/
+
 		}
 
 	}

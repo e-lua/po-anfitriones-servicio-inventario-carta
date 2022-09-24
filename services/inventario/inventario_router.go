@@ -16,26 +16,6 @@ var InventarioRouter_pg *inventarioRouter_pg
 type inventarioRouter_pg struct {
 }
 
-/*----------------------------NOTIFICATION-----------------------------*/
-
-func (ir *inventarioRouter_pg) Notify_Ended() {
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := Notify_Ended_Service()
-	results := Response{Error: boolerror, DataError: dataerror, Data: data}
-	log.Println(status, results)
-}
-
-func (ir *inventarioRouter_pg) Notify_ToEnd() {
-
-	//Enviamos los datos al servicio
-	status, boolerror, dataerror, data := Notify_ToEnd_Service()
-	results := Response{Error: boolerror, DataError: dataerror, Data: data}
-	log.Println(status, results)
-}
-
-/*---------------------------------------------------------------------*/
-
 /*----------------------CONSUMER----------------------*/
 
 func (ir *inventarioRouter_pg) UpdateInsumo_Delete() {

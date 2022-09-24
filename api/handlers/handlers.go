@@ -17,6 +17,7 @@ import (
 	exportfile "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/exportfile"
 	imports "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/imports"
 	inventario "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/inventario"
+	notification "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/notification"
 	pre_charged "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/services/pre_charged"
 )
 
@@ -37,7 +38,6 @@ func Manejadores() {
 
 	//NOTIFICATIONS
 	go Notify_ByScheduleRange()
-	go Notify_InsumoStatus()
 
 	//CLEAN TRASH
 	go Clean_Data()
@@ -123,6 +123,13 @@ func Manejadores() {
 	//V1 FROM V1 TO ...TO ENTITY TOTAL VALUES INVENTARIO
 	router_total_data := version_1.Group("/totalinventario")
 	router_total_data.GET("", carta.CartaRouter_pg.FindAllCarta_MainData)
+
+	/*===========NOTIFICACION INSUMO===========*/
+
+	//V1 FROM V1 TO ...TO ENTITY NOTIFICATION
+	router_notify_insumo := version_1.Group("/notify/insumo")
+	router_notify_insumo.GET("/toended", notification.NotificationRouter_pg.Notify_ToEnd)
+	router_notify_insumo.GET("/ended", notification.NotificationRouter_pg.Notify_Ended)
 
 	//Abrimos el puerto
 	PORT := os.Getenv("PORT")
@@ -211,20 +218,6 @@ func Notify_ByScheduleRange() {
 		for {
 			time.Sleep(48 * time.Hour)
 			carta.CartaRouter_pg.SearchToNotifySchedulerange()
-		}
-	}()
-
-	<-noStop_NotifySchedule
-}
-
-func Notify_InsumoStatus() {
-
-	noStop_NotifySchedule := make(chan bool)
-	go func() {
-		for {
-			time.Sleep(1 * time.Hour)
-			inventario.InventarioRouter_pg.Notify_Ended()
-			inventario.InventarioRouter_pg.Notify_ToEnd()
 		}
 	}()
 

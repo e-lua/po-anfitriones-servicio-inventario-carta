@@ -8,7 +8,7 @@ import (
 
 func Re_Set_Notified(idbusiness int, type_n string) error {
 
-	_, err_do := models.RedisCN.Get().Do("SET", strconv.Itoa(idbusiness)+type_n, strconv.Itoa(idbusiness), "EX", 3600)
+	_, err_do := models.RedisCN.Get().Do("SET", strconv.Itoa(idbusiness)+type_n, strconv.Itoa(idbusiness), "EX", 3800)
 	if err_do != nil {
 		return err_do
 	}

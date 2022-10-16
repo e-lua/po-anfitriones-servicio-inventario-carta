@@ -59,7 +59,7 @@ type Pg_Items struct {
 }
 
 type Pg_Additionals struct {
-	IDSubElement int        `json:"id"`
+	IDSubElement string     `json:"id"`
 	Name         string     `json:"name"`
 	MaxSelect    int        `json:"maxselect"`
 	IsMandatory  bool       `json:"ismandatory"`

@@ -16,7 +16,7 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element_Tof
 
 	db := models.Conectar_Pg_DB()
 
-	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos,e.costo,e.isautomaticcost FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND e.issendtodelete=false ORDER BY e.name ASC LIMIT $2 OFFSET $3"
+	q := "SELECT c.typefood,c.idcategory,COALESCE(c.urlphoto,'https://restoner-public-space.sfo3.cdn.digitaloceanspaces.com/restoner-general/default-image/default-img.png'),c.name,e.idelement,e.name,e.description,e.typemoney,e.price,COALESCE(e.urlphoto,'noimage'),e.available,e.insumos,e.costo,e.isautomaticcost,e.additionals FROM element e JOIN category c on e.idcategory=c.idcategory WHERE c.idbusiness=$1 AND e.issendtodelete=false ORDER BY e.name ASC LIMIT $2 OFFSET $3"
 	rows, error_shown := db.Query(ctx, q, idbusiness, limit, offset)
 
 	//Instanciamos una variable del modelo Pg_TypeFoodXBusiness
@@ -30,7 +30,7 @@ func Pg_Find_All(idbusiness int, limit int, offset int) ([]models.Pg_Element_Tof
 	//Scaneamos l resultado y lo asignamos a la variable instanciada
 	for rows.Next() {
 		oElement := models.Pg_Element_Tofind{}
-		rows.Scan(&oElement.Typefood, &oElement.IDCategory, &oElement.URLPhotoCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available, &oElement.Insumos, &oElement.Costo, &oElement.IsAutomaticCost)
+		rows.Scan(&oElement.Typefood, &oElement.IDCategory, &oElement.URLPhotoCategory, &oElement.NameCategory, &oElement.IDElement, &oElement.Name, &oElement.Description, &oElement.TypeMoney, &oElement.Price, &oElement.UrlPhoto, &oElement.Available, &oElement.Insumos, &oElement.Costo, &oElement.IsAutomaticCost, &oElement.Additionals)
 		oListElement = append(oListElement, oElement)
 	}
 

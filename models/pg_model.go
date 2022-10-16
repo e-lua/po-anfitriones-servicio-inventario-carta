@@ -51,6 +51,21 @@ type Pg_Element_for_search struct {
 	TypeMoney int     `json:"typeMoney"`
 }
 
+type Pg_Items struct {
+	IDItem   string  `json:"id"`
+	Name     string  `json:"name"`
+	IsInsumo bool    `json:"isinsumo"`
+	Price    float32 `json:"price"`
+}
+
+type Pg_Additionals struct {
+	IDSubElement int        `json:"id"`
+	Name         string     `json:"name"`
+	MaxSelect    int        `json:"maxselect"`
+	IsMandatory  bool       `json:"ismandatory"`
+	Items        []Pg_Items `json:"items"`
+}
+
 type Pg_Element struct {
 	IDElement        int                     `json:"id"`
 	IDCategory       int                     `json:"idcategory"`
@@ -64,6 +79,7 @@ type Pg_Element struct {
 	UrlPhoto         interface{}             `json:"url"`
 	Available        bool                    `json:"available"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Additionals      []Pg_Additionals        `json:"additionals"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsDelete         bool                    `json:"isdeleted"`
 	IsExported       bool                    `json:"isexported"`
@@ -72,6 +88,19 @@ type Pg_Element struct {
 	Costo            float64                 `json:"costo"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	IsURLPrecharged  bool                    `json:"isurlprecharged"`
+}
+
+type Pg_GroupDataDiscount struct {
+	ID       int     `json:"id"`
+	Quantity float32 `json:"quantity"`
+}
+
+type Pg_AutomaticDiscount struct {
+	IDAutomaticDiscount int                    `json:"id"`
+	Description         string                 `json:"description"`
+	Discount            float32                `json:"discount"`
+	TypeDiscount        int                    `json:"type"`
+	Group               []Pg_GroupDataDiscount `json:"group"`
 }
 
 type Pg_Mo_Insumo_Elements struct {
@@ -124,6 +153,7 @@ type Pg_Element_Tofind struct {
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	Costo            float64                 `json:"costo"`
 	IsURLPrecharged  bool                    `json:"isurlprecharged"`
+	Additionals      []Pg_Additionals        `json:"additionals"`
 }
 
 type Pg_Element_WithRating struct {
@@ -140,6 +170,7 @@ type Pg_Element_WithRating struct {
 	Available        bool                    `json:"available"`
 	Orders           int                     `json:"orders"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Additionals      []Pg_Additionals        `json:"additionals"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`

@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Re_Set_DataCard_Business(idbusiness int, cartaData models.Pg_Category_Element_ScheduleRange) error {
+func Re_Set_DataCard_Business(idbusiness int, cartaData models.Pg_Category_Element_ScheduleRange_AutomaticDiscount) error {
 
 	var main_data_card models.Re_SetGetCode
 	main_data_card.CartaData = cartaData

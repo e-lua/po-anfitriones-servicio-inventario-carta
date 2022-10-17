@@ -116,6 +116,13 @@ func Manejadores() {
 	router_schedule_range.DELETE("/:idschedulerange", carta.CartaRouter_pg.UpdateScheduleRangeStatus)
 	router_schedule_range.GET("", carta.CartaRouter_pg.FindAllRangoHorario)
 
+	//V1 FROM V1 TO ...TO ENTITY SCHEDULE RANGE
+	router_automatic_discount := version_1.Group("/automaticdiscount")
+	router_automatic_discount.POST("", carta.CartaRouter_pg.AddAutomaticDiscount)
+	router_automatic_discount.PUT("", carta.CartaRouter_pg.UpdateAutomaticDiscount)
+	router_automatic_discount.DELETE("/:idschedulerange", carta.CartaRouter_pg.DeleteAutomaticDiscount)
+	router_automatic_discount.GET("", carta.CartaRouter_pg.FindAllAutomaticDiscount)
+
 	//V1 FROM V1 TO ...TO ENTITY PRECHARGED
 	router_precharged := version_1.Group("/pre-charged-element")
 	router_precharged.POST("", pre_charged.ImportsRouter_pg.AddPreCharged_Multiple)

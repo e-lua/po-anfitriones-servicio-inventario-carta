@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
+	carta_automaticdiscount_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_automaticdiscount"
 	category_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_category"
 	element_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_element"
 	general_carta_repository "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/repositories/carta_general"
@@ -81,6 +82,17 @@ func AddScheduleRange_Service(idbusiness int, input_schedule models.Pg_ScheduleR
 	}
 
 	return 201, false, "", "Rango horario creado correctamente"
+}
+
+func AddAutomaticDiscount_Service(idbusiness int, input_automaticdiscount models.Pg_AutomaticDiscount) (int, bool, string, string) {
+
+	//Agregamos el rango horario
+	error_add := carta_automaticdiscount_repository.Pg_Add(idbusiness, input_automaticdiscount)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar agregar el descuento automatico, detalles: " + error_add.Error(), ""
+	}
+
+	return 201, false, "", "Descuento automatico creado correctamente"
 }
 
 /*----------------------UDPATE ALL DATA OF INVENTARIO----------------------*/
@@ -159,6 +171,27 @@ func UpdateScheduleRangeStatus_Service(idbusiness int, idschedule int) (int, boo
 	return 201, false, "", "Rango horario eliminado correctamente"
 }
 
+func UpdateAutomaticDiscount_Service(idbusiness int, input_automaticdiscount models.Pg_AutomaticDiscount) (int, bool, string, string) {
+
+	//Agregamos la categoria
+	error_udpate := carta_automaticdiscount_repository.Pg_Update_Data(input_automaticdiscount, idbusiness)
+	if error_udpate != nil {
+		return 500, true, "Error en el servidor interno al intentar actualizar el descuento automatico, detalles: " + error_udpate.Error(), ""
+	}
+
+	return 201, false, "", "Descuento automatico actualizado correctamente"
+}
+
+func DeleteAutomaticDiscount_Service(idbusiness int, iddiscount int) (int, bool, string, string) {
+
+	error_status := carta_automaticdiscount_repository.Pg_Delete(iddiscount, idbusiness)
+	if error_status != nil {
+		return 500, true, "Error en el servidor interno al intentar eliminar el descuento automatico, detalles: " + error_status.Error(), ""
+	}
+
+	return 201, false, "", "Descuento automatico eliminado correctamente"
+}
+
 /*----------------------FIND ALL DATA OF INVENTARIO----------------------*/
 
 func FindAllCategories_Service(input_idbusiness int) (int, bool, string, []models.Pg_Category_Response) {
@@ -216,9 +249,20 @@ func FindAllRangoHorario_Service(input_idbusiness int) (int, bool, string, []mod
 	return 201, false, "", lista_RangoHorario
 }
 
+func FindAllAutomaticDiscount_Service(input_idbusiness int) (int, bool, string, []models.Pg_AutomaticDiscount) {
+
+	//Agregamos la categoria
+	lista_AutomaticDiscount, error_add := carta_automaticdiscount_repository.Pg_Find_All(input_idbusiness)
+	if error_add != nil {
+		return 500, true, "Error en el servidor interno al intentar listar los los descuentos automaticos, detalles: " + error_add.Error(), lista_AutomaticDiscount
+	}
+
+	return 201, false, "", lista_AutomaticDiscount
+}
+
 /*----------------------OBTENER TODOS LOS DATOS DE CATEGORIA, ELEMENTO Y RANGO HORARIO----------------------*/
 
-func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, models.Pg_Category_Element_ScheduleRange) {
+func FindAllCarta_MainData_Service(input_idbusiness int) (int, bool, string, models.Pg_Category_Element_ScheduleRange_AutomaticDiscount) {
 
 	//Primero en la memoria cache
 	carta_data_re, error_find_re := general_carta_repository.Re_Get_DataCard_Business(input_idbusiness)

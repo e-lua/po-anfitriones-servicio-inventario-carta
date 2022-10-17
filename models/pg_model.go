@@ -97,10 +97,12 @@ type Pg_GroupDataDiscount struct {
 
 type Pg_AutomaticDiscount struct {
 	IDAutomaticDiscount int                    `json:"id"`
+	IDBusiness          int                    `json:"business"`
 	Description         string                 `json:"description"`
 	Discount            float32                `json:"discount"`
 	TypeDiscount        int                    `json:"type"`
 	Group               []Pg_GroupDataDiscount `json:"group"`
+	ClassDiscount       int                    `json:"class"`
 }
 
 type Pg_Mo_Insumo_Elements struct {
@@ -191,10 +193,11 @@ type Pg_ScheduleRange struct {
 	MaxOrders         int    `json:"maxorders"`
 }
 
-type Pg_Category_Element_ScheduleRange struct {
-	Category int `json:"category"`
-	Element  int `json:"element"`
-	Schedule int `json:"schedule"`
+type Pg_Category_Element_ScheduleRange_AutomaticDiscount struct {
+	Category          int `json:"category"`
+	Element           int `json:"element"`
+	Schedule          int `json:"schedule"`
+	AutomaticDiscount int `json:"automaticdiscount"`
 }
 
 type Pg_Carta struct {

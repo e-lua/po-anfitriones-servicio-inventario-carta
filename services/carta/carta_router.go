@@ -194,6 +194,42 @@ func (cr *cartaRouter_pg) AddScheduleRange(c echo.Context) error {
 
 }
 
+func (cr *cartaRouter_pg) AddAutomaticDiscount(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Instanciamos una variable del modelo Category
+	var automaticDsicount models.Pg_AutomaticDiscount
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&automaticDsicount)
+	if err != nil {
+		results := ResponseInt{Error: true, DataError: "Se debe enviar la descripción,el descuento, el grupo con mas de 1 combinación, revise la estructura o los valores", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Validamos los valores enviados
+	if automaticDsicount.Description == "" || automaticDsicount.Discount <= 0 || len(automaticDsicount.Group) < 1 {
+		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
+		return c.JSON(403, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := AddAutomaticDiscount_Service(data_idbusiness, automaticDsicount)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 /*----------------------UDPATE ALL DATA OF CARTA----------------------*/
 
 func (cr *cartaRouter_pg) GetElementsByCategory(c echo.Context) error {
@@ -347,6 +383,42 @@ func (cr *cartaRouter_pg) UpdateScheduleRange(c echo.Context) error {
 
 }
 
+func (cr *cartaRouter_pg) UpdateAutomaticDiscount(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Instanciamos una variable del modelo Category
+	var automaticDsicount models.Pg_AutomaticDiscount
+
+	//Agregamos los valores enviados a la variable creada
+	err := c.Bind(&automaticDsicount)
+	if err != nil {
+		results := ResponseInt{Error: true, DataError: "Se debe enviar la descripción,el descuento, el grupo con mas de 1 combinación, revise la estructura o los valores", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Validamos los valores enviados
+	if automaticDsicount.Description == "" || automaticDsicount.Discount == 0 || len(automaticDsicount.Group) < 1 {
+		results := ResponseInt{Error: true, DataError: "El valor ingresado no cumple con la regla de negocio", Data: 0}
+		return c.JSON(403, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := UpdateAutomaticDiscount_Service(data_idbusiness, automaticDsicount)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
 func (cr *cartaRouter_pg) UpdateScheduleRangeStatus(c echo.Context) error {
 
 	//Obtenemos los datos del auth
@@ -366,6 +438,30 @@ func (cr *cartaRouter_pg) UpdateScheduleRangeStatus(c echo.Context) error {
 
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := UpdateScheduleRangeStatus_Service(data_idbusiness, idschedulerange_int)
+	results := Response{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (cr *cartaRouter_pg) DeleteAutomaticDiscount(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Recibimos el id de la categoria
+	idautomaticdiscount := c.Param("idautomaticdiscount")
+	idautomaticdiscount_int, _ := strconv.Atoi(idautomaticdiscount)
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := DeleteAutomaticDiscount_Service(data_idbusiness, idautomaticdiscount_int)
 	results := Response{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
@@ -489,6 +585,26 @@ func (cr *cartaRouter_pg) FindAllRangoHorario(c echo.Context) error {
 	//Enviamos los datos al servicio
 	status, boolerror, dataerror, data := FindAllRangoHorario_Service(data_idbusiness)
 	results := ResponseListRangoHorario{Error: boolerror, DataError: dataerror, Data: data}
+	return c.JSON(status, results)
+
+}
+
+func (cr *cartaRouter_pg) FindAllAutomaticDiscount(c echo.Context) error {
+
+	//Obtenemos los datos del auth
+	status, boolerror, dataerror, data_idbusiness := GetJWT(c.Request().Header.Get("Authorization"))
+	if dataerror != "" {
+		results := ResponseInt{Error: boolerror, DataError: "000" + dataerror, Data: 0}
+		return c.JSON(status, results)
+	}
+	if data_idbusiness <= 0 {
+		results := ResponseInt{Error: true, DataError: "000" + "Token incorrecto", Data: 0}
+		return c.JSON(400, results)
+	}
+
+	//Enviamos los datos al servicio
+	status, boolerror, dataerror, data := FindAllAutomaticDiscount_Service(data_idbusiness)
+	results := ResponseListAutomaticDiscount{Error: boolerror, DataError: dataerror, Data: data}
 	return c.JSON(status, results)
 
 }

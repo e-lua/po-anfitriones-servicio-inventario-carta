@@ -7,7 +7,7 @@ import (
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 )
 
-func Pg_Add(idbusiness int, automaticdiscount models.Pg_AutomaticDiscount) (int, error) {
+func Pg_Add(idbusiness int, automaticdiscount models.Pg_AutomaticDiscount) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -16,14 +16,12 @@ func Pg_Add(idbusiness int, automaticdiscount models.Pg_AutomaticDiscount) (int,
 
 	db := models.Conectar_Pg_DB()
 
-	var idcategory int
-
-	query := `INSERT INTO automaticdiscount(idbusiness,description,discount,typediscount,groupid) VALUES ($1,$2,$3,$4,$5) RETURNING`
-	err := db.QueryRow(ctx, query, idbusiness, automaticdiscount.Description, automaticdiscount.Discount, automaticdiscount.TypeDiscount, automaticdiscount.Group).Scan(&idcategory)
+	query := `INSERT INTO automaticdiscount(idbusiness,description,discount,classdiscount,typediscount,groupid) VALUES ($1,$2,$3,$4,$5,$6)`
+	_, err := db.Query(ctx, query, idbusiness, automaticdiscount.Description, automaticdiscount.Discount, automaticdiscount.ClassDiscount, automaticdiscount.TypeDiscount, automaticdiscount.Group)
 
 	if err != nil {
-		return idcategory, err
+		return err
 	}
 
-	return idcategory, nil
+	return nil
 }

@@ -98,10 +98,16 @@ type ResponseListRangoHorario struct {
 	Data      []models.Pg_ScheduleRange `json:"data"`
 }
 
+type ResponseListAutomaticDiscount struct {
+	Error     bool                          `json:"error"`
+	DataError string                        `json:"dataError"`
+	Data      []models.Pg_AutomaticDiscount `json:"data"`
+}
+
 type ResponseAllMainData struct {
-	Error     bool                                     `json:"error"`
-	DataError string                                   `json:"dataError"`
-	Data      models.Pg_Category_Element_ScheduleRange `json:"data"`
+	Error     bool                                                       `json:"error"`
+	DataError string                                                     `json:"dataError"`
+	Data      models.Pg_Category_Element_ScheduleRange_AutomaticDiscount `json:"data"`
 }
 
 type ResponseRangoHorario struct {

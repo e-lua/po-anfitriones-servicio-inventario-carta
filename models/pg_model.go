@@ -129,6 +129,9 @@ type Pg_Element_Response struct {
 	UrlPhoto         interface{}             `json:"url"`
 	Available        bool                    `json:"available"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Additionals      []Pg_Additionals        `json:"additionals"`
+	Latitude         float32                 `json:"latitude"`
+	Longitude        float32                 `json:"longitude"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
@@ -149,6 +152,8 @@ type Pg_Element_Tofind struct {
 	UrlPhoto         interface{}             `json:"url"`
 	Available        bool                    `json:"available"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Latitude         float32                 `json:"latitude"`
+	Longitude        float32                 `json:"longitude"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	DeletedDate      time.Time               `json:"deleteddate"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
@@ -173,6 +178,8 @@ type Pg_Element_WithRating struct {
 	Orders           int                     `json:"orders"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
 	Additionals      []Pg_Additionals        `json:"additionals"`
+	Latitude         float32                 `json:"latitude"`
+	Longitude        float32                 `json:"longitude"`
 	SendToDelete     time.Time               `json:"sendtodelete"`
 	IsSendToDelete   bool                    `json:"issendtodelete"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
@@ -263,6 +270,9 @@ type Pg_Element_ToCreate struct {
 	Stock            int                     `json:"stock"`
 	UrlPhoto         string                  `json:"url"`
 	Insumos          []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Latitude         float32                 `json:"latitude"`
+	Longitude        float32                 `json:"longitude"`
+	Additionals      []Pg_Additionals        `json:"additionals"`
 	Costo            float64                 `json:"costo"`
 	IsAutomaticCost  bool                    `json:"isautomaticcost"`
 	IsURLPrecharged  bool                    `json:"isurlprecharged"`

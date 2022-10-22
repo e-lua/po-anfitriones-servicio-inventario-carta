@@ -6,11 +6,12 @@ import (
 
 	models "github.com/Aphofisis/po-anfitrion-servicio-inventario-carta/models"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Mo_Update_Many(input_elements []models.Mqtt_Import_InsumoStock) error {
+func Mo_Update_Many(input_insumos []models.Mqtt_Import_InsumoStock) error {
 
 	//Tiempo limite al contexto
 	ctx, cancel := context.WithTimeout(context.Background(), 8*time.Second)
@@ -23,26 +24,24 @@ func Mo_Update_Many(input_elements []models.Mqtt_Import_InsumoStock) error {
 
 	models := []mongo.WriteModel{}
 
-	for _, element_extracted := range input_elements {
+	for _, insumo := range input_insumos {
 
-		for _, insumo := range element_extracted.Insumos {
-
-			updtString := bson.M{
-				"$inc": bson.M{
-					"outputstock": -(element_extracted.Quantity * insumo.Quantity),
-				},
-			}
-
-			models = append(models,
-				mongo.NewUpdateOneModel().SetFilter(
-					bson.M{
-						"_id": insumo.ID,
-					},
-				).
-					SetUpdate(updtString).SetUpsert(true),
-			)
-
+		updtString := bson.M{
+			"$inc": bson.M{
+				"outputstock": -(insumo.Quantity),
+			},
 		}
+
+		objID, _ := primitive.ObjectIDFromHex(insumo.Insumos)
+
+		models = append(models,
+			mongo.NewUpdateOneModel().SetFilter(
+				bson.M{
+					"_id": objID,
+				},
+			).
+				SetUpdate(updtString).SetUpsert(true),
+		)
 
 	}
 

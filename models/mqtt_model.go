@@ -30,8 +30,8 @@ type Mqtt_Element_With_Stock_export struct {
 }
 
 type Mqtt_Import_InsumoStock struct {
-	Quantity int                     `json:"quantity"`
-	Insumos  []Pg_Mo_Insumo_Elements `json:"insumos"`
+	Quantity int    `json:"quantity"`
+	Insumos  string `json:"insumo"`
 }
 
 //TESTING
